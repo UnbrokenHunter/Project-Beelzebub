@@ -33,7 +33,15 @@ namespace ProjectBeelzebub
         [VerticalGroup("Game Data/Stats"), LabelWidth(100)]
         public float other;
 
-        [PropertySpace]
+		[VerticalGroup("Game Data/Food"), LabelWidth(100)]
+		public float hunger;
+
+		[VerticalGroup("Game Data/Thirst"), LabelWidth(100)]
+		public float thirst;
+
+
+
+		[PropertySpace]
 
         [BoxGroup("Inventory Settings"), LabelWidth(100), Range(1, 20)]
         public int stackSize = 1;
