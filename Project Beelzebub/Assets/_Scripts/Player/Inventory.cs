@@ -15,9 +15,11 @@ namespace ProjectBeelzebub
         [SerializeField] private int inventorySize = 10;
         [SerializeField] private List<InventoryItem> inventory = new();
         [SerializeField] private List<GameObject> inventoryObjects = new();
+        private bool inventoryEnabled = false;
         private int selectedItem = 0;
 
-        private Vector2 movement;
+        [Title("Other")]
+        [SerializeField] private float scrollTimer = 0.5f;
 
         [Title("UI")]
         [SerializeField] private GameObject inventoryUI;
@@ -26,19 +28,11 @@ namespace ProjectBeelzebub
 
         private void Awake() => inventory.Clear();
 
-        public void NextSelected()
-        {
-            if (selectedItem < inventory.Count)
-                selectedItem++;
-        }
+        public void NextSelected() => selectedItem = selectedItem < inventory.Count ? selectedItem++ : selectedItem;
 
-		public void PreviousSelected()
-		{
-			if (selectedItem > 0)
-				selectedItem--;
-		}
+        public void PreviousSelected() => selectedItem = selectedItem > 0 ? selectedItem-- : selectedItem;
 
-		public void ViewItem()
+        public void ViewItem()
         {
 
         }
@@ -103,11 +97,11 @@ namespace ProjectBeelzebub
 
 				itemScript.stats = item; 
 
-                _invItem.GetComponent<Image>().sprite = item.sprite;
+                _invItem.GetComponentInChildren<Image>().sprite = item.sprite;
                 _invItem.GetComponentInChildren<TMP_Text>().text = item.stackCount.ToString();
 
-
-                _invItem.GetComponentInParent<Image>().enabled = selectedItem == i;
+                print(_invItem.transform.name);
+                _invItem.GetComponent<Image>().enabled = selectedItem == i;
 
 				inventoryObjects.Add(_invItem);
 
@@ -120,23 +114,57 @@ namespace ProjectBeelzebub
             UpdateInventory();
 
             if (inventoryUI.activeInHierarchy)
+            {
                 inventoryUI.SetActive(false);
+                inventoryEnabled = false;
+            }
 
-            else 
+            else
+            {
                 inventoryUI.SetActive(true);
-
+                inventoryEnabled = true;
+            }
         }
 
         public void OnMove(InputValue value)
         {
+            Vector2 movement;
+
+
             if (inventoryUI.activeInHierarchy)
+            {
                 movement = value.Get<Vector2>();
 
-            else 
-                movement = Vector2.zero;
+                if (!ScrollTimer()) return;
+
+                print($"New Item Selected: {selectedItem}");
+
+                if (movement.x > 0)
+                    NextSelected();
+
+                else if(movement.x < 0) 
+                    PreviousSelected();
+
+            }
+
+        }
+
+        private float scrollTime;
+        private bool ScrollTimer()
+        {
+            scrollTime += Time.deltaTime;
+
+            if (scrollTime > scrollTimer)
+            {
+                scrollTime = 0;
+                return true;
+            }
+            return false;
         }
 
         public void OnInventory(InputValue value) => OpenInventory();
 
     }
 }
+
+
