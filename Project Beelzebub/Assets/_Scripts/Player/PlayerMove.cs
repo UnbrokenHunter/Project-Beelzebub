@@ -1,3 +1,4 @@
+using ProjectBeelzebub;
 using Sirenix.OdinInspector;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -23,8 +24,23 @@ namespace ProjectBeelzebulb
         private void FixedUpdate()
         {
 
+            // Stop if going super slow
+            if (rb.velocity.magnitude < 0.01f)
+                rb.velocity = Vector2.zero;
+
+            // Slow down X
+            if (movement.x < 0.01f)
+                rb.velocity = new(rb.velocity.x / ((deceleration + 50) * Time.deltaTime), rb.velocity.y);
+
+            // Slow down Y
+            if (movement.y < 0.01f)
+                rb.velocity = new(rb.velocity.x, rb.velocity.y / ((deceleration + 50) * Time.deltaTime));
+
+            // No movement if Inventory is open;
+            if (GetComponent<Inventory>().IsInventoryOpen()) return;
+
             // Add movement
-            rb.AddForce(movement * acceleration * Time.deltaTime);
+            rb.velocity += (movement * acceleration * Time.deltaTime);
 
             // X movement cap
             if(Mathf.Abs(rb.velocity.x) > maxSpeed)
@@ -34,13 +50,6 @@ namespace ProjectBeelzebulb
             if (Mathf.Abs(rb.velocity.y) > maxSpeed)
                 rb.velocity = new Vector2(rb.velocity.x, maxSpeed * rb.velocity.normalized.y);
 
-            // Stop if going super slow
-            if (rb.velocity.magnitude < 0.01f)
-                rb.velocity = Vector2.zero;
-
-            // Slow down when not pressing anything
-            else if (movement.magnitude == 0 && rb.velocity.magnitude != 0)
-                rb.velocity = new(rb.velocity.x / ((deceleration + 50) * Time.deltaTime), rb.velocity.y / ((deceleration + 50) * Time.deltaTime));
             
         }
 

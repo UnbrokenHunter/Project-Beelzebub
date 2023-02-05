@@ -15,31 +15,47 @@ namespace ProjectBeelzebub
         [SerializeField] private int inventorySize = 10;
         [SerializeField] private List<InventoryItem> inventory = new();
         [SerializeField] private List<GameObject> inventoryObjects = new();
-        private bool inventoryEnabled = false;
         private int selectedItem = 0;
-
-        [Title("Other")]
-        [SerializeField] private float scrollTimer = 0.5f;
 
         [Title("UI")]
         [SerializeField] private GameObject inventoryUI;
         [SerializeField] private GameObject inventoryContainer;
         [SerializeField] private GameObject itemPrefab;
 
+        private PlayerStats playerStats;
+
         private void Awake() => inventory.Clear();
 
-        public void NextSelected() => selectedItem = selectedItem < inventory.Count ? selectedItem++ : selectedItem;
+        private void Start() => playerStats = GetComponent<PlayerStats>();
 
-        public void PreviousSelected() => selectedItem = selectedItem > 0 ? selectedItem-- : selectedItem;
+        private void NextSelected() => selectedItem += selectedItem < inventory.Count - 1 ? 1 : 0;
 
-        public void ViewItem()
+        private void PreviousSelected() => selectedItem -= selectedItem > 0 ? 1 : 0;
+
+        private void UseItem()
         {
+            InventoryItem item = inventory[selectedItem];
 
-        }
+            if(item.type == InventoryItem.ItemType.Food)
+            {
+                playerStats.AddHealth(item.heal);
+                playerStats.AddHunger(item.hunger);
+                playerStats.AddThirst(item.thirst);
 
-        public void UseItem()
-        {
-            
+
+            }
+
+
+
+            item.stackCount--;
+
+            if(item.stackCount <= 0)
+            {
+                inventory.RemoveAt(selectedItem);
+            }
+
+
+            UpdateInventory();
         }
 
         public bool AddItem(InventoryItem item)
@@ -95,13 +111,18 @@ namespace ProjectBeelzebub
                 GameObject _invItem = Instantiate(itemPrefab, Vector3.zero, Quaternion.identity, inventoryContainer.transform);
                 Item itemScript = _invItem.GetComponentInChildren<Item>();
 
-				itemScript.stats = item; 
+				itemScript.stats = item;
 
-                _invItem.GetComponentInChildren<Image>().sprite = item.sprite;
+                itemScript.GetComponent<Image>().sprite = item.sprite;
                 _invItem.GetComponentInChildren<TMP_Text>().text = item.stackCount.ToString();
 
-                print(_invItem.transform.name);
                 _invItem.GetComponent<Image>().enabled = selectedItem == i;
+
+                if (selectedItem == i) 
+                    itemScript.SetTooltip();
+                
+                else 
+                    itemScript.UnsetTooltip();
 
 				inventoryObjects.Add(_invItem);
 
@@ -114,56 +135,51 @@ namespace ProjectBeelzebub
             UpdateInventory();
 
             if (inventoryUI.activeInHierarchy)
-            {
                 inventoryUI.SetActive(false);
-                inventoryEnabled = false;
-            }
+            
 
             else
-            {
                 inventoryUI.SetActive(true);
-                inventoryEnabled = true;
-            }
+            
         }
 
         public void OnMove(InputValue value)
         {
-            Vector2 movement;
-
-
             if (inventoryUI.activeInHierarchy)
             {
-                movement = value.Get<Vector2>();
+                lastInput = input;
+                input = value.Get<Vector2>();
 
-                if (!ScrollTimer()) return;
+                if (CheckInputDifferecnce())
+                {
+                    print($"New Item Selected: {selectedItem}");
 
-                print($"New Item Selected: {selectedItem}");
+                    if (input.x > 0)
+                        NextSelected();
 
-                if (movement.x > 0)
-                    NextSelected();
+                    else if (input.x < 0)
+                        PreviousSelected();
 
-                else if(movement.x < 0) 
-                    PreviousSelected();
-
+                    UpdateInventory();
+                }
             }
 
         }
 
-        private float scrollTime;
-        private bool ScrollTimer()
+        private Vector2 input = Vector2.zero;
+        private Vector2 lastInput = Vector2.zero;
+
+        private bool CheckInputDifferecnce()
         {
-            scrollTime += Time.deltaTime;
-
-            if (scrollTime > scrollTimer)
-            {
-                scrollTime = 0;
-                return true;
-            }
-            return false;
+            if(input == Vector2.zero) return false;
+            
+            if (lastInput.x == input.x) return false;
+            else return true;
         }
-
+        public bool IsInventoryOpen() => inventoryUI.activeInHierarchy;
         public void OnInventory(InputValue value) => OpenInventory();
 
+        public void OnFire(InputValue value) => UseItem();
     }
 }
 

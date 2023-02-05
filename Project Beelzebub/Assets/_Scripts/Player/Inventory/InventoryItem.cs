@@ -14,6 +14,10 @@ namespace ProjectBeelzebub
         [BoxGroup("Basic Info"), LabelWidth(100), TextArea]
         public string description;
 
+        [BoxGroup("Basic Info"), LabelWidth(100)]
+        public ItemType type;
+
+
         [Space]
 
         [HorizontalGroup("Game Data", 75), PreviewField(75), HideLabel]
@@ -22,21 +26,21 @@ namespace ProjectBeelzebub
         [Space]
 
         [VerticalGroup("Game Data/Stats"), LabelWidth(100)]
-        public ItemType type;
-
-        [VerticalGroup("Game Data/Stats"), LabelWidth(100)]
-        public float heal;
-
-        [VerticalGroup("Game Data/Stats"), LabelWidth(100)]
         public float damage;
+
+        [VerticalGroup("Game Data/Stats"), LabelWidth(100)]
+        public float durability;
 
         [VerticalGroup("Game Data/Stats"), LabelWidth(100)]
         public float other;
 
-		[VerticalGroup("Game Data/Food"), LabelWidth(100)]
+        [VerticalGroup("Game Data/Food"), LabelWidth(100)]
+        public float heal;
+
+        [VerticalGroup("Game Data/Food"), LabelWidth(100)]
 		public float hunger;
 
-		[VerticalGroup("Game Data/Thirst"), LabelWidth(100)]
+		[VerticalGroup("Game Data/Food"), LabelWidth(100)]
 		public float thirst;
 
 
