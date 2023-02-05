@@ -48452,22 +48452,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1790977394}
     m_Modifications:
-    - target: {fileID: 1901199104578662156, guid: a66a219e64aa45149bfcb4ecf0a84500, type: 3}
-      propertyPath: m_Transition
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1901199104578662156, guid: a66a219e64aa45149bfcb4ecf0a84500, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1901199104578662156, guid: a66a219e64aa45149bfcb4ecf0a84500, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1901199104578662156, guid: a66a219e64aa45149bfcb4ecf0a84500, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 5861319475115361384, guid: a66a219e64aa45149bfcb4ecf0a84500, type: 3}
       propertyPath: m_Name
       value: Item

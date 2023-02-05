@@ -6,8 +6,6 @@ namespace ProjectBeelzebub
 {
     public class Item : MonoBehaviour
     {
-
         public InventoryItem stats;
-
     }
 }

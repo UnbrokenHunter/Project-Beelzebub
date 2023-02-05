@@ -15,6 +15,9 @@ namespace ProjectBeelzebub
         [SerializeField] private int inventorySize = 10;
         [SerializeField] private List<InventoryItem> inventory = new();
         [SerializeField] private List<GameObject> inventoryObjects = new();
+        private int selectedItem = 0;
+
+        private Vector2 movement;
 
         [Title("UI")]
         [SerializeField] private GameObject inventoryUI;
@@ -23,7 +26,19 @@ namespace ProjectBeelzebub
 
         private void Awake() => inventory.Clear();
 
-        public void ViewItem()
+        public void NextSelected()
+        {
+            if (selectedItem < inventory.Count)
+                selectedItem++;
+        }
+
+		public void PreviousSelected()
+		{
+			if (selectedItem > 0)
+				selectedItem--;
+		}
+
+		public void ViewItem()
         {
 
         }
@@ -79,13 +94,24 @@ namespace ProjectBeelzebub
 
             inventoryObjects.Clear();
 
+            int i = 0;
+
             foreach (InventoryItem item in inventory)
             {
                 GameObject _invItem = Instantiate(itemPrefab, Vector3.zero, Quaternion.identity, inventoryContainer.transform);
-                _invItem.GetComponent<Item>().stats = item; 
+                Item itemScript = _invItem.GetComponentInChildren<Item>();
+
+				itemScript.stats = item; 
+
                 _invItem.GetComponent<Image>().sprite = item.sprite;
                 _invItem.GetComponentInChildren<TMP_Text>().text = item.stackCount.ToString();
-                inventoryObjects.Add(_invItem);
+
+
+                _invItem.GetComponentInParent<Image>().enabled = selectedItem == i;
+
+				inventoryObjects.Add(_invItem);
+
+                i++;
             }
         }
 
@@ -100,6 +126,16 @@ namespace ProjectBeelzebub
                 inventoryUI.SetActive(true);
 
         }
+
+        public void OnMove(InputValue value)
+        {
+            if (inventoryUI.activeInHierarchy)
+                movement = value.Get<Vector2>();
+
+            else 
+                movement = Vector2.zero;
+        }
+
         public void OnInventory(InputValue value) => OpenInventory();
 
     }
