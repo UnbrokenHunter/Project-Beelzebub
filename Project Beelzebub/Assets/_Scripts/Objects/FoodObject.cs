@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using DarkTonic.MasterAudio;
 
 namespace ProjectBeelzebub
 {
@@ -13,6 +14,8 @@ namespace ProjectBeelzebub
         [SerializeField] private int foodCount = 1;
         [SerializeField] private float regrowTime = 10; 
         [SerializeField] private InventoryItem food;
+
+        [SerializeField] private string pickupSound;
 
         // Utility
         private float time = 0;
@@ -29,6 +32,7 @@ namespace ProjectBeelzebub
                 {
                     bool addItem = collision.GetComponent<Inventory>().AddItem(food);
                     foodCount = addItem ? foodCount - 1 : foodCount;
+                    print(MasterAudio.PlaySound(pickupSound));
                 }
             }
         }

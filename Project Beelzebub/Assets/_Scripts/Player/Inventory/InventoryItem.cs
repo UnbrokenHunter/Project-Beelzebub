@@ -17,6 +17,9 @@ namespace ProjectBeelzebub
         [BoxGroup("Basic Info"), LabelWidth(100)]
         public ItemType type;
 
+        [BoxGroup("Basic Info"), LabelWidth(100)]
+        public string useSound;
+
 
         [Space]
 
@@ -58,6 +61,7 @@ namespace ProjectBeelzebub
         {
             Weapon,
             Food, 
+            Material,
             Misc
         };
     }

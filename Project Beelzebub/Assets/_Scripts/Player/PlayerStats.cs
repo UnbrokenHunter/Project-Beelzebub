@@ -32,6 +32,15 @@ namespace ProjectBeelzebub
         private float thirstCount = 0;
 
 
+        private void CheckHealth()
+        {
+            if (health < 0)
+            {
+                print("Kill Player");
+
+            }
+        }
+
         public void AddHunger(float amount)
         {
             hunger += amount;
@@ -107,6 +116,8 @@ namespace ProjectBeelzebub
             HungerTimer();
 
 			ThirstTimer();
+
+            CheckHealth();
         }
 
         private void UpdateSliders()

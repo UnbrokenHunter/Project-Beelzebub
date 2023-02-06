@@ -50,6 +50,7 @@ MonoBehaviour:
   foodCount: 1
   regrowTime: 10
   food: {fileID: 11400000, guid: cb60422a004572f46a0e80ebef82f96d, type: 2}
+  pickupSound: Filling Water
 --- !u!61 &1120219769865039388
 BoxCollider2D:
   m_ObjectHideFlags: 0

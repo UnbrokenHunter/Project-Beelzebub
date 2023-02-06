@@ -5,6 +5,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using DarkTonic.MasterAudio;
+
 
 namespace ProjectBeelzebub
 {
@@ -18,6 +20,7 @@ namespace ProjectBeelzebub
         private int selectedItem = 0;
 
         [Title("UI")]
+        [SerializeField] private GameObject craftMenu;
         [SerializeField] private GameObject inventoryUI;
         [SerializeField] private GameObject inventoryContainer;
         [SerializeField] private GameObject itemPrefab;
@@ -34,6 +37,8 @@ namespace ProjectBeelzebub
 
         private void UseItem()
         {
+            if (!IsInventoryOpen()) return;
+
             InventoryItem item = inventory[selectedItem];
 
             if(item.type == InventoryItem.ItemType.Food)
@@ -41,11 +46,7 @@ namespace ProjectBeelzebub
                 playerStats.AddHealth(item.heal);
                 playerStats.AddHunger(item.hunger);
                 playerStats.AddThirst(item.thirst);
-
-
             }
-
-
 
             item.stackCount--;
 
@@ -54,6 +55,7 @@ namespace ProjectBeelzebub
                 inventory.RemoveAt(selectedItem);
             }
 
+            print(MasterAudio.PlaySound(item.useSound));
 
             UpdateInventory();
         }
@@ -97,6 +99,9 @@ namespace ProjectBeelzebub
 
         private void UpdateInventory()
         {
+
+
+            // Inventory
             foreach (GameObject item in inventoryObjects)
             {
                 Destroy(item);
@@ -160,6 +165,7 @@ namespace ProjectBeelzebub
                     else if (input.x < 0)
                         PreviousSelected();
 
+                    MasterAudio.PlaySound("Select");
                     UpdateInventory();
                 }
             }
