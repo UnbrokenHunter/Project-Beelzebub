@@ -10,7 +10,7 @@ using DarkTonic.MasterAudio;
 
 namespace ProjectBeelzebub
 {
-    public class Inventory : MonoBehaviour
+    public class Inventory : PlayerUI
     {
 
         [Title("Inventory")]
@@ -20,24 +20,29 @@ namespace ProjectBeelzebub
         private int selectedItem = 0;
 
         [Title("UI")]
-        [SerializeField] private GameObject craftMenu;
-        [SerializeField] private GameObject inventoryUI;
-        [SerializeField] private GameObject inventoryContainer;
-        [SerializeField] private GameObject itemPrefab;
+		[SerializeField] protected GameObject itemPrefab;
 
-        private PlayerStats playerStats;
+		#region Short Methods
 
-        private void Awake() => inventory.Clear();
+		private void Awake() => inventory.Clear();
 
-        private void Start() => playerStats = GetComponent<PlayerStats>();
+        private void Start()
+        {
+			move.AddListener(SelectItem);
+			fire.AddListener(UseItem);
+		}
 
-        private void NextSelected() => selectedItem += selectedItem < inventory.Count - 1 ? 1 : 0;
+		private void NextSelected() => selectedItem += selectedItem < inventory.Count - 1 ? 1 : 0;
 
         private void PreviousSelected() => selectedItem -= selectedItem > 0 ? 1 : 0;
 
-        private void UseItem()
+		#endregion
+
+		#region Inputs
+
+		// On Fire
+		private void UseItem()
         {
-            if (!IsInventoryOpen()) return;
 
             InventoryItem item = inventory[selectedItem];
 
@@ -60,7 +65,70 @@ namespace ProjectBeelzebub
             UpdateInventory();
         }
 
-        public bool AddItem(InventoryItem item)
+        // On move
+        private void SelectItem()
+        {
+
+            print($"New Item Selected: {selectedItem}");
+
+            if (input.x > 0)
+                NextSelected();
+
+            else if (input.x < 0)
+                PreviousSelected();
+
+            MasterAudio.PlaySound("Select");
+                
+            UpdateInventory();
+
+        }
+
+		#endregion
+
+		#region Helpers 
+     
+        private void UpdateInventory()
+        {
+
+            // Inventory
+            foreach (GameObject item in inventoryObjects)
+            {
+                Destroy(item);
+            }
+
+            inventoryObjects.Clear();
+
+            int i = 0;
+
+            foreach (InventoryItem item in inventory)
+            {
+                GameObject _invItem = Instantiate(itemPrefab, Vector3.zero, Quaternion.identity, inventoryMenu.transform);
+                Item itemScript = _invItem.GetComponentInChildren<Item>();
+
+				itemScript.stats = item;
+
+                itemScript.GetComponent<Image>().sprite = item.sprite;
+                _invItem.GetComponentInChildren<TMP_Text>().text = item.stackCount.ToString();
+
+                _invItem.GetComponent<Image>().enabled = selectedItem == i;
+
+                if (selectedItem == i) 
+                    itemScript.SetTooltip();
+                
+                else 
+                    itemScript.UnsetTooltip();
+
+				inventoryObjects.Add(_invItem);
+
+                i++;
+            }
+
+        }
+
+		#endregion 
+
+		#region Public Methods
+		public bool AddItem(InventoryItem item)
         {
             
             // Return false if cannot fit into inventory
@@ -97,95 +165,34 @@ namespace ProjectBeelzebub
 
         }
 
-        private void UpdateInventory()
+        public void RemoveItem(InventoryItem item, int amount)
         {
-
-
-            // Inventory
-            foreach (GameObject item in inventoryObjects)
+            foreach (InventoryItem inv in inventory)
             {
-                Destroy(item);
-            }
-
-            inventoryObjects.Clear();
-
-            int i = 0;
-
-            foreach (InventoryItem item in inventory)
-            {
-                GameObject _invItem = Instantiate(itemPrefab, Vector3.zero, Quaternion.identity, inventoryContainer.transform);
-                Item itemScript = _invItem.GetComponentInChildren<Item>();
-
-				itemScript.stats = item;
-
-                itemScript.GetComponent<Image>().sprite = item.sprite;
-                _invItem.GetComponentInChildren<TMP_Text>().text = item.stackCount.ToString();
-
-                _invItem.GetComponent<Image>().enabled = selectedItem == i;
-
-                if (selectedItem == i) 
-                    itemScript.SetTooltip();
+                if (inv.name != item.name) 
+                    continue;
                 
-                else 
-                    itemScript.UnsetTooltip();
+                inv.stackCount -= amount;
 
-				inventoryObjects.Add(_invItem);
+                if (inv.stackCount <= 0)
+                    inventory.Remove(inv); 
 
-                i++;
+                UpdateInventory();
             }
         }
 
-        private void OpenInventory()
+		public int CheckMaterial(InventoryItem item)
         {
-            UpdateInventory();
-
-            if (inventoryUI.activeInHierarchy)
-                inventoryUI.SetActive(false);
-            
-
-            else
-                inventoryUI.SetActive(true);
-            
-        }
-
-        public void OnMove(InputValue value)
-        {
-            if (inventoryUI.activeInHierarchy)
+            foreach (InventoryItem inv in inventory)
             {
-                lastInput = input;
-                input = value.Get<Vector2>();
-
-                if (CheckInputDifferecnce())
-                {
-                    print($"New Item Selected: {selectedItem}");
-
-                    if (input.x > 0)
-                        NextSelected();
-
-                    else if (input.x < 0)
-                        PreviousSelected();
-
-                    MasterAudio.PlaySound("Select");
-                    UpdateInventory();
-                }
+                if (inv.name == item.name) 
+                    return inv.stackCount;
             }
-
+            return 0;
         }
 
-        private Vector2 input = Vector2.zero;
-        private Vector2 lastInput = Vector2.zero;
+        #endregion
 
-        private bool CheckInputDifferecnce()
-        {
-            if(input == Vector2.zero) return false;
-            
-            if (lastInput.x == input.x) return false;
-            else return true;
-        }
-        public bool IsInventoryOpen() => inventoryUI.activeInHierarchy;
-        public void OnInventory(InputValue value) => OpenInventory();
-
-        public void OnFire(InputValue value) => UseItem();
     }
 }
 

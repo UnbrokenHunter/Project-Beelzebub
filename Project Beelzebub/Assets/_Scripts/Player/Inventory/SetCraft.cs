@@ -1,15 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static ProjectBeelzebub.AllCrafts;
 
 namespace ProjectBeelzebub
 {
     public class SetCraft : MonoBehaviour
     {
+
+        [SerializeField]
+        private CraftableItem craftable;
 
         [SerializeField]
         private TMP_Text cname;
@@ -31,15 +30,17 @@ namespace ProjectBeelzebub
         [SerializeField]
         private TMP_Text material3Amount;
 
-        public void SetCraftInfo(Craft item)
+        public void SetCraftInfo(CraftableItem item)
         {
-            cname.text = item.outcome.name;
-            outcome.sprite = item.outcome.sprite;
+            craftable = item;
 
-            if (item.mat1 != null)
+            cname.text = item.outcomeItem.name;
+            outcome.sprite = item.outcomeItem.sprite;
+
+            if (item.material1 != null)
             {
-                material1.sprite = item.mat1.sprite;
-                material1Amount.text = item.mat1Amount + "x";
+                material1.sprite = item.material1.sprite;
+                material1Amount.text = item.material1Amount + "x";
             }
             else
             {
@@ -47,10 +48,10 @@ namespace ProjectBeelzebub
                 material1Amount.enabled = false;
             }
 
-            if (item.mat2 != null)
+            if (item.material2 != null)
             {
-                material2.sprite = item.mat2.sprite;
-                material2Amount.text = item.mat2Amount + "x";
+                material2.sprite = item.material2.sprite;
+                material2Amount.text = item.material2Amount + "x";
             }
             else
             {
@@ -59,10 +60,10 @@ namespace ProjectBeelzebub
             }
 
 
-            if (item.mat3 != null)
+            if (item.material3 != null)
             {
-                material3.sprite = item.mat3.sprite;
-                material3Amount.text = item.mat3Amount + "x";
+                material3.sprite = item.material3.sprite;
+                material3Amount.text = item.material3Amount + "x";
             }
             else
             {
@@ -71,10 +72,5 @@ namespace ProjectBeelzebub
             }
         }
    
-        public void CraftObject()
-        {
-            // If i have materials
-           // if ()
-        }
     }
 }
