@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ProjectBeelzebub
 {
@@ -42,13 +43,15 @@ namespace ProjectBeelzebub
             else if (input.x < 0)
                 PreviousSelected();
 
-            print($"Selected Crafting Item: { selectedItem} ");
+            print($"Selected Crafting Item: { selectedItem } ");
 
             int count = 0;
             foreach (GameObject craft in allCraft.GetItemsObjs())
             {
 
-                SpriteRenderer s = craft.GetComponent<SpriteRenderer>();
+                Image s = craft.GetComponent<Image>();
+
+                print(s.gameObject.name);
 
                 s.color = count == selectedItem ? selectedColor : defaultColor;
 
@@ -62,6 +65,12 @@ namespace ProjectBeelzebub
 
             if (selectedMenu != 0) return;
 
+            CraftableItem item = allCraft.GetItems()[selectedItem];
+
+            print(item);
+
+			CraftItem(item);
+
 
         }
 
@@ -74,31 +83,43 @@ namespace ProjectBeelzebub
             Inventory inv = GetComponent<Inventory>();
 
             // First Material Check
-            if (!(inv.CheckMaterial(craft.material1) >= craft.material1Amount) || 
-                craft.material1 == null) return;
+            if (craft.material1 != null) {
+                if (!(inv.CheckMaterial(craft.material1) >= craft.material1Amount)) return;
+            }
 
-			// Second Material Check
-			if (!(inv.CheckMaterial(craft.material2) >= craft.material2Amount) || 
-                craft.material1 == null) return;
+            // Second Material Check
+            if (craft.material2 != null)
+            {
+                if (!(inv.CheckMaterial(craft.material2) >= craft.material2Amount)) return;
+            }
 
-			// Third Material Check
-			if (!(inv.CheckMaterial(craft.material3) >= craft.material3Amount) || 
-                craft.material1 == null) return;
-
+            // Third Material Check
+            if (craft.material3 != null)
+            {
+                if (!(inv.CheckMaterial(craft.material3) >= craft.material3Amount)) return;
+            }
 
             // Add Item (Or not if there is no space)
             if(!inv.AddItem(craft.outcomeItem)) return;
 
             // Remove Resources 
             // Remove Material One
-            inv.RemoveItem(craft.material1, craft.material1Amount);
+            if (craft.material1 != null)
+            {
+                inv.RemoveItem(craft.material1, craft.material1Amount);
+            }
 
-			// Remove Material Two
-			inv.RemoveItem(craft.material2, craft.material2Amount);
+            // Remove Material Two
+            if (craft.material2 != null)
+            {
+                inv.RemoveItem(craft.material2, craft.material2Amount);
+            }
 
-			// Remove Material Three
-			inv.RemoveItem(craft.material3, craft.material3Amount);
-
+            // Remove Material Three
+            if (craft.material3 != null)
+            {
+                inv.RemoveItem(craft.material3, craft.material3Amount);
+            }
 
 		}
 

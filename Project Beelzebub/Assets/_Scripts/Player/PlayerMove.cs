@@ -3,56 +3,82 @@ using Sirenix.OdinInspector;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 namespace ProjectBeelzebulb
 {
     public class PlayerMove : MonoBehaviour
     {
 
-        [Title("Speed")]
-        [SerializeField] private float maxSpeed = 5;
-        [SerializeField] private float acceleration = 90;
-        [SerializeField] private float deceleration = 60;
+        [Title("Stats")]
+        [SerializeField] private PlayerStats stats;
+		[SerializeField] private Transform attackOrigin;
 
-        [SerializeField]
-        private Vector2 movement;
+		[Title("Debug")]
+        [SerializeField] private Vector2 movement;
+        [SerializeField] private Vector2 lastMovement;
+        [SerializeField] private LayerMask mask;
+
 
         private Rigidbody2D rb;
 
         private void Awake() => rb = GetComponent<Rigidbody2D>();
 
+        private void Start() => stats = GetComponent<PlayerStats>();
+
         private void FixedUpdate()
         {
 
-            // Stop if going super slow
-            if (rb.velocity.magnitude < 0.01f)
-                rb.velocity = Vector2.zero;
-
-            // Slow down X
-            if (movement.x < 0.01f)
-                rb.velocity = new(rb.velocity.x / ((deceleration + 50) * Time.deltaTime), rb.velocity.y);
-
-            // Slow down Y
-            if (movement.y < 0.01f)
-                rb.velocity = new(rb.velocity.x, rb.velocity.y / ((deceleration + 50) * Time.deltaTime));
+            lastMovement = movement == Vector2.zero ? lastMovement : movement;
 
             // No movement if Inventory is open;
             if (GetComponent<Inventory>().IsInventoryOpen()) return;
 
-            // Add movement
-            rb.velocity += (movement * acceleration * Time.deltaTime);
+			// Add movement
+			rb.velocity = Vector2.Lerp(rb.velocity, movement * stats.maxSpeed, 1f - stats.slipperyness);
+			rb.velocity -= rb.velocity * stats.deceleration * Time.fixedDeltaTime;
 
-            // X movement cap
-            if(Mathf.Abs(rb.velocity.x) > maxSpeed)
-                rb.velocity = new Vector2(maxSpeed * rb.velocity.normalized.x, rb.velocity.y);
+		}
 
-            // Y movement cap
-            if (Mathf.Abs(rb.velocity.y) > maxSpeed)
-                rb.velocity = new Vector2(rb.velocity.x, maxSpeed * rb.velocity.normalized.y);
+		public void Attack()
+        {
+			RaycastHit2D hit = Physics2D.Raycast(attackOrigin.position, lastMovement, 
+                stats.attackRange, mask);
 
-            
+            print($"Attacking: {hit.collider}");
+
+            if(hit.collider != null)
+            {
+
+                // Attackable
+                if (hit.collider.gameObject.tag == "Enemy")
+                {
+                    float weapon = stats.weapon == null ? 1 : stats.weapon.damage;
+
+					hit.collider.GetComponent<Attackable>().RemoveHealth(stats.attackMultiplier * weapon);
+                }
+
+				// Material
+				if (hit.collider.gameObject.tag == "Material")
+				{
+
+				}
+
+			}
+
+		}
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+
+            Gizmos.DrawLine(attackOrigin.position, attackOrigin.position + 
+                new Vector3(lastMovement.x * stats.attackRange, lastMovement.y * stats.attackRange, 0));
+
         }
 
         public void OnMove(InputValue value) => movement = value.Get<Vector2>();
+
+        public void OnFire(InputValue value) => Attack();
     }
 }

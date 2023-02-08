@@ -9,7 +9,19 @@ namespace ProjectBeelzebub
     public class PlayerStats : MonoBehaviour
     {
 
-        [Title("Health")]
+		[Title("Speed")]
+		[SerializeField] public float maxSpeed = 5;
+		[SerializeField] public float slipperyness = 90;
+		[SerializeField] public float deceleration = 60;
+
+		[Title("Attack")]
+		[SerializeField] public float attackRange = 2;
+		[SerializeField] public float attackMultiplier = 5;
+
+        [Title("Item")]
+        [SerializeField] public InventoryItem weapon;
+
+		[Title("Health")]
         [SerializeField] private float health = 10;
         [SerializeField] private float maxHealth = 10;
         [SerializeField] private float regenRate = 0.5f;

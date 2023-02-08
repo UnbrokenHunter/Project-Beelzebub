@@ -7,6 +7,7 @@ namespace ProjectBeelzebub
 {
     public class AllCrafts : MonoBehaviour
     {
+        [SerializeField]
         private List<GameObject> gameObjects = new();
         private Vector2 size = new Vector2(414, 38);
 
@@ -17,6 +18,8 @@ namespace ProjectBeelzebub
 
         public List<CraftableItem> GetItems() => items;
         public List<GameObject> GetItemsObjs() => gameObjects;
+
+        private void Awake() => SetCraft();
 
         [Button]
         public void SetCraft()

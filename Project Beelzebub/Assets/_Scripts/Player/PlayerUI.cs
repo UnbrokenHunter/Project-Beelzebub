@@ -81,9 +81,8 @@ namespace ProjectBeelzebub
 			lastInput = curInput;
 			curInput = input;
 
-			if (IsInputDifferecnce()) return;
+			// if (IsInputDifferecnce()) return;
 
-			print("OnMove");
 			// Movement
 			move.Invoke();
 			input = value.Get<Vector2>();
