@@ -70,6 +70,8 @@ namespace ProjectBeelzebulb
 
         private void OnDrawGizmos()
         {
+            if (!Application.isPlaying) return;
+
             Gizmos.color = Color.red;
 
             Gizmos.DrawLine(attackOrigin.position, attackOrigin.position + 
