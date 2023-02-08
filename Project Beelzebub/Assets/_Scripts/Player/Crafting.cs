@@ -7,35 +7,68 @@ namespace ProjectBeelzebub
     public class Crafting : PlayerUI
     {
 
-		// Make Selection
+        // Make Selection
 
-		// Store Selected Item
+        // Store Selected Item
 
-		// Make Craftable
+        // Make Craftable
+
+		private AllCrafts allCraft;
+        private int selectedItem = 0;
+
+        [SerializeField]
+        private Color defaultColor;
+
+        [SerializeField]
+        private Color selectedColor;
+
+        private void Start() => allCraft = craftMenu.GetComponentInChildren<AllCrafts>();
+
+        private void NextSelected() => selectedItem += selectedItem < allCraft.GetItems().Count - 1 ? 1 : 0;
+
+        private void PreviousSelected() => selectedItem -= selectedItem > 0 ? 1 : 0;
 
 
-		#region Inputs
+        #region Inputs
 
-		private void Start()
+        public void SelectItem()
 		{
-			move.AddListener(SelectItem);
-			fire.AddListener(CraftSelectedItem);
+
+            if (selectedMenu != 0) return;
+
+            if (input.x > 0)
+                NextSelected();
+
+            else if (input.x < 0)
+                PreviousSelected();
+
+            print($"Selected Crafting Item: { selectedItem} ");
+
+            int count = 0;
+            foreach (GameObject craft in allCraft.GetItemsObjs())
+            {
+
+                SpriteRenderer s = craft.GetComponent<SpriteRenderer>();
+
+                s.color = count == selectedItem ? selectedColor : defaultColor;
+
+                count++;
+
+            }
 		}
 
-		private void SelectItem()
+        public void CraftSelectedItem()
 		{
 
-		}
-
-		private void CraftSelectedItem()
-		{
-
-		}
-
-		#endregion
+            if (selectedMenu != 0) return;
 
 
-		public void CraftItem(CraftableItem craft)
+        }
+
+        #endregion
+
+
+        public void CraftItem(CraftableItem craft)
         {
             
             Inventory inv = GetComponent<Inventory>();

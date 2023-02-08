@@ -26,12 +26,6 @@ namespace ProjectBeelzebub
 
 		private void Awake() => inventory.Clear();
 
-        private void Start()
-        {
-			move.AddListener(SelectItem);
-			fire.AddListener(UseItem);
-		}
-
 		private void NextSelected() => selectedItem += selectedItem < inventory.Count - 1 ? 1 : 0;
 
         private void PreviousSelected() => selectedItem -= selectedItem > 0 ? 1 : 0;
@@ -41,8 +35,10 @@ namespace ProjectBeelzebub
 		#region Inputs
 
 		// On Fire
-		private void UseItem()
+		public void UseItem()
         {
+            if (selectedMenu != 2) return;
+
 
             InventoryItem item = inventory[selectedItem];
 
@@ -66,8 +62,10 @@ namespace ProjectBeelzebub
         }
 
         // On move
-        private void SelectItem()
+        public void SelectItem()
         {
+
+            if (selectedMenu != 2) return;
 
             print($"New Item Selected: {selectedItem}");
 

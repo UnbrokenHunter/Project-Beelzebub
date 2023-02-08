@@ -11,7 +11,7 @@ namespace ProjectBeelzebub
     {
 
 		[Title("Settings")]
-		[SerializeField, Range(0, 1)] protected int selectedMenu = 0;
+		[SerializeField, Range(0, 2)] protected int selectedMenu = 0;
 
 		[Title("Inputs")]
 		[SerializeField] protected UnityEvent fire;
@@ -19,8 +19,8 @@ namespace ProjectBeelzebub
 		[SerializeField] protected Vector2 input;
 
 		[Title("UI")]
-		[SerializeField] protected GameObject craftMenu;
 		[SerializeField] protected GameObject playerMenu;
+		[SerializeField] protected GameObject craftMenu;
 		[SerializeField] protected GameObject inventoryMenu;
 
 		#region Menu
@@ -77,11 +77,13 @@ namespace ProjectBeelzebub
 		{
 			if (!playerMenu.activeInHierarchy) return;
 
+
 			lastInput = curInput;
 			curInput = input;
 
-			if (!CheckInputDifferecnce()) return;
+			if (IsInputDifferecnce()) return;
 
+			print("OnMove");
 			// Movement
 			move.Invoke();
 			input = value.Get<Vector2>();
@@ -94,7 +96,7 @@ namespace ProjectBeelzebub
 
 		private Vector2 curInput = Vector2.zero;
 		private Vector2 lastInput = Vector2.zero;
-		private bool CheckInputDifferecnce()
+		private bool IsInputDifferecnce()
 		{
 			if (curInput == Vector2.zero) return false;
 
@@ -108,12 +110,6 @@ namespace ProjectBeelzebub
 		#region Player Stats
 
 		protected PlayerStats playerStats;
-
-		private void Awake()
-		{
-			fire = new UnityEvent();
-			move = new UnityEvent();
-		}
 
 
 		private void Start() => playerStats = GetComponent<PlayerStats>();

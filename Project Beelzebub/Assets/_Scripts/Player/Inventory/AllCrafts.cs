@@ -15,6 +15,9 @@ namespace ProjectBeelzebub
 
         [SerializeField] private GameObject craftPrefab;
 
+        public List<CraftableItem> GetItems() => items;
+        public List<GameObject> GetItemsObjs() => gameObjects;
+
         [Button]
         public void SetCraft()
         {
