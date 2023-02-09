@@ -9,8 +9,11 @@ namespace ProjectBeelzebub
     public class PlayerStats : MonoBehaviour
     {
 
+		#region Stats
+
 		[Title("Speed")]
 		[SerializeField] public float maxSpeed = 5;
+		[SerializeField] public float speedMultiplier = 1;
 		[SerializeField] public float slipperyness = 90;
 		[SerializeField] public float deceleration = 60;
 
@@ -26,6 +29,14 @@ namespace ProjectBeelzebub
         [SerializeField] private float maxHealth = 10;
         [SerializeField] private float regenRate = 0.5f;
         [SerializeField] private Slider healthBar;
+
+		[Title("Sleep")]
+		[SerializeField] private float sleep = 10;
+		[SerializeField] private float maxSleep = 10;
+        [SerializeField] private float sleepTimer = 60;
+		[SerializeField] private float sleepMultiplier = 0.5f;
+		[SerializeField] private Slider sleepBar;
+		private float sleepCount = 0;
 
         [Title("Food")]
         [SerializeField] private float hunger = 10;
@@ -44,7 +55,11 @@ namespace ProjectBeelzebub
         private float thirstCount = 0;
 
 
-        private void CheckHealth()
+		#endregion
+
+		#region Effects
+
+		private void CheckHealth()
         {
             if (health < 0)
             {
@@ -53,7 +68,30 @@ namespace ProjectBeelzebub
             }
         }
 
-        public void AddHunger(float amount)
+        private void CheckHunger()
+        {
+            if (hunger < 3)
+                speedMultiplier = Mathf.Min(0.5f, speedMultiplier);
+            
+            if (hunger <= 0)
+                health -= 1;
+        }
+
+		private void CheckThirst()
+		{
+			if (thirst < 3)
+				speedMultiplier = Mathf.Min(0.5f, speedMultiplier);
+
+			if (thirst <= 0)
+				health -= 1;
+		}
+
+
+		#endregion
+
+		#region Check/Add/Remove
+
+		public void AddHunger(float amount)
         {
             hunger += amount;
             hunger = Mathf.Min(hunger, maxHunger);
@@ -90,8 +128,23 @@ namespace ProjectBeelzebub
 			UpdateSliders();
 		}
 
+		#endregion
+
+		#region Timers
 
 		// Timers
+		private void SleepTimer()
+		{
+			sleepCount += Time.deltaTime;
+
+			if (sleepCount > sleepTimer)
+			{
+				sleepCount = 0;
+				sleep -= 1 * sleepMultiplier;
+
+				UpdateSliders();
+			}
+		}
 
 		private void HungerTimer()
         {
@@ -102,6 +155,7 @@ namespace ProjectBeelzebub
                 hungerCount = 0;
                 hunger -= 1 * hungerMultiplier;
 
+                CheckHunger();
                 UpdateSliders();
             }
         }
@@ -119,15 +173,21 @@ namespace ProjectBeelzebub
             }
         }
 
-        // General
+		#endregion
 
-        private void Start() => UpdateSliders();
+		#region General
+
+		// General
+
+		private void Start() => UpdateSliders();
 
         private void Update()
         {
             HungerTimer();
 
 			ThirstTimer();
+
+            SleepTimer();
 
             CheckHealth();
         }
@@ -143,6 +203,11 @@ namespace ProjectBeelzebub
 			healthBar.maxValue = maxHealth;
             healthBar.value = health;
 
+            sleepBar.maxValue = maxSleep;
+            sleepBar.value = sleep;
+
         }
-    }
+
+		#endregion
+	}
 }

@@ -32,10 +32,15 @@ namespace ProjectBeelzebulb
             lastMovement = movement == Vector2.zero ? lastMovement : movement;
 
             // No movement if Inventory is open;
-            if (GetComponent<Inventory>().IsInventoryOpen()) return;
-
-			// Add movement
-			rb.velocity = Vector2.Lerp(rb.velocity, movement * stats.maxSpeed, 1f - stats.slipperyness);
+            
+            if (GetComponent<Inventory>().IsInventoryOpen()) 
+            { 
+                rb.velocity = Vector2.zero;
+                return;
+            }
+            
+            // Add movement
+			rb.velocity = Vector2.Lerp(rb.velocity, movement * (stats.maxSpeed * stats.speedMultiplier), 1f - stats.slipperyness);
 			rb.velocity -= rb.velocity * stats.deceleration * Time.fixedDeltaTime;
 
 		}

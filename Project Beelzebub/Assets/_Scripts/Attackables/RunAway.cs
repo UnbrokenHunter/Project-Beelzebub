@@ -24,9 +24,9 @@ namespace ProjectBeelzebub
         {
 			AIDestinationSetter setter = GetComponent<AIDestinationSetter>();
 
-            dir = (transform.position - runFrom).normalized;
+            dir = (transform.position - runFrom);
 
-            Vector3 location = dir * guessDistance;
+            Vector3 location = dir.normalized * guessDistance;
 
             target.position = location;
 
