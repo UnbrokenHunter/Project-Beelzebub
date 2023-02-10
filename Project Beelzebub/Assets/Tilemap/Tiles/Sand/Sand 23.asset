@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: Sand 23
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: 1492164617, guid: c51e1e9adb54c5d449a48cd055a84f3c, type: 3}
+  - {fileID: 1545609690, guid: c51e1e9adb54c5d449a48cd055a84f3c, type: 3}
+  - {fileID: 1119414566, guid: c51e1e9adb54c5d449a48cd055a84f3c, type: 3}
+  - {fileID: -116031148, guid: c51e1e9adb54c5d449a48cd055a84f3c, type: 3}
+  - {fileID: 1556196237, guid: c51e1e9adb54c5d449a48cd055a84f3c, type: 3}
+  - {fileID: -1765096176, guid: c51e1e9adb54c5d449a48cd055a84f3c, type: 3}
+  - {fileID: -141421786, guid: c51e1e9adb54c5d449a48cd055a84f3c, type: 3}
+  - {fileID: -763552186, guid: c51e1e9adb54c5d449a48cd055a84f3c, type: 3}
+  m_MinSpeed: 1
+  m_MaxSpeed: 1
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 0
+  m_TileColliderType: 0
