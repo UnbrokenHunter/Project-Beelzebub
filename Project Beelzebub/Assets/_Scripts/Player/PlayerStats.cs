@@ -28,14 +28,18 @@ namespace ProjectBeelzebub
         [SerializeField] private float health = 10;
         [SerializeField] private float maxHealth = 10;
         [SerializeField] private float regenRate = 0.5f;
-        [SerializeField] private Slider healthBar;
+        [SerializeField] private GameObject healthObj;
+        [SerializeField] private List<GameObject> healthBar;
+        [SerializeField] private GameObject healthPrefab;
 
 		[Title("Sleep")]
 		[SerializeField] private float sleep = 10;
 		[SerializeField] private float maxSleep = 10;
         [SerializeField] private float sleepTimer = 60;
 		[SerializeField] private float sleepMultiplier = 0.5f;
-		[SerializeField] private Slider sleepBar;
+        [SerializeField] private GameObject sleepObj;
+		[SerializeField] private List<GameObject> sleepBar;
+        [SerializeField] private GameObject sleepPrefab;
 		private float sleepCount = 0;
 
         [Title("Food")]
@@ -43,7 +47,9 @@ namespace ProjectBeelzebub
         [SerializeField] private float maxHunger = 10;
         [SerializeField] private float hungerTimer = 60;
         [SerializeField] private float hungerMultiplier = 1f;
-        [SerializeField] private Slider hungerBar;
+        [SerializeField] private GameObject hungerObj;
+        [SerializeField] private List<GameObject> hungerBar;
+        [SerializeField] private GameObject hungerPrefab;
         private float hungerCount = 0;
 
         [Title("Thirst")]
@@ -51,7 +57,9 @@ namespace ProjectBeelzebub
         [SerializeField] private float maxThirst = 10;
         [SerializeField] private float thirstTimer = 60;
         [SerializeField] private float thirstMultiplier = 1f;
-        [SerializeField] private Slider thirstBar;
+        [SerializeField] private GameObject thirstObj;
+        [SerializeField] private List<GameObject> thirstBar;
+        [SerializeField] private GameObject thirstPrefab;
         private float thirstCount = 0;
 
 
@@ -194,19 +202,60 @@ namespace ProjectBeelzebub
 
         private void UpdateSliders()
         {
-            hungerBar.maxValue = maxHunger;
-            hungerBar.value = hunger;
 
-			thirstBar.maxValue = maxThirst;
-			thirstBar.value = thirst;
+            // Health
+            for (int i = 0; i < maxHealth; i++)
+            {
+                Destroy(healthBar[i]);
+                healthBar.RemoveAt(i);
 
-			healthBar.maxValue = maxHealth;
-            healthBar.value = health;
+				if (i > health) continue;
 
-            sleepBar.maxValue = maxSleep;
-            sleepBar.value = sleep;
+				GameObject healthTemp = Instantiate(healthPrefab, Vector3.zero, Quaternion.identity, healthObj.transform);
+                healthBar.Add(healthTemp);
+            }
 
-        }
+
+			// Hunger
+			for (int i = 0; i < maxHunger; i++)
+			{
+				Destroy(hungerBar[i]);
+				hungerBar.RemoveAt(i);
+
+                if (i > hunger) continue;
+
+				GameObject hungerTemp = Instantiate(hungerPrefab, Vector3.zero, Quaternion.identity, hungerObj.transform);
+				hungerBar.Add(hungerTemp);
+			}
+
+
+			// Thirst
+			for (int i = 0; i < maxThirst; i++)
+			{
+				Destroy(thirstBar[i]);
+				thirstBar.RemoveAt(i);
+
+				if (i > thirst) continue;
+
+				GameObject thirstTemp = Instantiate(thirstPrefab, Vector3.zero, Quaternion.identity, thirstObj.transform);
+				thirstBar.Add(thirstTemp);
+			}
+
+
+			// Sleep
+			for (int i = 0; i < maxSleep; i++)
+			{
+				Destroy(sleepBar[i]);
+				sleepBar.RemoveAt(i);
+
+				if (i > sleep) continue;
+
+				GameObject thirstTemp = Instantiate(sleepPrefab, Vector3.zero, Quaternion.identity, sleepObj.transform);
+				sleepBar.Add(thirstTemp);
+			}
+
+
+		}
 
 		#endregion
 	}
