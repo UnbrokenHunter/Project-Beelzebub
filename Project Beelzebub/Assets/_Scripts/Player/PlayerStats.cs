@@ -12,9 +12,11 @@ namespace ProjectBeelzebub
         #region Stats
 
         [Title("General")]
+        [SerializeField] Vector3 spawnLocation;
         [SerializeField] private PlayerVisuals visuals;
         [SerializeField] public InventoryItem weapon;
         [SerializeField] private Color darkness;
+        [SerializeField] private GameObject gameOverMenu;
 
 
 		[Title("Speed")]
@@ -71,15 +73,6 @@ namespace ProjectBeelzebub
 
 		#region Effects
 
-		private void CheckHealth()
-        {
-            if (health < 0)
-            {
-                print("Kill Player");
-
-            }
-        }
-
         private void CheckHunger()
         {
             if (hunger < 3)
@@ -99,11 +92,10 @@ namespace ProjectBeelzebub
 		}
 
 
-		#endregion
+        #endregion
 
-		#region Check/Add/Remove
-
-		public void AddHunger(float amount)
+        #region Check/Add/Remove
+        public void AddHunger(float amount)
         {
             hunger += amount;
             hunger = Mathf.Min(hunger, maxHunger);
@@ -119,13 +111,14 @@ namespace ProjectBeelzebub
 			UpdateSliders();
 		}
 
+        [Button]
         public void RemoveHealth(float amount)
         {
             health -= amount;
 
             UpdateSliders();
 
-            if (health > 0)
+            if (health < 0)
                 KillPlayer();
             
 		}
@@ -144,8 +137,9 @@ namespace ProjectBeelzebub
 
             visuals.StartDeath();
 
-
-
+            GetComponent<Inventory>().DropItems();
+            
+            gameOverMenu.SetActive(true);
         }
 
         #endregion
@@ -193,13 +187,25 @@ namespace ProjectBeelzebub
             }
         }
 
-		#endregion
+        #endregion
 
-		#region General
+        #region General
 
-		// General
+        // General
 
-		private void Start() => ResetUI();
+        public void Reset()
+        {
+            transform.position = spawnLocation;
+
+            visuals.StartRespawn();
+
+            health = maxHealth;
+            hunger = 10;
+            thirst = 10;
+            sleep = 10;
+        }
+
+        private void Start() => ResetUI();
 
         private void Update()
         {
@@ -208,8 +214,6 @@ namespace ProjectBeelzebub
 			ThirstTimer();
 
             SleepTimer();
-
-            CheckHealth();
         }
 
         private void ResetUI()
@@ -297,6 +301,13 @@ namespace ProjectBeelzebub
         }
 
         #endregion
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.white;
+
+            Gizmos.DrawCube(spawnLocation, Vector3.one);
+        }
     }
 
 }

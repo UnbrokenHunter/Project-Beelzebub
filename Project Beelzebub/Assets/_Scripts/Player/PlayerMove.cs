@@ -15,7 +15,8 @@ namespace ProjectBeelzebulb
         [SerializeField] private PlayerVisuals visuals;
 		[SerializeField] private Transform attackOrigin;
 
-		[Title("Debug")]
+        [Title("Debug")]
+        [SerializeField] private GameObject deathMenu;
         [SerializeField] private Vector2 movement;
         [SerializeField] private Vector2 lastMovement;
         [SerializeField] private LayerMask mask;
@@ -39,15 +40,32 @@ namespace ProjectBeelzebulb
                 rb.velocity = Vector2.zero;
                 return;
             }
-            
+
+            else if(deathMenu.activeInHierarchy)
+            {
+                deathMenu.GetComponentInChildren<GameOverMenu>().Move(movement);
+
+                rb.velocity = Vector2.zero;
+                return;
+            }
+
             // Add movement
-			rb.velocity = Vector2.Lerp(rb.velocity, movement * (stats.maxSpeed * stats.speedMultiplier), 1f - stats.slipperyness);
+            rb.velocity = Vector2.Lerp(rb.velocity, movement * (stats.maxSpeed * stats.speedMultiplier), 1f - stats.slipperyness);
 			rb.velocity -= rb.velocity * stats.deceleration * Time.fixedDeltaTime;
 
 		}
 
 		public void Attack()
         {
+
+            if (GetComponent<Inventory>().IsInventoryOpen())
+                return;
+
+            else if (deathMenu.activeInHierarchy)
+            {
+                deathMenu.GetComponentInChildren<GameOverMenu>().OnFire();
+                return;
+            }
 
             // Animation
             visuals.StartAttack();
@@ -89,7 +107,10 @@ namespace ProjectBeelzebulb
 
         }
 
-        public void OnMove(InputValue value) => movement = value.Get<Vector2>();
+        public void OnMove(InputValue value)
+        {
+            movement = value.Get<Vector2>();
+        }
 
         public void OnFire(InputValue value) => Attack();
     }

@@ -56,7 +56,8 @@ namespace ProjectBeelzebub
         public void StartAttack() => anim.SetTrigger("attack");
 
         public void StartDeath() => anim.SetTrigger("death");
-
+        
+        public void StartRespawn() => anim.SetTrigger("respawn");
 
     }
 }

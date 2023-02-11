@@ -29,6 +29,7 @@ namespace ProjectBeelzebub
         [Title("Drops")]
 		[SerializeField] private List<InventoryItem> drops;
 
+        private bool isDead = false;
         private IEnumerator Panic()
         {
 
@@ -68,6 +69,8 @@ namespace ProjectBeelzebub
 
         private void KillEntity()
         {
+            if (isDead) return;
+            isDead = true;
 			MasterAudio.PlaySound(hitSound);
 
             playerInventory = GameObject.Find("Player").GetComponentInChildren<Inventory>();

@@ -21,11 +21,13 @@ namespace ProjectBeelzebub
 
         [Title("UI")]
         [SerializeField] private ToastManager toast;
-		[SerializeField] protected GameObject itemPrefab;
+        [SerializeField] private GameObject dropPrefab;
+        [SerializeField] private GameObject dropsContainer;
+        [SerializeField] protected GameObject itemPrefab;
 
-		#region Short Methods
+        #region Short Methods
 
-		private void Awake() => inventory.Clear();
+        private void Awake() => inventory.Clear();
 
 		private void NextSelected() => selectedItem += selectedItem < inventory.Count - 1 ? 1 : 0;
 
@@ -89,6 +91,8 @@ namespace ProjectBeelzebub
         private void UpdateInventory()
         {
 
+            inventory.RemoveAll(inv => inv.stackCount < 0);
+
             // Inventory
             foreach (GameObject item in inventoryObjects)
             {
@@ -126,7 +130,34 @@ namespace ProjectBeelzebub
 		#endregion 
 
 		#region Public Methods
-		public bool AddItem(InventoryItem item)
+		
+        public void DropItems()
+        {
+
+            for(int i = 0; i < dropsContainer.transform.childCount; i++)
+            {
+                Transform g = dropsContainer.transform.GetChild(i);
+
+                Destroy(g.gameObject);
+            }
+
+            Vector3 worldPos = transform.position;
+            
+
+            foreach (InventoryItem item in inventory)
+            {
+                GameObject g = Instantiate(dropPrefab, Vector3.zero, Quaternion.identity, dropsContainer.transform);
+                g.transform.localPosition = worldPos;
+                g.GetComponent<Drop>().item = item;
+                g.GetComponent<SpriteRenderer>().sprite = item.sprite;
+
+                print(g.transform.position);
+
+                RemoveItem(item, item.stackCount);
+            }
+
+        }
+        public bool AddItem(InventoryItem item)
         {
             
             // Return false if cannot fit into inventory
@@ -173,9 +204,6 @@ namespace ProjectBeelzebub
                     continue;
                 
                 inv.stackCount -= amount;
-
-                if (inv.stackCount <= 0)
-                    inventory.Remove(inv); 
 
                 UpdateInventory();
             }
