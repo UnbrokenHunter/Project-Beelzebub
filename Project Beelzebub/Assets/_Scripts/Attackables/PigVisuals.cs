@@ -10,6 +10,7 @@ namespace ProjectBeelzebub
 
         [SerializeField] private Animator anim;
         [SerializeField] private SpriteRenderer rend;
+        [SerializeField] private GameObject pig;
 
         [SerializeField] private float minMovement = 0.2f;
         

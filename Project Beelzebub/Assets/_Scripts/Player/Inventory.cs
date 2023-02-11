@@ -105,17 +105,16 @@ namespace ProjectBeelzebub
 
 				itemScript.stats = item;
 
-                itemScript.GetComponent<Image>().sprite = item.sprite;
-                _invItem.GetComponentInChildren<TMP_Text>().text = item.stackCount.ToString();
+                print(item.sprite);
 
-                _invItem.GetComponent<Image>().enabled = selectedItem == i;
-
-                if (selectedItem == i) 
+                if (selectedItem == i)
                     itemScript.SetTooltip();
-                
-                else 
-                    itemScript.UnsetTooltip();
 
+                else
+                {
+                    itemScript.UnsetTooltip();
+                    itemScript.SetImage(item.sprite);
+                }
 				inventoryObjects.Add(_invItem);
 
                 i++;

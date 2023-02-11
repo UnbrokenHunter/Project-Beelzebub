@@ -10,6 +10,7 @@ namespace ProjectBeelzebub
     public class Item : MonoBehaviour
     {
         public InventoryItem stats;
+        [SerializeField] private Image thisImage;
 
         [Title("Tooltip")]
 
@@ -34,11 +35,23 @@ namespace ProjectBeelzebub
         [SerializeField, LabelWidth(100)]
         private GameObject stat3;
 
-        public void UnsetTooltip() => Tooltip.SetActive(false);
+
+        public void SetImage(Sprite sprite)
+        {
+            thisImage.sprite = sprite;
+        }
+        public void UnsetTooltip()
+        {
+            Tooltip.SetActive(false);
+
+            thisImage.enabled = true;
+        }
 
         public void SetTooltip()
         {
             Tooltip.SetActive(true);
+
+            thisImage.enabled = false;
 
             image.GetComponent<Image>().sprite = stats.sprite;
 

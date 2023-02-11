@@ -14,6 +14,7 @@ namespace ProjectBeelzebub
         [SerializeField] private float health = 5;
         [SerializeField] private float speedBoost = 1;
         [SerializeField] private float panicTimer = 20;
+        [SerializeField] private float deathDelay = 1;
 
         [Title("Sounds")]
         [SerializeField] private string hitSound;
@@ -52,37 +53,47 @@ namespace ProjectBeelzebub
 
             MasterAudio.PlaySound(hitSound);
 
-            visuals.SetHit();
 
             StartCoroutine(Panic());
 
 
             print($"{gameObject.name} is now at {health}!");
 
-            if(health < 0)
+            if (health <= 0)
                 KillEntity();
 
+            else
+                visuals.SetHit();
         }
 
         private void KillEntity()
         {
 			MasterAudio.PlaySound(hitSound);
 
+            playerInventory = GameObject.Find("Player").GetComponentInChildren<Inventory>();
             foreach(InventoryItem item in drops)
             {
-
                 playerInventory.AddItem(item);
 
             }
 
-
             // Death Animation
             visuals.SetDeath();
 
+            print(visuals.name);
 
-            //Destroy(gameObject);
+            wander.enabled = false;
+            run.enabled = false;
+
+            StartCoroutine(DeathDelay());
+
 
 		}
+        private IEnumerator DeathDelay()
+        {
+            yield return new WaitForSeconds(deathDelay);
+            Destroy(transform.parent.gameObject);
+        }
 
 	}
 }

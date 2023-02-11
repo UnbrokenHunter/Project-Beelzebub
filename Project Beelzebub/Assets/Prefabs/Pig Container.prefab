@@ -388,6 +388,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 3177957638282991117}
   rend: {fileID: 5553565134878025098}
+  pig: {fileID: 5553565133592686610}
   minMovement: 0
   lastPos: {x: 0, y: 0}
   curPos: {x: 0, y: 0}
