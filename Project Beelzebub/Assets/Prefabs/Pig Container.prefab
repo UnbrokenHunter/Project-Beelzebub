@@ -121,6 +121,7 @@ MonoBehaviour:
   hitSound: 
   killSound: 
   playerInventory: {fileID: 0}
+  visuals: {fileID: 1362388689}
   run: {fileID: 5553565134525085080}
   wander: {fileID: 5553565134525085081}
   drops:
@@ -277,6 +278,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5553565134878025097}
   - component: {fileID: 5553565134878025098}
+  - component: {fileID: 3177957638282991117}
+  - component: {fileID: 1362388689}
   m_Layer: 6
   m_Name: Visuals
   m_TagString: Untagged
@@ -340,7 +343,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -2413806693520163455, guid: 4adeaf2d2b1c7417e89f026626d8264f, type: 3}
+  m_Sprite: {fileID: 1961404680, guid: 0bce50001c75c844b89cdf5fe05dd810, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -351,3 +354,41 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &3177957638282991117
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5553565134878025096}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 56bca571b0cb33b4c82fe51ef0de50b3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &1362388689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5553565134878025096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cac0d1423edf64c42af69729f0ae0f80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 3177957638282991117}
+  rend: {fileID: 5553565134878025098}
+  minMovement: 0
+  lastPos: {x: 0, y: 0}
+  curPos: {x: 0, y: 0}
+  direction: {x: 0, y: 0}

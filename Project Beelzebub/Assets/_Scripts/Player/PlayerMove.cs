@@ -12,6 +12,7 @@ namespace ProjectBeelzebulb
 
         [Title("Stats")]
         [SerializeField] private PlayerStats stats;
+        [SerializeField] private PlayerVisuals visuals;
 		[SerializeField] private Transform attackOrigin;
 
 		[Title("Debug")]
@@ -47,6 +48,10 @@ namespace ProjectBeelzebulb
 
 		public void Attack()
         {
+
+            // Animation
+            visuals.StartAttack();
+
 			RaycastHit2D hit = Physics2D.Raycast(attackOrigin.position, lastMovement, 
                 stats.attackRange, mask);
 

@@ -21,6 +21,7 @@ namespace ProjectBeelzebub
 
         [Title("Scripts")]
         [SerializeField] private Inventory playerInventory;
+        [SerializeField] private PigVisuals visuals;
 		[SerializeField] private RunAway run;
 		[SerializeField] private Wander wander;
 
@@ -51,7 +52,10 @@ namespace ProjectBeelzebub
 
             MasterAudio.PlaySound(hitSound);
 
+            visuals.SetHit();
+
             StartCoroutine(Panic());
+
 
             print($"{gameObject.name} is now at {health}!");
 
@@ -72,10 +76,11 @@ namespace ProjectBeelzebub
             }
 
 
-
             // Death Animation
-            
-            Destroy(gameObject);
+            visuals.SetDeath();
+
+
+            //Destroy(gameObject);
 
 		}
 

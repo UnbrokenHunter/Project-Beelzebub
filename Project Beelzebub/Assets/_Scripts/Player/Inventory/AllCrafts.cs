@@ -9,7 +9,8 @@ namespace ProjectBeelzebub
     {
         [SerializeField]
         private List<GameObject> gameObjects = new();
-        private Vector2 size = new Vector2(414, 38);
+        [SerializeField] private Vector2 size = new Vector2(414, 38);
+        [SerializeField] private bool autoSet = false;
 
         [SerializeField, TableList]
         private List<CraftableItem> items = new List<CraftableItem>();
@@ -39,7 +40,9 @@ namespace ProjectBeelzebub
                 gameObjects.Add(g);
 
                 g.GetComponent<SetCraft>().SetCraftInfo(item);
-                g.GetComponent<RectTransform>().sizeDelta = size;
+               
+                if(!autoSet)
+                    g.GetComponent<RectTransform>().sizeDelta = size;
 
             }   
         }

@@ -16,7 +16,7 @@ MonoBehaviour:
   description: Water!
   type: 1
   useSound: Drink
-  sprite: {fileID: -549975713, guid: 441b341bbcc17a643aab537bb3b94152, type: 3}
+  sprite: {fileID: 2103724723, guid: 85da6fc071e6a5e4d9ef469125db4f9d, type: 3}
   damage: 0
   durability: 0
   other: 0
