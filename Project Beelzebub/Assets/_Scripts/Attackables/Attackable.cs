@@ -82,6 +82,9 @@ namespace ProjectBeelzebub
 
             print(visuals.name);
 
+            AIPath path = GetComponent<AIPath>();
+            path.canMove = false;
+
             wander.enabled = false;
             run.enabled = false;
 
