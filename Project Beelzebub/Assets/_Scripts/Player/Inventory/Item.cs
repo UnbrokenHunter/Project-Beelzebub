@@ -12,6 +12,8 @@ namespace ProjectBeelzebub
         public InventoryItem stats;
         [SerializeField] private Image thisImage;
 
+        public GameObject count;
+
         [Title("Tooltip")]
 
         [SerializeField, LabelWidth(100)]

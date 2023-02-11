@@ -20,6 +20,7 @@ namespace ProjectBeelzebub
         private int selectedItem = 0;
 
         [Title("UI")]
+        [SerializeField] private ToastManager toast;
 		[SerializeField] protected GameObject itemPrefab;
 
 		#region Short Methods
@@ -105,8 +106,8 @@ namespace ProjectBeelzebub
 
 				itemScript.stats = item;
 
-                print(item.sprite);
-
+                itemScript.count.GetComponent<TMP_Text>().text = item.stackCount.ToString() + "x";
+                    
                 if (selectedItem == i)
                     itemScript.SetTooltip();
 
@@ -157,6 +158,8 @@ namespace ProjectBeelzebub
             }
 
             UpdateInventory();
+
+            toast.StartToast(item);
 
             return true;
 
