@@ -52,8 +52,7 @@ namespace ProjectBeelzebub
 
         public void Menu()
         {
-
-        
+            LevelManager.Instance.LoadScene("Title");
         }
 
         public void Play()

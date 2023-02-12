@@ -15,7 +15,7 @@ namespace ProjectBeelzebub
         [SerializeField] Vector3 spawnLocation;
         [SerializeField] private PlayerVisuals visuals;
         [SerializeField] public InventoryItem weapon;
-        [SerializeField] private Color darkness;
+        [SerializeField] public Color darkness;
         [SerializeField] private GameObject gameOverMenu;
 
 
@@ -31,16 +31,16 @@ namespace ProjectBeelzebub
 
 
 		[Title("Health")]
-        [SerializeField, FoldoutGroup("Health")] private float health = 10;
-        [SerializeField, FoldoutGroup("Health")] private float maxHealth = 10;
+        [SerializeField, FoldoutGroup("Health")] public float health = 10;
+        [SerializeField, FoldoutGroup("Health")] public float maxHealth = 10;
         [SerializeField, FoldoutGroup("Health")] private float regenRate = 0.5f;
         [SerializeField, FoldoutGroup("Health")] private GameObject healthObj;
         [SerializeField, FoldoutGroup("Health")] private List<GameObject> healthBar;
         [SerializeField, FoldoutGroup("Health")] private GameObject healthPrefab;
 
 		[Title("Sleep")]
-		[SerializeField, FoldoutGroup("Sleep")] private float sleep = 10;
-		[SerializeField, FoldoutGroup("Sleep")] private float maxSleep = 10;
+		[SerializeField, FoldoutGroup("Sleep")] public float sleep = 10;
+		[SerializeField, FoldoutGroup("Sleep")] public float maxSleep = 10;
         [SerializeField, FoldoutGroup("Sleep")] private float sleepTimer = 60;
 		[SerializeField, FoldoutGroup("Sleep")] private float sleepMultiplier = 0.5f;
         [SerializeField, FoldoutGroup("Sleep")] private GameObject sleepObj;
@@ -49,8 +49,8 @@ namespace ProjectBeelzebub
 		private float sleepCount = 0;
 
         [Title("Food")]
-        [SerializeField, FoldoutGroup("Hunger")] private float hunger = 10;
-        [SerializeField, FoldoutGroup("Hunger")] private float maxHunger = 10;
+        [SerializeField, FoldoutGroup("Hunger")] public float hunger = 10;
+        [SerializeField, FoldoutGroup("Hunger")] public float maxHunger = 10;
         [SerializeField, FoldoutGroup("Hunger")] private float hungerTimer = 60;
         [SerializeField, FoldoutGroup("Hunger")] private float hungerMultiplier = 1f;
         [SerializeField, FoldoutGroup("Hunger")] private GameObject hungerObj;
@@ -59,8 +59,8 @@ namespace ProjectBeelzebub
         private float hungerCount = 0;
 
         [Title("Thirst")]
-        [SerializeField, FoldoutGroup("Thirst")] private float thirst = 10;
-        [SerializeField, FoldoutGroup("Thirst")] private float maxThirst = 10;
+        [SerializeField, FoldoutGroup("Thirst")] public float thirst = 10;
+        [SerializeField, FoldoutGroup("Thirst")] public float maxThirst = 10;
         [SerializeField, FoldoutGroup("Thirst")] private float thirstTimer = 60;
         [SerializeField, FoldoutGroup("Thirst")] private float thirstMultiplier = 1f;
         [SerializeField, FoldoutGroup("Thirst")] private GameObject thirstObj;
@@ -221,19 +221,8 @@ namespace ProjectBeelzebub
             foreach (GameObject g in healthBar)
                 Destroy(g);
 
-            foreach (GameObject g in hungerBar)
-                Destroy(g);
-
-            foreach (GameObject g in thirstBar)
-                Destroy(g);
-
-            foreach (GameObject g in sleepBar)
-                Destroy(g);
 
             healthBar.Clear();
-            hungerBar.Clear();
-            thirstBar.Clear();
-            sleepBar.Clear();
 
             // Health
             for (int i = 0; i < maxHealth; i++)
@@ -242,29 +231,6 @@ namespace ProjectBeelzebub
                 healthBar.Add(healthTemp);
             }
 
-
-            // Hunger
-            for (int i = 0; i < maxHunger; i++)
-            {
-                GameObject hungerTemp = Instantiate(hungerPrefab, Vector3.zero, Quaternion.identity, hungerObj.transform);
-                hungerBar.Add(hungerTemp);
-            }
-
-
-            // Thirst
-            for (int i = 0; i < maxThirst; i++)
-            {
-                GameObject thirstTemp = Instantiate(thirstPrefab, Vector3.zero, Quaternion.identity, thirstObj.transform);
-                thirstBar.Add(thirstTemp);
-            }
-
-
-            // Sleep
-            for (int i = 0; i < maxSleep; i++)
-            {
-                GameObject thirstTemp = Instantiate(sleepPrefab, Vector3.zero, Quaternion.identity, sleepObj.transform);
-                sleepBar.Add(thirstTemp);
-            }
 
             UpdateSliders();
 
@@ -278,24 +244,6 @@ namespace ProjectBeelzebub
             {
                 if (i >= health) healthBar[i].GetComponent<Image>().color = darkness;
                 else healthBar[i].GetComponent<Image>().color = Color.white;
-            }
-
-            for (int i = 0; i < maxHunger; i++)
-            {
-                if (i >= hunger) hungerBar[i].GetComponent<Image>().color = darkness;
-                else hungerBar[i].GetComponent<Image>().color = Color.white;
-            }
-
-            for (int i = 0; i < maxThirst; i++)
-            {
-                if (i >= thirst) thirstBar[i].GetComponent<Image>().color = darkness;
-                else thirstBar[i].GetComponent<Image>().color = Color.white;
-            }
-
-            for (int i = 0; i < maxSleep; i++)
-            {
-                if (i >= sleep) sleepBar[i].GetComponent<Image>().color = darkness;
-                else sleepBar[i].GetComponent<Image>().color = Color.white;
             }
 
         }
