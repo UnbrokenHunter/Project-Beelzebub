@@ -11,7 +11,7 @@ namespace ProjectBeelzebub
     {
 
 		[Title("Settings")]
-		[SerializeField, Range(0, 2)] protected int selectedMenu = 0;
+		[SerializeField, Range(0, 2)] public int selectedMenu = 0;
 
 		[Title("Inputs")]
 		[SerializeField] protected UnityEvent fire;
@@ -23,14 +23,27 @@ namespace ProjectBeelzebub
 		[SerializeField] protected GameObject craftMenu;
 		[SerializeField] protected GameObject inventoryMenu;
         [SerializeField] private GameObject gameOverMenu;
+        [SerializeField] private GameObject settingsMenu;
 
 
         #region Menu
 
-        private void CycleMenus()
+		public bool CanOpenInv()
+		{
+			if (gameOverMenu.activeInHierarchy)
+				return false;
+			else if (settingsMenu.activeInHierarchy)
+                return false;
+
+			else return true;
+        }
+
+        public void CycleMenus()
 		{
 
-			if(gameOverMenu.activeInHierarchy) 
+			if (gameOverMenu.activeInHierarchy)
+				selectedMenu = 0;
+			else if (settingsMenu.activeInHierarchy)
 				selectedMenu = 0;
 
 			// Menu Off

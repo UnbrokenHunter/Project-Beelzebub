@@ -18,6 +18,7 @@ namespace ProjectBeelzebulb
 
         [Title("Debug")]
         [SerializeField] private GameObject deathMenu;
+        [SerializeField] private GameObject settingsMenu;
         [SerializeField] private Vector2 movement;
         [SerializeField] private Vector2 lastMovement;
         [SerializeField] private LayerMask mask;
@@ -35,14 +36,7 @@ namespace ProjectBeelzebulb
             lastMovement = movement == Vector2.zero ? lastMovement : movement;
 
             // No movement if Inventory is open;
-            
-            if (GetComponent<Inventory>().IsInventoryOpen()) 
-            { 
-                rb.velocity = Vector2.zero;
-                return;
-            }
-
-            else if(deathMenu.activeInHierarchy)
+            if (!CanMove())
             {
                 rb.velocity = Vector2.zero;
                 return;
@@ -91,6 +85,31 @@ namespace ProjectBeelzebulb
 
 		}
 
+        public Vector2 GetMovement()
+        {
+            return lastMovement = movement == Vector2.zero ? lastMovement : movement;
+        }
+
+        public bool CanMove()
+        {
+            if (GetComponent<Inventory>().IsInventoryOpen())
+            {
+                return false;
+            }
+
+            else if (deathMenu.activeInHierarchy)
+            {
+                return false;
+            }
+
+            else if (settingsMenu.activeInHierarchy)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         private void OnDrawGizmos()
         {
             if (!Application.isPlaying) return;
@@ -108,5 +127,10 @@ namespace ProjectBeelzebulb
         }
 
         public void OnFire(InputValue value) => Attack();
+    
+        public void OnMenu(InputValue value)
+        {
+            settingsMenu.transform.parent.GetComponent<OpenSettings>().OnMenu(value);
+        }
     }
 }
