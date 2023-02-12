@@ -44,8 +44,6 @@ namespace ProjectBeelzebulb
 
             else if(deathMenu.activeInHierarchy)
             {
-                deathMenu.GetComponentInChildren<GameOverMenu>().Move(movement);
-
                 rb.velocity = Vector2.zero;
                 return;
             }
@@ -63,10 +61,7 @@ namespace ProjectBeelzebulb
                 return;
 
             else if (deathMenu.activeInHierarchy)
-            {
-                deathMenu.GetComponentInChildren<GameOverMenu>().OnFire();
                 return;
-            }
 
             print(MasterAudio.PlaySound("Attack"));
 

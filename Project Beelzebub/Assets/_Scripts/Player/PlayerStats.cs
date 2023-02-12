@@ -197,7 +197,7 @@ namespace ProjectBeelzebub
         {
             transform.position = spawnLocation;
 
-            visuals.StartRespawn();
+            StartCoroutine(visuals.StartRespawn());
 
             health = maxHealth;
             hunger = 10;

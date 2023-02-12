@@ -22,11 +22,16 @@ namespace ProjectBeelzebub
 		[SerializeField] protected GameObject playerMenu;
 		[SerializeField] protected GameObject craftMenu;
 		[SerializeField] protected GameObject inventoryMenu;
+        [SerializeField] private GameObject gameOverMenu;
 
-		#region Menu
 
-		private void CycleMenus()
+        #region Menu
+
+        private void CycleMenus()
 		{
+
+			if(gameOverMenu.activeInHierarchy) 
+				selectedMenu = 0;
 
 			// Menu Off
 			if (selectedMenu == 0)

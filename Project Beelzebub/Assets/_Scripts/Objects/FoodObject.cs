@@ -39,7 +39,7 @@ namespace ProjectBeelzebub
 
         private void OnCollisionStay2D(Collision2D collision)
         {
-            if (collision.gameObject.tag == "Player")
+            if (collision.gameObject.tag == "Player" && isSpiky)
             {
                 spikeTimer += Time.deltaTime;
                 if (spikeTimer > spikeDamageCooldown)
