@@ -14,7 +14,5 @@ namespace ProjectBeelzebub
         {
             settings.SetActive(!settings.activeInHierarchy);
         }
-
-
     }
 }

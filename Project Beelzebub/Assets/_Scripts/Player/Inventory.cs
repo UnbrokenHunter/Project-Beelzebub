@@ -45,11 +45,16 @@ namespace ProjectBeelzebub
 
             InventoryItem item = inventory[selectedItem];
 
+            // Food
             if(item.type == InventoryItem.ItemType.Food)
             {
                 playerStats.AddHealth(item.heal);
                 playerStats.AddHunger(item.hunger);
                 playerStats.AddThirst(item.thirst);
+            }
+            else if(item.type == InventoryItem.ItemType.Weapon)
+            {
+                playerStats.weapon = item;
             }
 
             item.stackCount--;
