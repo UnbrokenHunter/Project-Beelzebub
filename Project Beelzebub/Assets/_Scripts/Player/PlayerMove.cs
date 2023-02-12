@@ -1,3 +1,4 @@
+using DarkTonic.MasterAudio;
 using ProjectBeelzebub;
 using Sirenix.OdinInspector;
 using Unity.VisualScripting;
@@ -67,13 +68,12 @@ namespace ProjectBeelzebulb
                 return;
             }
 
+            print(MasterAudio.PlaySound("Attack"));
+
             // Animation
             visuals.StartAttack();
 
-			RaycastHit2D hit = Physics2D.Raycast(attackOrigin.position, lastMovement, 
-                stats.attackRange, mask);
-
-            print($"Attacking: {hit.collider}");
+			RaycastHit2D hit = Physics2D.Raycast(attackOrigin.position, lastMovement, stats.attackRange, mask);
 
             if(hit.collider != null)
             {
@@ -89,7 +89,7 @@ namespace ProjectBeelzebulb
 				// Material
 				if (hit.collider.gameObject.tag == "Material")
 				{
-
+                    hit.collider.gameObject.GetComponent<FoodObject>().AddFood();
 				}
 
 			}
