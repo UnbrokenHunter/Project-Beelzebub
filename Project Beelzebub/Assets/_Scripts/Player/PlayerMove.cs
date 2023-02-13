@@ -20,7 +20,7 @@ namespace ProjectBeelzebulb
         [Title("Debug")]
         [SerializeField] private GameObject deathMenu;
         [SerializeField] private GameObject settingsMenu;
-        [SerializeField] private Vector2 movement;
+        [SerializeField] public Vector2 movement;
         [SerializeField] private Vector2 lastMovement;
         [SerializeField] private LayerMask mask;
 
