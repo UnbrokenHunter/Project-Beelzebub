@@ -9,7 +9,7 @@ namespace ProjectBeelzebub
     public class DealDamage : MonoBehaviour
     {
 
-        [SerializeField] private bool isSpiky = true;
+        [SerializeField] public bool isSpiky = true;
         [SerializeField] private float spikeDamage = 1;
         [SerializeField] private float spikeDamageCooldown = 1;
         [SerializeField] private string spikeSound = "Thorn";

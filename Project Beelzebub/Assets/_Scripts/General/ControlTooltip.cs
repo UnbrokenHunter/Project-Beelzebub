@@ -101,6 +101,9 @@ namespace ProjectBeelzebub
 
                 if (hit.collider.gameObject.tag == "Fire")
                 {
+
+                    GameManager.Instance.playerLookingAtFire = true;
+
                     attack.SetActive(true);
                     current = hit.collider.gameObject.GetComponent<FireScript>();
                     attack.GetComponent<RectTransform>().sizeDelta = new Vector2(attacksizeD.x, attacksizeD.y);
@@ -118,17 +121,31 @@ namespace ProjectBeelzebub
             else
             {
                 attack.SetActive(false);
-                if(current!= null) 
+                if(current!= null)
+                {
                     current.HidePopup();
+                    GameManager.Instance.playerLookingAtFire = false;
+                }
             }
         }
 
         public void CanInv()
         {
+
             bool canOpen = stats.GetComponent<Inventory>().CanOpenInv();
             if (canOpen)
             {
                 inv.SetActive(true);
+                
+                if(GameManager.Instance.playerLookingAtFire)
+                {
+                    inv.GetComponentInChildren<TMP_Text>().text = "Sleep:";
+                }
+                else
+                {
+                    inv.GetComponentInChildren<TMP_Text>().text = "Inventory::";
+                }
+
             }
             else { inv.SetActive(false); }
         }

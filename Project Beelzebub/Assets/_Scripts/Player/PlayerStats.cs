@@ -178,7 +178,7 @@ namespace ProjectBeelzebub
         {
             thirstCount += Time.deltaTime;
 
-            if (thirstCount > hungerTimer)
+            if (thirstCount > thirstTimer)
             {
                 thirstCount = 0;
                 thirst -= 1 * thirstMultiplier;

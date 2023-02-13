@@ -67,7 +67,7 @@ namespace ProjectBeelzebub
 
         public void PutOut()
         {
-            GetComponent<DealDamage>().enabled = false;
+            GetComponent<DealDamage>().isSpiky = false;
             fireActive = false;
             GameManager.Instance.CheckFire();
             
@@ -79,7 +79,7 @@ namespace ProjectBeelzebub
         {
             fireLife = fuelMultiplier * fuel;
 
-            GetComponent<DealDamage>().enabled = true;
+            GetComponent<DealDamage>().isSpiky = true;
             
             fireTimer = 0;
             fireActive = true;

@@ -16,6 +16,13 @@ namespace ProjectBeelzebub
 
         [SerializeField, LabelText("Time until rescue")] private float islandTime = 0;
 
+        [Title("Fire")]
+        public bool playerLookingAtFire;
+
+        [Title("Sleep")]
+        [SerializeField] private float sleepCooldown = 10f;
+        [SerializeField] private float sleepTimer = 0;
+
         private void Awake()
         {
             if (Instance == null)
@@ -32,12 +39,29 @@ namespace ProjectBeelzebub
         private void Update()
         {
             islandTime += Time.deltaTime * (isFireRunning ? fireMultiplier : 1);
+            sleepTimer += Time.deltaTime;
 
-            if(islandTime > rescueTime)
+            if (islandTime > rescueTime)
             {
                 Rescue();
             }
         }
+
+        #region Sleep
+
+        public void Sleep()
+        {
+            if(sleepTimer > sleepCooldown)
+            {
+                sleepTimer = 0;
+
+                print("Sleep");
+            }    
+        }
+
+        #endregion
+
+        #region Fire
 
         public void CheckFire()
         {
@@ -57,10 +81,16 @@ namespace ProjectBeelzebub
                 isFireRunning = false;
         }
 
+        #endregion
+
+        #region Rescue
+
         private void Rescue()
         {
 
         }
+
+        #endregion
 
     }
 }

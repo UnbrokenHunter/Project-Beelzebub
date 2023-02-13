@@ -46,6 +46,13 @@ namespace ProjectBeelzebub
 			else if (settingsMenu.activeInHierarchy)
 				selectedMenu = 0;
 
+			if(GameManager.Instance.playerLookingAtFire)
+			{
+				selectedMenu = 0;
+
+				GameManager.Instance.Sleep();
+			}
+
 			// Menu Off
 			if (selectedMenu == 0)
 			{
