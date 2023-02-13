@@ -25,20 +25,9 @@ namespace ProjectBeelzebub
             }
         }
 
-        public async void LoadScene(string sceneName)
+        public void LoadScene(string sceneName)
         {
-            var scene = SceneManager.LoadSceneAsync(sceneName);
-            scene.allowSceneActivation = false;
-        
-            _loaderCanvas.SetActive(true);
-
-            do
-            {
-                _progressBar.fillAmount = scene.progress;
-            } while (scene.progress < 0.9f);
-
-            scene.allowSceneActivation = true;
-            _loaderCanvas.SetActive(false);
+            SceneManager.LoadScene (sceneName);
         }
 
     }

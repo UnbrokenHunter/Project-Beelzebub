@@ -2380,6 +2380,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings: {fileID: 5563411291564417927}
   deathMenu: {fileID: 0}
+  playerUI: {fileID: 0}
+  ui: {fileID: 0}
 --- !u!1 &5563411290741030609
 GameObject:
   m_ObjectHideFlags: 0
@@ -3616,11 +3618,17 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
+    - m_Text: Very Low
+      m_Image: {fileID: 0}
     - m_Text: Low
       m_Image: {fileID: 0}
     - m_Text: Medium
       m_Image: {fileID: 0}
     - m_Text: High
+      m_Image: {fileID: 0}
+    - m_Text: Very High
+      m_Image: {fileID: 0}
+    - m_Text: Ultra
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
