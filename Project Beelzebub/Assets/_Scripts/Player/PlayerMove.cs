@@ -13,6 +13,7 @@ namespace ProjectBeelzebulb
 
         [Title("Stats")]
         [SerializeField] private PlayerStats stats;
+        [SerializeField] private Inventory inv;
         [SerializeField] private PlayerVisuals visuals;
 		[SerializeField] private Transform attackOrigin;
 
@@ -22,6 +23,10 @@ namespace ProjectBeelzebulb
         [SerializeField] private Vector2 movement;
         [SerializeField] private Vector2 lastMovement;
         [SerializeField] private LayerMask mask;
+
+        [Title("Fire")]
+        [SerializeField] private InventoryItem fuel;
+        [SerializeField] private InventoryItem starter;
 
 
         private Rigidbody2D rb;
@@ -67,6 +72,8 @@ namespace ProjectBeelzebulb
             if(hit.collider != null)
             {
 
+                // Click previews in ControlTooltips.cs
+
                 // Attackable
                 if (hit.collider.gameObject.tag == "Enemy")
                 {
@@ -81,9 +88,29 @@ namespace ProjectBeelzebulb
                     hit.collider.gameObject.GetComponent<FoodObject>().AddFood();
 				}
 
-			}
+                // Fire
+                if (hit.collider.gameObject.tag == "Fire")
+                {
+                    print("Fire");
 
-		}
+                    if(hit.collider.gameObject.GetComponent<FireScript>().fireActive && inv.CheckMaterial(fuel) > 0)
+                    {
+                        inv.RemoveItem(fuel, 1);
+                        hit.collider.gameObject.GetComponent<FireScript>().AddFuel(1);
+                    }
+                    else if (inv.CheckMaterial(fuel) > 0 && inv.CheckMaterial(starter) > 0)
+                    {
+                        inv.RemoveItem(fuel, 1);
+
+                        hit.collider.gameObject.GetComponent<FireScript>().StartFire(1);
+                    }
+
+                }
+
+
+            }
+
+        }
 
         public Vector2 GetMovement()
         {

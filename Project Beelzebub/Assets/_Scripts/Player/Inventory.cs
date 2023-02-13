@@ -25,6 +25,11 @@ namespace ProjectBeelzebub
         [SerializeField] private GameObject dropsContainer;
         [SerializeField] protected GameObject itemPrefab;
 
+        [Title("Fire")]
+        [SerializeField] private GameObject firePrefab;
+        [SerializeField] private Vector3 fireOffset;
+
+
         #region Short Methods
 
         private void Awake() => inventory.Clear();
@@ -51,18 +56,26 @@ namespace ProjectBeelzebub
                 playerStats.AddHealth(item.heal);
                 playerStats.AddHunger(item.hunger);
                 playerStats.AddThirst(item.thirst);
+
+                RemoveItem(item, 1);
+
             }
+
             else if(item.type == InventoryItem.ItemType.Weapon)
             {
                 playerStats.weapon = item;
+
+                RemoveItem(item, 1);
             }
 
-            item.stackCount--;
-
-            if(item.stackCount <= 0)
+            else if (item.name == "Fire")
             {
-                inventory.RemoveAt(selectedItem);
+                GameObject fire = Instantiate(firePrefab);
+            
+                fire.transform.position = transform.position  + fireOffset;
             }
+
+
 
             print(MasterAudio.PlaySound(item.useSound));
 
@@ -132,10 +145,10 @@ namespace ProjectBeelzebub
 
         }
 
-		#endregion 
+        #endregion
 
-		#region Public Methods
-		
+        #region Public Methods
+
         public void DropItems()
         {
 

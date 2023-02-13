@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ProjectBeelzebub
 {
@@ -25,8 +26,16 @@ namespace ProjectBeelzebub
         [Title("Settings")]
         [SerializeField] private OpenSettings settingsContainer;
 
+        [Title("Move")]
         [SerializeField] private Vector2 originalSizeD;
         [SerializeField] private Vector2 sizeD;
+
+        [Title("Attack")]
+        [SerializeField] private Vector2 attackoriginalSizeD;
+        [SerializeField] private Vector2 attacksizeD;
+        [SerializeField] private float oldSpace;
+        [SerializeField] private float newSpace;
+        [SerializeField] private FireScript current;
 
         private void FixedUpdate()
         {
@@ -71,12 +80,13 @@ namespace ProjectBeelzebub
             if (hit.collider != null)
             {
 
-                print(hit.collider.gameObject.name);
-
                 // Attackable
                 if (hit.collider.gameObject.tag == "Enemy")
                 {
                     attack.SetActive(true);
+                    attack.GetComponent<HorizontalLayoutGroup>().spacing = oldSpace;
+                    attack.GetComponent<RectTransform>().sizeDelta = new Vector2(attackoriginalSizeD.x, attackoriginalSizeD.y);
+
                     attack.GetComponentInChildren<TMP_Text>().text = "Attack:";
                 }
 
@@ -84,13 +94,32 @@ namespace ProjectBeelzebub
                 if (hit.collider.gameObject.tag == "Material")
                 {
                     attack.SetActive(true);
-                    attack.GetComponentInChildren<TMP_Text>().text = "Collect";
+                    attack.GetComponent<RectTransform>().sizeDelta = new Vector2(attackoriginalSizeD.x, attackoriginalSizeD.y);
+                    attack.GetComponent<HorizontalLayoutGroup>().spacing = oldSpace;
+                    attack.GetComponentInChildren<TMP_Text>().text = "Collect:";
+                }
+
+                if (hit.collider.gameObject.tag == "Fire")
+                {
+                    attack.SetActive(true);
+                    current = hit.collider.gameObject.GetComponent<FireScript>();
+                    attack.GetComponent<RectTransform>().sizeDelta = new Vector2(attacksizeD.x, attacksizeD.y);
+                    attack.GetComponent<HorizontalLayoutGroup>().spacing = newSpace;
+
+                    if (hit.collider.gameObject.GetComponent<FireScript>().fireActive)
+                        attack.GetComponentInChildren<TMP_Text>().text = "Add Fuel:";
+                    else
+                        attack.GetComponentInChildren<TMP_Text>().text = "Start Fire:";
+
+                    hit.collider.gameObject.GetComponent<FireScript>().ShowPopup();
                 }
 
             }
             else
             {
                 attack.SetActive(false);
+                if(current!= null) 
+                    current.HidePopup();
             }
         }
 

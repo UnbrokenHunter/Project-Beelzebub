@@ -18,7 +18,7 @@ namespace ProjectBeelzebub
         [SerializeField] private bool isSpiky = true;
         [SerializeField] private float spikeDamage = 1;
         [SerializeField] private float spikeDamageCooldown = 1;
-        [SerializeField] private string spikeSound = "Thorn+";
+        [SerializeField] private string spikeSound = "Thorn";
 
         private float spikeTimer = 100;
 
