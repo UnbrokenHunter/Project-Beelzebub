@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace ProjectBeelzebub
@@ -10,20 +11,13 @@ namespace ProjectBeelzebub
     {
 
         [SerializeField] private List<string> texts;
+        [SerializeField] private List<UnityEvent> events; 
         [SerializeField] private Sprite portrait;
         [SerializeField] private GameObject dialogue;
 		[SerializeField] private TMP_Text text;
 		[SerializeField] private Image image;
-		[SerializeField] private float showNextCooldown;
-        private float timer;
 
         [SerializeField] private int currentSellected;
-
-        private void Update()
-        {
-            timer += Time.deltaTime;
-
-        }
 
 		public void ShowDialogue()
         {
@@ -40,9 +34,6 @@ namespace ProjectBeelzebub
 
 		public void ShowNext()
         {
-            if (timer < showNextCooldown) return;
-				timer = 0;
-
 			currentSellected++;
 
             print("Next Dia");
@@ -51,8 +42,9 @@ namespace ProjectBeelzebub
                 currentSellected = 0;
 
 			text.text = texts[currentSellected];
+            events[currentSellected].Invoke();
 
-		}
+        }
 
 	}
 }

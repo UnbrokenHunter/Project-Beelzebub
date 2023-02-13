@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
@@ -14,12 +15,16 @@ namespace ProjectBeelzebub
 
         [Title("Rescue")]
         [SerializeField] private float rescueTime = 100f;
-        [SerializeField] public bool isFireRunning = false;
-        [SerializeField] private float fireMultiplier = 5;
 
         [SerializeField, LabelText("Time until rescue")] private float islandTime = 0;
+        [SerializeField] private GameObject officer;
+        [SerializeField] private Vector3 officerOffset;
+        [SerializeField] private bool officerSpawned = false;
+        [SerializeField] private GameObject EndGameMenu;
 
         [Title("Fire")]
+        [SerializeField] public bool isFireRunning = false;
+        [SerializeField] private float fireMultiplier = 5;
         public bool playerLookingAtFire;
 
         [Title("Dialogue")]
@@ -27,8 +32,8 @@ namespace ProjectBeelzebub
         public Dialogue dialogue;
 
         [Title("Sleep")]
-        [SerializeField] private float sleepCooldown = 10f;
-        [SerializeField] private float sleepTimer = 0;
+        [SerializeField] public float sleepCooldown = 10f;
+        [SerializeField] public float sleepTimer = 0;
         [SerializeField] private Animator fade;
         [SerializeField] private DayNight day;
 
@@ -48,11 +53,12 @@ namespace ProjectBeelzebub
         private void Update()
         {
             islandTime += Time.deltaTime * (isFireRunning ? fireMultiplier : 1);
-            sleepTimer += Time.deltaTime;
+            sleepTimer += Time.unscaledDeltaTime;
 
             if (islandTime > rescueTime)
             {
-                Rescue();
+                if (!officerSpawned)
+                    Rescue();
             }
         }
 
@@ -60,7 +66,7 @@ namespace ProjectBeelzebub
 
         public void Sleep()
         {
-            if(sleepTimer > sleepCooldown)
+            if (sleepTimer > sleepCooldown)
             {
                 sleepTimer = 0;
 
@@ -68,35 +74,35 @@ namespace ProjectBeelzebub
 
                 day.StartSleep();
                 stats.sleep = stats.maxSleep;
-				print("Sleep");
-            }    
+                print("Sleep");
+            }
         }
 
-		#endregion
+        #endregion
 
-		#region Dialogue
+        #region Dialogue
 
 
 
-		#endregion
+        #endregion
 
-		#region Fire
+        #region Fire
 
-		public void CheckFire()
+        public void CheckFire()
         {
             bool anyActive = false;
             for (int i = 0; i < transform.childCount; i++) {
 
                 transform.GetChild(i).TryGetComponent(out FireScript fire);
-                
-                if(fire != null )
+
+                if (fire != null)
                 {
-                    if(fire.fireActive) anyActive = true;
+                    if (fire.fireActive) anyActive = true;
                 }
 
             }
 
-            if(!anyActive)
+            if (!anyActive)
                 isFireRunning = false;
         }
 
@@ -104,12 +110,43 @@ namespace ProjectBeelzebub
 
         #region Rescue
 
+        [Button]
         private void Rescue()
         {
+            officer.transform.position = officerOffset;
+            officerSpawned = true;
 
+            GetComponent<Dialogue>().ShowDialogue();
+
+            StartCoroutine(waitDialogue());
+
+        }
+
+        private IEnumerator waitDialogue()
+        {
+            yield return new WaitForSeconds(10);
+            GetComponent<Dialogue>().HideDialogue();
+        }
+
+        public void EndGame()
+        {
+            fade.SetTrigger("go");
+
+            StartCoroutine(waitForEnd());
+        }
+
+        private IEnumerator waitForEnd()
+        {
+            yield return new WaitForSeconds(4);
+            EndGameMenu.SetActive(true);
         }
 
         #endregion
 
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawCube(officerOffset, Vector3.one);
+        }
     }
 }

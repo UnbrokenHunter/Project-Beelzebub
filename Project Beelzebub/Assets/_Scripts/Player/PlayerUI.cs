@@ -17,18 +17,28 @@ namespace ProjectBeelzebub
 		[SerializeField] protected UnityEvent fire;
 		[SerializeField] protected UnityEvent move;
 		[SerializeField] protected Vector2 input;
+        [SerializeField] private float showNextCooldown;
+        private float timer;
 
-		[Title("UI")]
+
+
+        [Title("UI")]
 		[SerializeField] protected GameObject playerMenu;
 		[SerializeField] protected GameObject craftMenu;
 		[SerializeField] protected GameObject inventoryMenu;
         [SerializeField] private GameObject gameOverMenu;
         [SerializeField] private GameObject settingsMenu;
 
+        private void Update()
+        {
+            timer += Time.deltaTime;
+
+        }
+
 
         #region Menu
 
-		public bool CanOpenInv()
+        public bool CanOpenInv()
 		{
 			if (gameOverMenu.activeInHierarchy)
 				return false;
@@ -41,7 +51,7 @@ namespace ProjectBeelzebub
         public void CycleMenus()
 		{
 
-			if (gameOverMenu.activeInHierarchy)
+            if (gameOverMenu.activeInHierarchy)
 				selectedMenu = 0;
 			else if (settingsMenu.activeInHierarchy)
 				selectedMenu = 0;
@@ -111,8 +121,11 @@ namespace ProjectBeelzebub
 		{
 			if (!playerMenu.activeInHierarchy) return;
 
+            if (timer < showNextCooldown) return;
+            timer = 0;
 
-			lastInput = curInput;
+
+            lastInput = curInput;
 			curInput = input;
 
 			// if (IsInputDifferecnce()) return;

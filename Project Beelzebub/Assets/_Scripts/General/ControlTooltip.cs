@@ -119,7 +119,14 @@ namespace ProjectBeelzebub
 
                 if (hit.collider.gameObject.tag == "NPC")
                 {
-					GameManager.Instance.playerLookingAtDialogue = true;
+                    attack.SetActive(true);
+                    attack.GetComponent<HorizontalLayoutGroup>().spacing = oldSpace;
+                    attack.GetComponent<RectTransform>().sizeDelta = new Vector2(attackoriginalSizeD.x, attackoriginalSizeD.y);
+
+                    attack.GetComponentInChildren<TMP_Text>().text = "Attack:";
+
+
+                    GameManager.Instance.playerLookingAtDialogue = true;
 					GameManager.Instance.dialogue = hit.collider.gameObject.GetComponent<Dialogue>();
 
                     GameManager.Instance.dialogue.ShowDialogue();

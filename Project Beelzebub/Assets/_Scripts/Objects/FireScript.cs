@@ -22,6 +22,7 @@ namespace ProjectBeelzebub
         [SerializeField] private GameObject popup;
         [SerializeField] private Image materialImage;
         [SerializeField] private TMP_Text firetext;
+        [SerializeField] private TMP_Text sleeptext;
 
         public bool fireActive = false;
 
@@ -34,6 +35,15 @@ namespace ProjectBeelzebub
 
         private void Update()
         {
+            if (GameManager.Instance.sleepCooldown - GameManager.Instance.sleepTimer > 0)
+            {
+                sleeptext.text = $"{(GameManager.Instance.sleepCooldown - GameManager.Instance.sleepTimer).ToString("0.00")} Seconds Left";
+
+            }
+            else
+            {
+                sleeptext.text = "Ready";
+            }
             if (!fireActive) return;
 
             fireTimer += Time.deltaTime;
@@ -44,6 +54,7 @@ namespace ProjectBeelzebub
             }
 
             firetext.text = $"{(fireLife - fireTimer).ToString("0.00")} Seconds Left";
+
         }
 
         public void ShowPopup()
@@ -90,6 +101,5 @@ namespace ProjectBeelzebub
 
             anim.SetBool("enabled", true);
         }
-
     }
 }
