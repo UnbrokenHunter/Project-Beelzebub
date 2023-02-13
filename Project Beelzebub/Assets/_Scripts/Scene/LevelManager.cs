@@ -1,8 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Sirenix.OdinInspector;
-using UnityEditor.Sequences;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
