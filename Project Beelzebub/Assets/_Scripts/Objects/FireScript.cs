@@ -69,6 +69,8 @@ namespace ProjectBeelzebub
         {
             GetComponent<DealDamage>().enabled = false;
             fireActive = false;
+            GameManager.Instance.CheckFire();
+            
             print("Fire Out");
             anim.SetBool("enabled", false);
         }
@@ -81,6 +83,8 @@ namespace ProjectBeelzebub
             
             fireTimer = 0;
             fireActive = true;
+            GameManager.Instance.isFireRunning = true;
+
 
             print("Start Fire");
 

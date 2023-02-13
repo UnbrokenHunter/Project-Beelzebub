@@ -70,7 +70,7 @@ namespace ProjectBeelzebub
 
             else if (item.name == "Fire")
             {
-                GameObject fire = Instantiate(firePrefab);
+                GameObject fire = Instantiate(firePrefab, GameManager.Instance.transform);
             
                 fire.transform.position = transform.position  + fireOffset;
             }
