@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 namespace ProjectBeelzebub
@@ -8,6 +9,8 @@ namespace ProjectBeelzebub
     public class GameManager : MonoBehaviour
     {
         public static GameManager Instance;
+
+        [SerializeField] private PlayerStats stats;
 
         [Title("Rescue")]
         [SerializeField] private float rescueTime = 100f;
@@ -19,9 +22,15 @@ namespace ProjectBeelzebub
         [Title("Fire")]
         public bool playerLookingAtFire;
 
+        [Title("Dialogue")]
+        public bool playerLookingAtDialogue;
+        public Dialogue dialogue;
+
         [Title("Sleep")]
         [SerializeField] private float sleepCooldown = 10f;
         [SerializeField] private float sleepTimer = 0;
+        [SerializeField] private Animator fade;
+        [SerializeField] private DayNight day;
 
         private void Awake()
         {
@@ -55,15 +64,25 @@ namespace ProjectBeelzebub
             {
                 sleepTimer = 0;
 
-                print("Sleep");
+                fade.SetTrigger("go");
+
+                day.StartSleep();
+                stats.sleep = stats.maxSleep;
+				print("Sleep");
             }    
         }
 
-        #endregion
+		#endregion
 
-        #region Fire
+		#region Dialogue
 
-        public void CheckFire()
+
+
+		#endregion
+
+		#region Fire
+
+		public void CheckFire()
         {
             bool anyActive = false;
             for (int i = 0; i < transform.childCount; i++) {

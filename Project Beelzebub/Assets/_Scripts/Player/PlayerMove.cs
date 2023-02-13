@@ -107,6 +107,16 @@ namespace ProjectBeelzebulb
 
                 }
 
+                if (hit.collider.gameObject.tag == "NPC")
+                {
+                    hit.collider.gameObject.TryGetComponent(out Littlun little);
+
+                    if (little != null)
+                    {
+                        little.Attacked();
+                    }
+
+				}
 
             }
 

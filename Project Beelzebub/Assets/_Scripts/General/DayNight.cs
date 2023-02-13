@@ -28,16 +28,34 @@ namespace ProjectBeelzebub
 		[SerializeField] private float intensity = 1;
 		[SerializeField] private float min = 1;
 		[SerializeField] private Light2D light2D;
+		[SerializeField] private float sleepMultVar = 1;
+		[SerializeField] private float sleepMult = 1;
 
+		[SerializeField] private float sleepTime = 3;
 		[SerializeField] private float timer = 0;
+
+		public void StartSleep()
+		{
+			StartCoroutine(SleepSleep());
+		}
+
+
+		private IEnumerator SleepSleep()
+		{
+			sleepMult = sleepMultVar;
+
+			yield return new WaitForSeconds(sleepTime);
+
+			sleepMult = 1;
+		}
 
 		private void Update()
 		{
 			if (isDay)
-				timer += Time.deltaTime * sunRiseSpeed * dayCurve.Evaluate(timer);
+				timer += Time.deltaTime * sunRiseSpeed * dayCurve.Evaluate(timer) * sleepMult;
 
 			else
-				timer -= Time.deltaTime * sunSetSpeed * dayCurve.Evaluate(timer);
+				timer -= Time.deltaTime * sunSetSpeed * dayCurve.Evaluate(timer) * sleepMult;
 
 
 			if (timer > dayNightLength)

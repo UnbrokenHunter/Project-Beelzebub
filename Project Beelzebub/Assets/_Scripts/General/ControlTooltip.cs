@@ -117,16 +117,33 @@ namespace ProjectBeelzebub
                     hit.collider.gameObject.GetComponent<FireScript>().ShowPopup();
                 }
 
-            }
+                if (hit.collider.gameObject.tag == "NPC")
+                {
+					GameManager.Instance.playerLookingAtDialogue = true;
+					GameManager.Instance.dialogue = hit.collider.gameObject.GetComponent<Dialogue>();
+
+                    GameManager.Instance.dialogue.ShowDialogue();
+				}
+			}
             else
             {
                 attack.SetActive(false);
-                if(current!= null)
+
+                // So you can disable things afterwards
+                if(current != null)
                 {
                     current.HidePopup();
-                    GameManager.Instance.playerLookingAtFire = false;
-                }
-            }
+					GameManager.Instance.playerLookingAtFire = false;
+				}
+
+                if(GameManager.Instance.dialogue != null)
+                {
+                   GameManager.Instance.dialogue.HideDialogue();
+
+					GameManager.Instance.playerLookingAtDialogue = false;
+                    GameManager.Instance.dialogue = null;
+			    }
+			}
         }
 
         public void CanInv()
@@ -141,9 +158,13 @@ namespace ProjectBeelzebub
                 {
                     inv.GetComponentInChildren<TMP_Text>().text = "Sleep:";
                 }
-                else
+				else if (GameManager.Instance.dialogue != null)
+				{
+					inv.GetComponentInChildren<TMP_Text>().text = "Talk:";
+				}
+				else
                 {
-                    inv.GetComponentInChildren<TMP_Text>().text = "Inventory::";
+                    inv.GetComponentInChildren<TMP_Text>().text = "Inventory:";
                 }
 
             }

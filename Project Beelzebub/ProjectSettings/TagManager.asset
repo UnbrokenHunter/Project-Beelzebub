@@ -8,6 +8,7 @@ TagManager:
   - Material
   - Build
   - Fire
+  - NPC
   layers:
   - Default
   - TransparentFX

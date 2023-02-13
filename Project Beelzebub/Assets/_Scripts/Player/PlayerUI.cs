@@ -53,6 +53,15 @@ namespace ProjectBeelzebub
 				GameManager.Instance.Sleep();
 			}
 
+			else if (GameManager.Instance.playerLookingAtDialogue)
+			{
+				selectedMenu = 0;
+
+				GameManager.Instance.dialogue.ShowNext();
+			}
+
+
+
 			// Menu Off
 			if (selectedMenu == 0)
 			{
