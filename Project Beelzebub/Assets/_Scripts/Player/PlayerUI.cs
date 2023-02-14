@@ -134,8 +134,8 @@ namespace ProjectBeelzebub
 			// if (IsInputDifferecnce()) return;
 
 			// Movement
-			move.Invoke();
 			input = value.Get<Vector2>();
+			move.Invoke();
 			
 		}
 
