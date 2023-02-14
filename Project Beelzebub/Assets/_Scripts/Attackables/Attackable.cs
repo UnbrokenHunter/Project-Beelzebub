@@ -93,7 +93,6 @@ namespace ProjectBeelzebub
 
             StartCoroutine(DeathDelay());
 
-
 		}
         private IEnumerator DeathDelay()
         {

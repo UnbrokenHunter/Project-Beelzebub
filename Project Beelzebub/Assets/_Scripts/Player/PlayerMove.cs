@@ -21,7 +21,7 @@ namespace ProjectBeelzebulb
         [SerializeField] private GameObject deathMenu;
         [SerializeField] private GameObject settingsMenu;
         [SerializeField] public Vector2 movement;
-        [SerializeField] private Vector2 lastMovement;
+        [SerializeField] public Vector2 lastMovement;
         [SerializeField] private LayerMask mask;
 
         [Title("Fire")]
@@ -62,7 +62,7 @@ namespace ProjectBeelzebulb
             else if (deathMenu.activeInHierarchy)
                 return;
 
-            print(MasterAudio.PlaySound("Attack"));
+            print(MasterAudio.PlaySound("attack"));
 
             // Animation
             visuals.StartAttack();

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEditor;
 
 namespace ProjectBeelzebub
 {
@@ -11,6 +12,7 @@ namespace ProjectBeelzebub
     {
         public InventoryItem stats;
         [SerializeField] private Image thisImage;
+        [SerializeField] private Image highlight;
 
         public GameObject count;
 
@@ -45,7 +47,7 @@ namespace ProjectBeelzebub
         public void UnsetTooltip()
         {
             Tooltip.SetActive(false);
-
+            highlight.enabled = false;
             thisImage.enabled = true;
         }
 
@@ -54,6 +56,8 @@ namespace ProjectBeelzebub
             Tooltip.SetActive(true);
 
             thisImage.enabled = false;
+
+            highlight.enabled = true;
 
             image.GetComponent<Image>().sprite = stats.sprite;
 

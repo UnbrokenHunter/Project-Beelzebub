@@ -21,6 +21,8 @@ namespace ProjectBeelzebub
 
 		public void ShowDialogue()
         {
+            if (dialogue.activeInHierarchy != false) return;
+
             dialogue.SetActive(true);
 			image.sprite = portrait;
 
@@ -38,11 +40,13 @@ namespace ProjectBeelzebub
 
             print("Next Dia");
 
-            if(currentSellected > texts.Count - 1)
+            if(currentSellected > texts.Count)
                 currentSellected = 0;
-
-			text.text = texts[currentSellected];
-            events[currentSellected].Invoke();
+            if(texts.Count > currentSellected)
+			    text.text = texts[currentSellected];
+            
+            if (events.Count > currentSellected)
+                events[currentSellected].Invoke();
 
         }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DarkTonic.MasterAudio;
 using ProjectBeelzebulb;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -15,8 +16,14 @@ namespace ProjectBeelzebub
         [Title("Other")]
         [SerializeField] private Animator anim;
         [SerializeField] private SpriteRenderer rend;
+        private Rigidbody2D rb;
 
         private Vector2 lastDir;
+
+        private void Awake()
+        {
+            rb = GetComponentInParent<Rigidbody2D>();
+        }
 
         private void Update()
         {
@@ -25,15 +32,15 @@ namespace ProjectBeelzebub
 
         }
 
-        private Vector2 GetMovement()
+        public void PlayFootsteps()
         {
-            return GetComponentInParent<PlayerMove>().movement;
+            MasterAudio.PlaySound("Footstep");
         }
 
         private void SetAnimations()
         {
             // Direction
-            Vector2 velo = GetMovement();
+            Vector2 velo = rb.velocity;
 
             if (Mathf.Abs(velo.x) < minMovement) velo = new Vector2(0, velo.y);
             if (Mathf.Abs(velo.y) < minMovement) velo = new Vector2(velo.x, 0);

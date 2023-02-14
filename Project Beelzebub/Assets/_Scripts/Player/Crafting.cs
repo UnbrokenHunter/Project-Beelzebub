@@ -1,3 +1,4 @@
+using DarkTonic.MasterAudio;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -101,6 +102,8 @@ namespace ProjectBeelzebub
 
             // Add Item (Or not if there is no space)
             if(!inv.AddItem(craft.outcomeItem)) return;
+
+            MasterAudio.PlaySound("Craft");
 
             // Remove Resources 
             // Remove Material One

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DarkTonic.MasterAudio;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -81,8 +82,8 @@ namespace ProjectBeelzebub
             GetComponent<DealDamage>().isSpiky = false;
             fireActive = false;
             GameManager.Instance.CheckFire();
-            
-            print("Fire Out");
+
+            MasterAudio.StopPlaylist("Fire");
             anim.SetBool("enabled", false);
         }
 
@@ -96,8 +97,8 @@ namespace ProjectBeelzebub
             fireActive = true;
             GameManager.Instance.isFireRunning = true;
 
+            MasterAudio.StartPlaylist("Fire", "FirePlaylist");
 
-            print("Start Fire");
 
             anim.SetBool("enabled", true);
         }

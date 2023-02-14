@@ -118,8 +118,9 @@ MonoBehaviour:
   health: 5
   speedBoost: 1
   panicTimer: 20
-  hitSound: 
-  killSound: 
+  deathDelay: 1
+  hitSound: PigHit
+  killSound: PigKill
   playerInventory: {fileID: 0}
   visuals: {fileID: 1362388689}
   run: {fileID: 5553565134525085080}

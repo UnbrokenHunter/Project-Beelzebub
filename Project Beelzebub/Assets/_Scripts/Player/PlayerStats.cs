@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DarkTonic.MasterAudio;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
@@ -115,6 +116,9 @@ namespace ProjectBeelzebub
         public void RemoveHealth(float amount)
         {
             health -= amount;
+
+            MasterAudio.PlaySound("Hurt");
+
 
             UpdateSliders();
 

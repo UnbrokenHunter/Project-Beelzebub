@@ -17,7 +17,7 @@ namespace ProjectBeelzebub
         [SerializeField] private int inventorySize = 10;
         [SerializeField] private List<InventoryItem> inventory = new();
         [SerializeField] private List<GameObject> inventoryObjects = new();
-        private int selectedItem = 0;
+        [SerializeField] private int selectedItem = 0;
 
         [Title("UI")]
         [SerializeField] private ToastManager toast;

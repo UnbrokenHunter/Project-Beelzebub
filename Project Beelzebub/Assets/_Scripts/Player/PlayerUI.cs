@@ -1,3 +1,4 @@
+using DarkTonic.MasterAudio;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -70,6 +71,8 @@ namespace ProjectBeelzebub
 				GameManager.Instance.dialogue.ShowNext();
 			}
 
+
+			MasterAudio.PlaySound("OpenInventory");
 
 
 			// Menu Off
