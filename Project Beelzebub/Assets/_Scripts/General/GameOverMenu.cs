@@ -105,6 +105,7 @@ namespace ProjectBeelzebub
                 if(movement == Vector2.zero)
                     canMove = true;
             }
+
         }
 
         public void OnMove(InputValue value) => Move(value.Get<Vector2>());
