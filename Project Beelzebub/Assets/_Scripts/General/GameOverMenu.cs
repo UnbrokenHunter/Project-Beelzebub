@@ -15,6 +15,7 @@ namespace ProjectBeelzebub
         [Title("Game Specific")]
         [SerializeField] private GameObject menu;
         [SerializeField] private PlayerStats stats;
+        [SerializeField] private CapsuleCollider2D col;
 
         [Title("General")]
         [SerializeField] private int elementCount;
@@ -46,7 +47,7 @@ namespace ProjectBeelzebub
         public void Respawn()
         {
             stats.Reset();
-
+            col.enabled = transform;
             menu.SetActive(false);
         }
 

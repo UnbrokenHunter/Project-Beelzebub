@@ -18,6 +18,7 @@ namespace ProjectBeelzebub
         [SerializeField] public InventoryItem weapon;
         [SerializeField] public Color darkness;
         [SerializeField] private GameObject gameOverMenu;
+        [SerializeField] private CapsuleCollider2D col;
 
 
 		[Title("Speed")]
@@ -27,8 +28,9 @@ namespace ProjectBeelzebub
 		[SerializeField, FoldoutGroup("Speed")] public float deceleration = 60;
 
 		[Title("Attack")]
-		[SerializeField, FoldoutGroup("Attack")] public float attackRange = 2;
-		[SerializeField, FoldoutGroup("Attack")] public float attackMultiplier = 5;
+        [SerializeField, FoldoutGroup("Attack")] public float attackRange = 2;
+        [SerializeField, FoldoutGroup("Attack")] public float attackCooldown = 2;
+        [SerializeField, FoldoutGroup("Attack")] public float attackMultiplier = 5;
 
 
 		[Title("Health")]
@@ -117,13 +119,13 @@ namespace ProjectBeelzebub
         {
             health -= amount;
 
-            MasterAudio.PlaySound("Hurt");
-
 
             UpdateSliders();
 
-            if (health < 0)
+            if (health <= 0)
                 KillPlayer();
+            else
+                MasterAudio.PlaySound("Hurt");
             
 		}
 
@@ -138,11 +140,19 @@ namespace ProjectBeelzebub
         private void KillPlayer()
         {
             print("Die");
+            col.enabled = false;
 
             visuals.StartDeath();
 
+            print(MasterAudio.PlaySound("Player Die"));
+
+            StartCoroutine(deathDelay());
+        }
+
+        private IEnumerator deathDelay()
+        {
+            yield return new WaitForSeconds(1);
             GetComponent<Inventory>().DropItems();
-            
             gameOverMenu.SetActive(true);
         }
 
@@ -207,6 +217,9 @@ namespace ProjectBeelzebub
             hunger = 10;
             thirst = 10;
             sleep = 10;
+
+            UpdateSliders();
+            GetComponent<Inventory>().UpdateInventory();
         }
 
         private void Start() => ResetUI();

@@ -30,6 +30,9 @@ namespace ProjectBeelzebub
         [SerializeField] private GameObject gameOverMenu;
         [SerializeField] private GameObject settingsMenu;
 
+        private Vector2 curInput = Vector2.zero;
+        private Vector2 lastInput = Vector2.zero;
+
         private void Update()
         {
             timer += Time.deltaTime;
@@ -131,28 +134,11 @@ namespace ProjectBeelzebub
             lastInput = curInput;
 			curInput = input;
 
-			// if (IsInputDifferecnce()) return;
-
 			// Movement
 			input = value.Get<Vector2>();
 			move.Invoke();
 			
 		}
-
-		#endregion
-
-		#region Helpers
-
-		private Vector2 curInput = Vector2.zero;
-		private Vector2 lastInput = Vector2.zero;
-		private bool IsInputDifferecnce()
-		{
-			if (curInput == Vector2.zero) return false;
-
-			if (lastInput.x == curInput.x) return false;
-			else return true;
-		}
-
 
 		#endregion
 

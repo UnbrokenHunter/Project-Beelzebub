@@ -25,9 +25,13 @@ namespace ProjectBeelzebub
         {
             if (CanOpenSettings())
             {
-                GameManager.Instance.dialogue.HideDialogue();
-				GameManager.Instance.playerLookingAtDialogue = false;
-				GameManager.Instance.dialogue = null;
+                if(GameManager.Instance.dialogue != null)
+                {
+                    GameManager.Instance.dialogue.HideDialogue();
+				    GameManager.Instance.playerLookingAtDialogue = false;
+				    GameManager.Instance.dialogue = null;
+                }
+
 
 				settings.SetActive(!settings.activeInHierarchy);
                 playerUI.selectedMenu = 0;

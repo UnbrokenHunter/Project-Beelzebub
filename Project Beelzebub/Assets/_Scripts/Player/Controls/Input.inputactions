@@ -11,7 +11,7 @@
                     "id": "dade7535-5b45-46f7-b6fa-4bf0d59462f1",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "initialStateCheck": true
                 },
                 {
@@ -274,6 +274,17 @@
                 },
                 {
                     "name": "",
+                    "id": "36d9d24f-52cb-424c-a6c9-1df38551d5a8",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "bc2dcb3e-d69e-4eeb-a0ff-238a2e9ae817",
                     "path": "<Keyboard>/e",
                     "interactions": "",
@@ -285,11 +296,33 @@
                 },
                 {
                     "name": "",
+                    "id": "313e0857-f353-423d-8e6f-d3f50f66f529",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Inventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "a1ac2ba0-faff-406f-b86f-5138395b7506",
                     "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
+                    "action": "Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "71c4990b-3978-4b2a-b2bc-5d093845cf41",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "Menu",
                     "isComposite": false,
                     "isPartOfComposite": false

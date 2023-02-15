@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 8462110519757220638}
   - component: {fileID: 8462110519757220636}
   - component: {fileID: 8462110519757220637}
+  - component: {fileID: 7451449539898925889}
   m_Layer: 6
   m_Name: Berry Bush
   m_TagString: Material
@@ -133,6 +134,10 @@ MonoBehaviour:
   maxFood: 3
   foodCount: 1
   regrowTime: 10
+  pickupSound: Pick Berries
+  doesRegrow: 1
+  destroyWhenExausted: 0
+  soundOnDestroy: Destroy
   food: {fileID: 11400000, guid: 562c9425eedd7af4593975d944ea1fee, type: 2}
   changeSprite: 1
   images:
@@ -142,7 +147,6 @@ MonoBehaviour:
   - {fileID: 1384348502, guid: 0b18dde05d96ec445b1718b3463f1386, type: 3}
   rend: {fileID: 0}
   inventory: {fileID: 0}
-  pickupSound: Pick Berries
 --- !u!61 &8462110519757220637
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -169,3 +173,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.72973406}
   m_EdgeRadius: 0
+--- !u!114 &7451449539898925889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8462110519757220639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f99c61d73dc3622429f528625b309042, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSpiky: 1
+  spikeDamage: 1
+  spikeDamageCooldown: 1
+  spikeSound: Thorn

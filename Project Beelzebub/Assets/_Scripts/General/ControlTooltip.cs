@@ -27,8 +27,8 @@ namespace ProjectBeelzebub
         [SerializeField] private OpenSettings settingsContainer;
 
         [Title("Move")]
-        [SerializeField] private Vector2 originalSizeD;
-        [SerializeField] private Vector2 sizeD;
+        [SerializeField] private float movementSpacing;
+        [SerializeField] private float navigationSpacing;
 
         [Title("Attack")]
         [SerializeField] private Vector2 attackoriginalSizeD;
@@ -62,12 +62,12 @@ namespace ProjectBeelzebub
             if(canMove)
             {
                 move.SetActive(true);
-                move.GetComponent<RectTransform>().sizeDelta = new Vector2(originalSizeD.x, originalSizeD.y);
+                move.GetComponent<HorizontalLayoutGroup>().spacing = movementSpacing;
                 move.GetComponentInChildren<TMP_Text>().text = "Move:";
             }
             else
             {
-                move.GetComponent<RectTransform>().sizeDelta = new Vector2(sizeD.x, sizeD.y);
+                move.GetComponent<HorizontalLayoutGroup>().spacing = navigationSpacing;
                 move.SetActive(true);
                 move.GetComponentInChildren<TMP_Text>().text = "Navigate:";
             }

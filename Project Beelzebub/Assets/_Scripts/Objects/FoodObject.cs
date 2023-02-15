@@ -9,27 +9,28 @@ namespace ProjectBeelzebub
     public class FoodObject : MonoBehaviour
     {
 
-        [Title("Food Settings")]
+        [Title("General")]
         [SerializeField] private int maxFood = 3;
         [SerializeField] private int foodCount = 1;
-        [SerializeField] private float regrowTime = 10; 
+        [SerializeField] private float regrowTime = 10;
+        [SerializeField] private string pickupSound;
+        [SerializeField] private bool doesRegrow = true;
+
+        [Title("Destroy")]
+        [SerializeField] private bool destroyWhenExausted = false;
+        [SerializeField] private string soundOnDestroy = "Destroy";
+
+        [Title("Item to Give")]
         [SerializeField] private InventoryItem food;
 
-        [SerializeField] private bool isSpiky = true;
-        [SerializeField] private float spikeDamage = 1;
-        [SerializeField] private float spikeDamageCooldown = 1;
-        [SerializeField] private string spikeSound = "Thorn";
-
-        private float spikeTimer = 100;
-
+        [Title("Sprites")]
         [SerializeField] private bool changeSprite;
         [SerializeField] private List<Sprite> images;
 
-
-        [SerializeField] private SpriteRenderer rend;
+        [Title("Objects")]
+        private SpriteRenderer rend;
         [SerializeField] private Inventory inventory;
 
-        [SerializeField] private string pickupSound;
 
         // Utility
         private float time = 0;
@@ -37,29 +38,22 @@ namespace ProjectBeelzebub
 
         private void Awake() => rend = GetComponentInChildren<SpriteRenderer>();
 
-        private void OnCollisionStay2D(Collision2D collision)
-        {
-            if (collision.gameObject.tag == "Player" && isSpiky)
-            {
-                spikeTimer += Time.deltaTime;
-                if (spikeTimer > spikeDamageCooldown)
-                {
-                    print(MasterAudio.PlaySound(spikeSound)); 
-                    collision.gameObject.GetComponent<PlayerStats>().RemoveHealth(spikeDamage);
-                    spikeTimer = 0;
-                }
-            }
-        }
-
         public void AddFood()
         {
             if (foodCount > 0)
             {
                 bool addItem = inventory.AddItem(food);
                 foodCount = addItem ? foodCount - 1 : foodCount;
+
                 print(MasterAudio.PlaySound(pickupSound));
 
                 time = 0;
+
+                if(foodCount <= 0 && destroyWhenExausted)
+                {
+                    MasterAudio.PlaySound(soundOnDestroy);
+                    Destroy(gameObject);
+                }
             }
         }
 
@@ -68,7 +62,7 @@ namespace ProjectBeelzebub
         {
             time += Time.deltaTime;
 
-            if (time > regrowTime && foodCount < maxFood)
+            if (time > regrowTime && foodCount < maxFood && doesRegrow)
             {
                 time = 0;
                 foodCount += 1;

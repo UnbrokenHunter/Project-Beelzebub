@@ -16,6 +16,7 @@ namespace ProjectBeelzebulb
         [SerializeField] private Inventory inv;
         [SerializeField] private PlayerVisuals visuals;
 		[SerializeField] private Transform attackOrigin;
+        private float attackTimer = 0;
 
         [Title("Debug")]
         [SerializeField] private GameObject deathMenu;
@@ -53,7 +54,11 @@ namespace ProjectBeelzebulb
 
 		}
 
-		public void Attack()
+        private void Update()
+        {
+            attackTimer += Time.deltaTime;
+        }
+        public void Attack()
         {
 
             if (GetComponent<Inventory>().IsInventoryOpen())
@@ -61,6 +66,9 @@ namespace ProjectBeelzebulb
 
             else if (deathMenu.activeInHierarchy)
                 return;
+
+            if (attackTimer < stats.attackCooldown) return;
+            attackTimer = 0;
 
             print(MasterAudio.PlaySound("attack"));
 

@@ -90,10 +90,10 @@ namespace ProjectBeelzebub
 
             print($"New Item Selected: {selectedItem}");
 
-            if (input.x > 0)
+            if (input.x > 0 || input.y < 0)
                 NextSelected();
 
-            else if (input.x < 0)
+            else if (input.x < 0 || input.y > 0)
                 PreviousSelected();
 
             MasterAudio.PlaySound("Select");
@@ -106,7 +106,7 @@ namespace ProjectBeelzebub
 
 		#region Helpers 
      
-        private void UpdateInventory()
+        public void UpdateInventory()
         {
 
             inventory.RemoveAll(inv => inv.stackCount < 0);
