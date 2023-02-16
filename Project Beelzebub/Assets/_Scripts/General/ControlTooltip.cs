@@ -17,7 +17,20 @@ namespace ProjectBeelzebub
         [SerializeField] private GameObject inv;
         [SerializeField] private GameObject settings;
 
-        [Title("Attack")]
+        [SerializeField] private bool leftie = false;
+
+        [Title("Sprites")]
+        [Title("Left")]
+		[SerializeField] private Sprite arrowKeys;
+		[SerializeField] private Sprite p;
+		[SerializeField] private Sprite l;
+
+		[Title("Right")]
+		[SerializeField] private Sprite wasd;
+		[SerializeField] private Sprite e;
+		[SerializeField] private Sprite q;
+
+		[Title("Attack")]
         [SerializeField] private PlayerMove playerMove;
         [SerializeField] private PlayerStats stats;
         [SerializeField] private Transform attackOrigin;
@@ -36,6 +49,28 @@ namespace ProjectBeelzebub
         [SerializeField] private float oldSpace;
         [SerializeField] private float newSpace;
         [SerializeField] private FireScript current;
+
+        public void SwapLeftie()
+        {
+            // Set to left
+            if(leftie)
+            {
+				move.GetComponentInChildren<Image>().sprite = arrowKeys;
+				inv.GetComponentInChildren<Image>().sprite = l;
+				settings.GetComponentInChildren<Image>().sprite = p;
+
+				leftie = false;
+            }
+            // Set to right
+            else
+            {
+				move.GetComponentInChildren<Image>().sprite = wasd;
+				inv.GetComponentInChildren<Image>().sprite = e;
+				settings.GetComponentInChildren<Image>().sprite = q;
+
+				leftie = true;
+            }
+        }
 
         private void FixedUpdate()
         {

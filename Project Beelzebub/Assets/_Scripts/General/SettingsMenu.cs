@@ -12,35 +12,7 @@ namespace ProjectBeelzebub
     {
 
         [SerializeField] private AudioMixer mixer;
-        [SerializeField] private TMP_Dropdown resolutionDropdown;
 
-        Resolution[] resolutions;
-
-        private void Start()
-        {
-            resolutions = Screen.resolutions;
-
-            resolutionDropdown.ClearOptions();
-
-            List<string> list = new List<string>();
-
-            int currentResIndex = 0;
-            int count = 0;
-            foreach (var resolution in resolutions)
-            {
-                string option = $"{resolution.width} x {resolution.height}";
-                list.Add(option);
-
-                if (resolution.height == Screen.currentResolution.height && resolution.width == Screen.currentResolution.width)
-                    currentResIndex = count;
-            
-                count++;
-            }
-
-            resolutionDropdown.AddOptions(list);
-            resolutionDropdown.value = currentResIndex;
-            resolutionDropdown.RefreshShownValue();
-        }
 
         public void SetMainVolume (float volume)
         {
@@ -69,5 +41,11 @@ namespace ProjectBeelzebub
             Screen.fullScreen = isFullscreen;
         }
 
-    }
+		public void SetLeftie(bool isLeftie)
+		{
+			Screen.fullScreen = isLeftie;
+		}
+
+
+	}
 }
