@@ -3,25 +3,25 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using DarkTonic.MasterAudio;
+using Sirenix.Serialization;
 
 namespace ProjectBeelzebub
 {
     public class FoodObject : MonoBehaviour
     {
-
         [Title("General")]
-        [SerializeField] private int maxFood = 3;
-        [SerializeField] private int foodCount = 1;
-        [SerializeField] private float regrowTime = 10;
-        [SerializeField] private string pickupSound;
-        [SerializeField] private bool doesRegrow = true;
+        [SerializeField, LabelWidth(140)] private int maxFood = 3;
+        [SerializeField, LabelWidth(140)] private int foodCount = 1;
+        [SerializeField, LabelWidth(140)] private float regrowTime = 10;
+        [SerializeField, LabelWidth(140)] private string pickupSound;
+        [SerializeField, LabelWidth(140)] private bool doesRegrow = true;
 
         [Title("Destroy")]
         [SerializeField] private bool destroyWhenExausted = false;
         [SerializeField] private string soundOnDestroy = "Destroy";
 
         [Title("Item to Give")]
-        [SerializeField] private InventoryItem food;
+        [SerializeField, TableList] private List<DropChance> drops;
 
         [Title("Sprites")]
         [SerializeField] private bool changeSprite;
@@ -29,7 +29,7 @@ namespace ProjectBeelzebub
 
         [Title("Objects")]
         private SpriteRenderer rend;
-        [SerializeField] private Inventory inventory;
+        private Inventory inventory;
 
 
         // Utility
@@ -37,24 +37,39 @@ namespace ProjectBeelzebub
 
 
         private void Awake() => rend = GetComponentInChildren<SpriteRenderer>();
+        private void Start() => inventory = FindObjectOfType<Inventory>();
 
-        public void AddFood()
+        public void AddItem()
         {
-            if (foodCount > 0)
+            if (foodCount < 0) return;
+
+            // Add drops 
+            foreach(DropChance drop in drops)
             {
-                bool addItem = inventory.AddItem(food);
-                foodCount = addItem ? foodCount - 1 : foodCount;
+                var chance = Random.Range(0, 100);
+                if (chance < drop.dropChance)
+                    AddItemToInventory(drop);
 
-                print(MasterAudio.PlaySound(pickupSound));
-
-                time = 0;
-
-                if(foodCount <= 0 && destroyWhenExausted)
-                {
-                    MasterAudio.PlaySound(soundOnDestroy);
-                    Destroy(gameObject);
-                }
             }
+
+            // Sound
+            MasterAudio.PlaySound(pickupSound);
+
+            // Reset regrow timer when you collect to prevent insta respawn
+            time = 0;
+
+            // Destroy when out of resources
+            if(foodCount <= 0 && destroyWhenExausted)
+            {
+                MasterAudio.PlaySound(soundOnDestroy);
+                Destroy(gameObject);
+            }
+        }
+
+        private void AddItemToInventory(DropChance drop)
+        {
+            bool addItem = inventory.AddItem(drop.item);
+            foodCount = addItem ? foodCount - 1 : foodCount;
         }
 
 
@@ -72,5 +87,13 @@ namespace ProjectBeelzebub
                 rend.sprite = images[foodCount];
 
         }
+
+        [System.Serializable]
+        private class DropChance 
+        {
+            [SerializeField] public InventoryItem item;
+            [SerializeField, Range(0, 100)] public float dropChance = 100;
+        }
     }
+    
 }

@@ -138,15 +138,15 @@ MonoBehaviour:
   doesRegrow: 1
   destroyWhenExausted: 0
   soundOnDestroy: Destroy
-  food: {fileID: 11400000, guid: 562c9425eedd7af4593975d944ea1fee, type: 2}
+  drops:
+  - item: {fileID: 11400000, guid: 562c9425eedd7af4593975d944ea1fee, type: 2}
+    dropChance: 93.9
   changeSprite: 1
   images:
   - {fileID: 2140203865, guid: 0b18dde05d96ec445b1718b3463f1386, type: 3}
   - {fileID: -396535942, guid: 0b18dde05d96ec445b1718b3463f1386, type: 3}
   - {fileID: -76063300, guid: 0b18dde05d96ec445b1718b3463f1386, type: 3}
   - {fileID: 1384348502, guid: 0b18dde05d96ec445b1718b3463f1386, type: 3}
-  rend: {fileID: 0}
-  inventory: {fileID: 0}
 --- !u!61 &8462110519757220637
 BoxCollider2D:
   m_ObjectHideFlags: 0

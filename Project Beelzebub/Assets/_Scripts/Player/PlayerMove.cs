@@ -60,7 +60,6 @@ namespace ProjectBeelzebulb
         }
         public void Attack()
         {
-
             if (GetComponent<Inventory>().IsInventoryOpen())
                 return;
 
@@ -93,7 +92,7 @@ namespace ProjectBeelzebulb
 				// Material
 				if (hit.collider.gameObject.tag == "Material")
 				{
-                    hit.collider.gameObject.GetComponent<FoodObject>().AddFood();
+                    hit.collider.gameObject.GetComponent<FoodObject>().AddItem();
 				}
 
                 // Fire

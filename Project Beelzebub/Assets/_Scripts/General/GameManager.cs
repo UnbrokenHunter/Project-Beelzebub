@@ -72,7 +72,7 @@ namespace ProjectBeelzebub
 
                 fade.SetTrigger("go");
 
-                day.StartSleep();
+                day.Sleep();
                 stats.sleep = stats.maxSleep;
                 print("Sleep");
             }

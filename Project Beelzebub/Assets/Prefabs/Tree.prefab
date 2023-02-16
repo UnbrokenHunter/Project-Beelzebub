@@ -137,10 +137,13 @@ MonoBehaviour:
   doesRegrow: 0
   destroyWhenExausted: 1
   soundOnDestroy: Destroy Tree
-  food: {fileID: 11400000, guid: 7aada8626d4823744be03c94cc62b382, type: 2}
+  drops:
+  - item: {fileID: 11400000, guid: 7aada8626d4823744be03c94cc62b382, type: 2}
+    dropChance: 100
+  - item: {fileID: 11400000, guid: d2493d93e2e040941a47151298102f23, type: 2}
+    dropChance: 55
   changeSprite: 0
   images: []
-  inventory: {fileID: 0}
 --- !u!61 &7869034739712831796
 BoxCollider2D:
   m_ObjectHideFlags: 0

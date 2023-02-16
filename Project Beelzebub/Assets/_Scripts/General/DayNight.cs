@@ -1,77 +1,65 @@
 using Sirenix.OdinInspector;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
 namespace ProjectBeelzebub
 {
+    [RequireComponent(typeof(Light2D))]
     public class DayNight : MonoBehaviour
     {
-		[Title("Speed/Length")]
-		[SerializeField] private float dayNightLength = 2;
+        [Title("Day Night")]
+        [SerializeField] private float duration = .5f;
+        [SerializeField] private float minimumLight = 0.5f;
 
-		[SerializeField] private float sunRiseSpeed = 1;
-		[SerializeField] private float sunSetSpeed = 1;
-		[SerializeField] private AnimationCurve dayCurve;
+        [Title("Color")]
+        [SerializeField] private Gradient gradient;
+
+        [Title("Display")]
+        [SerializeField] private Color currentColor;
+        [SerializeField] private string currentPercentage;
+
+        // Variables
+        private Light2D _light;
+        private float _startTime;
+        private float _skippedTime = 0;
+
+        private void Awake()
+        {
+            _light = GetComponent<Light2D>();
+            _startTime = Time.time;
+        }
+
+        private void Update()
+        {
+            // Calculate the time elapsed since the start time
+            var timeElapsed = (Time.time + _skippedTime) - _startTime;
+
+            // Calculate the percentage based on the since of the time elapsed
+            var percentage = Mathf.Sin(timeElapsed / duration * Mathf.PI * 2) * 0.5f + minimumLight;
+            
+            // Clamp the percentage to be between 0 and 1
+            percentage = Mathf.Clamp01(percentage);
+
+            // Display the percentage
+            currentPercentage = (percentage * 100).ToString("0.00");
+
+            // Set color
+            currentColor = gradient.Evaluate(percentage);
+            _light.color = currentColor;
+        }
+
+        public void Sleep(float sleepLength)
+        {
+            _skippedTime += sleepLength;
+        }
+
+        [Button]
+        public void Sleep()
+        {
+            _skippedTime += duration / 2;
+        }
 
 
-		[Title("Day/Night")]
-		[SerializeField] private bool isDay = true;
-
-		[SerializeField] private float dayReq = .5f;
-
-		[Space]
-
-
-		[Title("Other")]
-		[SerializeField] private float intensity = 1;
-		[SerializeField] private float min = 1;
-		[SerializeField] private Light2D light2D;
-		[SerializeField] private float sleepMultVar = 1;
-		[SerializeField] private float sleepMult = 1;
-
-		[SerializeField] private float sleepTime = 3;
-		[SerializeField] private float timer = 0;
-
-		public void StartSleep()
-		{
-			StartCoroutine(SleepSleep());
-		}
-
-
-		private IEnumerator SleepSleep()
-		{
-			sleepMult = sleepMultVar;
-
-			yield return new WaitForSeconds(sleepTime);
-
-			sleepMult = 1;
-		}
-
-		private void Update()
-		{
-			if (isDay)
-				timer += Time.deltaTime * sunRiseSpeed * dayCurve.Evaluate(timer) * sleepMult;
-
-			else
-				timer -= Time.deltaTime * sunSetSpeed * dayCurve.Evaluate(timer) * sleepMult;
-
-
-			if (timer > dayNightLength)
-				isDay = false;
-			
-			if(timer < 0)
-				isDay = true;
-
-			var amt = (timer / 10);
-			intensity = Mathf.InverseLerp(0, 1, amt);
-			intensity = Mathf.Clamp(amt, min, 1);
-
-            light2D.intensity = intensity;
-
-		}
-
-	}
+    }
 
 }
