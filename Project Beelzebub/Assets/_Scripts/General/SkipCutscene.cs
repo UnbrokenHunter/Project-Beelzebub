@@ -20,7 +20,7 @@ namespace ProjectBeelzebub
 
         private IEnumerator Start()
         {
-            yield return new WaitForSeconds(110);
+            yield return new WaitForSeconds(waitTime);
             Skip();
         }
         [Button]
