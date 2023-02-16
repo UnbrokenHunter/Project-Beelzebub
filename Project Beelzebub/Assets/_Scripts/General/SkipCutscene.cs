@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using DarkTonic.MasterAudio;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
 namespace ProjectBeelzebub
@@ -10,23 +12,59 @@ namespace ProjectBeelzebub
     public class SkipCutscene : MonoBehaviour
     {
 
+        [SerializeField] private string sceneNameToTransition;
+        [SerializeField] private string soundToPlay;
+
         [SerializeField] private float waitTime = 110;
-        private bool hasSkipped = false;
+        [SerializeField] private bool isPlaying = false;
 
-        [SerializeField] private List<GameObject> objectsToEnable;
-        [SerializeField] private List<GameObject> objectsToDisable;
+		[SerializeField] private List<GameObject> objectsToEnable;
+		[SerializeField] private List<GameObject> objectsToDisable;
 
-        [SerializeField] private PlayerInput playerInput;
+		[SerializeField] private List<GameObject> objectsToEnableBefore;
+		[SerializeField] private List<GameObject> objectsToDisableBefore;
 
-        private IEnumerator Start()
+
+        public void StartCutscene()
         {
-            yield return new WaitForSeconds(waitTime);
+			if (isPlaying)
+            {
+                Skip();
+                return;
+            }
+
+            print("Start");
+
+
+			foreach (GameObject obj in objectsToDisableBefore)
+			{
+				obj.SetActive(false);
+			}
+
+			foreach (GameObject obj in objectsToEnableBefore)
+			{
+				obj.SetActive(true);
+			}
+
+            MasterAudio.PlaySound(soundToPlay);
+
+			LevelManager.Instance.LoadSceneAsync(sceneNameToTransition);
+			StartCoroutine(StartSkipCountdown());
+		}
+
+
+        private IEnumerator StartSkipCountdown()
+        {
+            isPlaying = true;
+
+            yield return new WaitForSecondsRealtime(waitTime);
+            print("End Wait");
             Skip();
         }
         [Button]
         public void Skip()
         {
-            if (hasSkipped) return;
+            print("Skip");
 
             foreach (GameObject obj in objectsToDisable)
             {
@@ -38,12 +76,7 @@ namespace ProjectBeelzebub
                 obj.SetActive(true);
             }
 
-            playerInput.enabled = false;
-            playerInput.enabled = true;
-
-            hasSkipped = true;
-
-            gameObject.SetActive(false);
+            LevelManager.Instance.AllowSceneComplete();
         }
 
     }

@@ -12,6 +12,8 @@ namespace ProjectBeelzebub
         [SerializeField] private GameObject _loaderCanvas;
         [SerializeField] private Image _progressBar;
 
+        private AsyncOperation scene;
+
         private void Awake()
         {
             if (Instance == null)
@@ -29,6 +31,21 @@ namespace ProjectBeelzebub
         {
             SceneManager.LoadScene (sceneName);
         }
+
+        public void AllowSceneComplete()
+        {
+            if(scene != null)
+            {
+                scene.allowSceneActivation = true;
+            }
+        }
+
+		public void LoadSceneAsync(string sceneName)
+		{
+            print("Start Loading Scene");
+			scene = SceneManager.LoadSceneAsync(sceneName);
+            scene.allowSceneActivation = false;
+		}
 
     }
 }
