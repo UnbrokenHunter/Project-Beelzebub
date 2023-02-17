@@ -12,7 +12,7 @@ namespace ProjectBeelzebub
     {
 
         [SerializeField] private AudioMixer mixer;
-
+        [SerializeField] private ControlTooltip tooltips;
 
         public void SetMainVolume (float volume)
         {
@@ -43,9 +43,10 @@ namespace ProjectBeelzebub
 
 		public void SetLeftie(bool isLeftie)
 		{
-			Screen.fullScreen = isLeftie;
-		}
+            tooltips.SwapLeftie();
+
+        }
 
 
-	}
+    }
 }
