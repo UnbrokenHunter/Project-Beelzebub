@@ -74,7 +74,7 @@ namespace ProjectBeelzebub
 
 		#endregion
 
-		#region Effects
+		#region Checks
 
         private void CheckHunger()
         {
@@ -94,10 +94,19 @@ namespace ProjectBeelzebub
 				health -= 1;
 		}
 
+        private void CheckSleep()
+        {
+            if (sleep < 3)
+                sleepMultiplier = Mathf.Min(0.5f, sleepMultiplier);
+
+            if (sleep <= 0)
+                health -= 1;
+        }
+
 
         #endregion
 
-        #region Check/Add/Remove
+        #region Add/Remove
         public void AddHunger(float amount)
         {
             hunger += amount;
@@ -170,7 +179,8 @@ namespace ProjectBeelzebub
 				sleepCount = 0;
 				sleep -= 1 * sleepMultiplier;
 
-				UpdateSliders();
+                CheckSleep();
+                UpdateSliders();
 			}
 		}
 
@@ -197,6 +207,7 @@ namespace ProjectBeelzebub
                 thirstCount = 0;
                 thirst -= 1 * thirstMultiplier;
 
+                CheckThirst();
                 UpdateSliders();
             }
         }
