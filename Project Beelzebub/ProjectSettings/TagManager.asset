@@ -9,6 +9,7 @@ TagManager:
   - Build
   - Fire
   - NPC
+  - Lava
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - Non-Collision Objects
   - ' '
   - Post Processing
-  - 
+  - Littun Box
   - 
   - 
   - 

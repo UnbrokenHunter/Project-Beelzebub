@@ -83,7 +83,7 @@ namespace ProjectBeelzebub
                 foodCount += 1;
             }
 
-            if(changeSprite)
+            if(changeSprite && images.Count > foodCount)
                 rend.sprite = images[foodCount];
 
         }
