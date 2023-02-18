@@ -22,6 +22,8 @@ namespace ProjectBeelzebub
         [SerializeField] private CapsuleCollider2D col;
 
         [Title("Feedback")]
+        [SerializeField] private float feedbackTimer;
+        private float feedbackCount;
         [SerializeField] private MMF_Player hurt;
         [SerializeField] private MMF_Player thirsty;
         [SerializeField] private MMF_Player hungry;
@@ -107,6 +109,7 @@ namespace ProjectBeelzebub
             if (sleep < 3)
                 sleepMultiplier = Mathf.Min(0.5f, sleepMultiplier);
 
+
             if (sleep <= 0)
                 health -= 1;
         }
@@ -175,6 +178,22 @@ namespace ProjectBeelzebub
         }
 
         #endregion
+
+        private void PlayFeedBacks()
+        {
+            feedbackCount += Time.deltaTime;
+
+            if(feedbackCount > feedbackTimer) 
+            {
+                
+                if (sleep < 3) sleepy?.PlayFeedbacks();
+                else if (hunger < 3) hungry?.PlayFeedbacks();
+                else if (thirst < 3) thirsty?.PlayFeedbacks();
+
+                feedbackCount = 0;
+            }
+        }
+
 
         #region Timers
 
@@ -246,6 +265,8 @@ namespace ProjectBeelzebub
 
         private void Update()
         {
+            PlayFeedBacks();
+
             HungerTimer();
 
 			ThirstTimer();
