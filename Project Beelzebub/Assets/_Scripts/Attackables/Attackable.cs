@@ -4,6 +4,7 @@ using UnityEngine;
 using DarkTonic.MasterAudio;
 using Sirenix.OdinInspector;
 using Pathfinding;
+using MoreMountains.Feedbacks;
 
 namespace ProjectBeelzebub
 {
@@ -28,6 +29,8 @@ namespace ProjectBeelzebub
 
         [Title("Drops")]
 		[SerializeField] private List<InventoryItem> drops;
+
+        [SerializeField] MMF_Player feedback;
 
         private bool isDead = false;
         private IEnumerator Panic()
@@ -57,6 +60,7 @@ namespace ProjectBeelzebub
 
             StartCoroutine(Panic());
 
+            feedback?.PlayFeedbacks();
 
             print($"{gameObject.name} is now at {health}!");
 

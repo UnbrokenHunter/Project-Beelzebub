@@ -23,7 +23,7 @@ namespace ProjectBeelzebub
                 spikeTimer += Time.deltaTime;
                 if (spikeTimer > spikeDamageCooldown)
                 {
-                    print(MasterAudio.PlaySound(spikeSound));
+                    MasterAudio.PlaySound(spikeSound);
                     collision.gameObject.GetComponent<PlayerStats>().RemoveHealth(spikeDamage);
                     spikeTimer = 0;
                 }

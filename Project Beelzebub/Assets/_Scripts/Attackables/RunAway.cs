@@ -17,6 +17,7 @@ namespace ProjectBeelzebub
 
         private void Update()
         {
+            player = GameObject.FindGameObjectWithTag("Player");
             SetDestination(player.transform.position);
         }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DarkTonic.MasterAudio;
+using MoreMountains.Feedbacks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,8 +21,15 @@ namespace ProjectBeelzebub
         [SerializeField] private GameObject gameOverMenu;
         [SerializeField] private CapsuleCollider2D col;
 
+        [Title("Feedback")]
+        [SerializeField] private MMF_Player hurt;
+        [SerializeField] private MMF_Player thirsty;
+        [SerializeField] private MMF_Player hungry;
+        [SerializeField] private MMF_Player sleepy;
+        [SerializeField] private MMF_Player attack;
 
-		[Title("Speed")]
+
+        [Title("Speed")]
 		[SerializeField, FoldoutGroup("Speed")] public float maxSpeed = 5;
 		[SerializeField, FoldoutGroup("Speed")] public float speedMultiplier = 1;
 		[SerializeField, FoldoutGroup("Speed")] public float slipperyness = 90;
@@ -128,6 +136,7 @@ namespace ProjectBeelzebub
         {
             health -= amount;
 
+            hurt?.PlayFeedbacks();
 
             UpdateSliders();
 
