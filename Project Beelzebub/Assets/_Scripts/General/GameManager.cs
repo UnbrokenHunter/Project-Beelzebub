@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using Sirenix.OdinInspector;
 using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
@@ -21,6 +22,7 @@ namespace ProjectBeelzebub
         [SerializeField] private Vector3 officerOffset;
         [SerializeField] private bool officerSpawned = false;
         [SerializeField] private GameObject EndGameMenu;
+        [SerializeField] private CinemachineVirtualCamera vcam;
 
         [Title("Fire")]
         [SerializeField] public string fireTimer;
@@ -144,13 +146,16 @@ namespace ProjectBeelzebub
 
             GetComponent<Dialogue>().ShowDialogue();
 
+            vcam.Priority = 11;
+
             StartCoroutine(waitDialogue());
 
         }
 
         private IEnumerator waitDialogue()
         {
-            yield return new WaitForSeconds(10);
+            yield return new WaitForSeconds(3);
+            vcam.Priority = 9;
             GetComponent<Dialogue>().HideDialogue();
         }
 
@@ -171,7 +176,7 @@ namespace ProjectBeelzebub
 
         private void OnDrawGizmos()
         {
-            Gizmos.color = Color.green;
+            Gizmos.color = Color.red;
             Gizmos.DrawCube(officerOffset, Vector3.one);
         }
     }

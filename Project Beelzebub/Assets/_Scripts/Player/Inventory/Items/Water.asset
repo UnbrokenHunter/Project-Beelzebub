@@ -23,5 +23,5 @@ MonoBehaviour:
   heal: 0
   hunger: 0
   thirst: 4
-  stackSize: 20
+  stackSize: 3
   stackCount: 1
