@@ -57,7 +57,7 @@ MonoBehaviour:
   - Hello
   - Goodbye
   events: []
-  portrait: {fileID: 1596389428, guid: 85da6fc071e6a5e4d9ef469125db4f9d, type: 3}
+  portrait: {fileID: 21300000, guid: d304b9c8b0765e14fbd5daa7d452a83c, type: 3}
   dialogue: {fileID: 0}
   text: {fileID: 0}
   image: {fileID: 0}

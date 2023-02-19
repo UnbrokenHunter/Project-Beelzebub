@@ -21,6 +21,11 @@ namespace ProjectBeelzebub
         [SerializeField] private GameObject gameOverMenu;
         [SerializeField] private CapsuleCollider2D col;
 
+        [Title("Sounds")]
+        [SerializeField] private string hungrySound;
+        [SerializeField] private string thirstySound;
+        [SerializeField] private string sleepySound;
+
         [Title("Feedback")]
         [SerializeField] private float feedbackTimer;
         private float feedbackCount;
@@ -89,7 +94,10 @@ namespace ProjectBeelzebub
         private void CheckHunger()
         {
             if (hunger < 3)
+            {
                 speedMultiplier = Mathf.Min(0.5f, speedMultiplier);
+                MasterAudio.PlaySound(hungrySound);
+            }
             else
                 speedMultiplier = 1;
 
@@ -100,7 +108,10 @@ namespace ProjectBeelzebub
 		private void CheckThirst()
 		{
 			if (thirst < 3)
+            {
 				speedMultiplier = Mathf.Min(0.5f, speedMultiplier);
+                MasterAudio.PlaySound(thirstySound);
+            }
             else
                 speedMultiplier = 1;
 
@@ -111,7 +122,10 @@ namespace ProjectBeelzebub
         private void CheckSleep()
         {
             if (sleep < 3)
+            {
                 sleepMultiplier = Mathf.Min(0.5f, sleepMultiplier);
+                MasterAudio.PlaySound(thirstySound);
+            }
             else
                 speedMultiplier = 1;
 

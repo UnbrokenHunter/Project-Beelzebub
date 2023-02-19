@@ -19,7 +19,7 @@ namespace ProjectBeelzebub
 
         private void DestroyObject()
         {
-            MasterAudio.PlaySound(spawnSound);
+            MasterAudio.PlaySound(deathSound);
             GetComponent<MMF_Player>().PlayFeedbacks();
         }
 
