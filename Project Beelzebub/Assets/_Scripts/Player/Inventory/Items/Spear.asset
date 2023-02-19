@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Spear
   m_EditorClassIdentifier: 
   name: Spear
-  description: This is a spear
+  description: Only sharp on one side...
   type: 0
   useSound: 
   sprite: {fileID: 849359971, guid: 85da6fc071e6a5e4d9ef469125db4f9d, type: 3}

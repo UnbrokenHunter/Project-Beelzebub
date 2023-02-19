@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Pork
   m_EditorClassIdentifier: 
   name: Pork
-  description: MEAT!
+  description: Kill the pig! Cut his throat! Kill the pig! Bash him in!
   type: 1
   useSound: 
   sprite: {fileID: 21300000, guid: ecbb15ffb40eadb44af2db3ca21121e6, type: 3}

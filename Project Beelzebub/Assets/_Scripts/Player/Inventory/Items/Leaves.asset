@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Leaves
   m_EditorClassIdentifier: 
   name: Leaves
-  description: These are leaves
+  description: Take it or leaf it
   type: 2
   useSound: 
   sprite: {fileID: 21300000, guid: 44d522b821d413845b4510015de8a559, type: 3}

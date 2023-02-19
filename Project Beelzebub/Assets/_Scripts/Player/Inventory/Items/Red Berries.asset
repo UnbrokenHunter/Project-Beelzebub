@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Red Berries
   m_EditorClassIdentifier: 
   name: Red Berry
-  description: Im a berry
+  description: Red beri
   type: 1
   useSound: Eat
   sprite: {fileID: 1954385669, guid: 85da6fc071e6a5e4d9ef469125db4f9d, type: 3}
@@ -24,4 +24,4 @@ MonoBehaviour:
   hunger: 3
   thirst: 1
   stackSize: 20
-  stackCount: 1
+  stackCount: 3

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fire
   m_EditorClassIdentifier: 
   name: Fire
-  description: FIRE!
+  description: Can be placed somewhere high up. You are more likly to be rescued.
   type: 2
   useSound: 
   sprite: {fileID: 773118281, guid: 85da6fc071e6a5e4d9ef469125db4f9d, type: 3}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Blue Berries
   m_EditorClassIdentifier: 
   name: Blue Berry
-  description: Im a berry
+  description: Boo beri
   type: 1
   useSound: Eat
   sprite: {fileID: -1356734133, guid: 85da6fc071e6a5e4d9ef469125db4f9d, type: 3}
