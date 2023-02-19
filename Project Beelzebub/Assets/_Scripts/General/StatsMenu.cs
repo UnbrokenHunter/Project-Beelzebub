@@ -34,6 +34,8 @@ namespace ProjectBeelzebub
 
         [SerializeField] private PlayerStats stats;
 
+        public void UpdateUI() => ResetUI();
+
         private void OnEnable()
         {
             ResetUI();

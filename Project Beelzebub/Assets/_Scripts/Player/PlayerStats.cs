@@ -90,7 +90,9 @@ namespace ProjectBeelzebub
         {
             if (hunger < 3)
                 speedMultiplier = Mathf.Min(0.5f, speedMultiplier);
-            
+            else
+                speedMultiplier = 1;
+
             if (hunger <= 0)
                 health -= 1;
         }
@@ -99,8 +101,10 @@ namespace ProjectBeelzebub
 		{
 			if (thirst < 3)
 				speedMultiplier = Mathf.Min(0.5f, speedMultiplier);
+            else
+                speedMultiplier = 1;
 
-			if (thirst <= 0)
+            if (thirst <= 0)
 				health -= 1;
 		}
 
@@ -108,7 +112,8 @@ namespace ProjectBeelzebub
         {
             if (sleep < 3)
                 sleepMultiplier = Mathf.Min(0.5f, sleepMultiplier);
-
+            else
+                speedMultiplier = 1;
 
             if (sleep <= 0)
                 health -= 1;

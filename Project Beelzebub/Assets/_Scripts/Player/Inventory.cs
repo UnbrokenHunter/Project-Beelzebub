@@ -70,7 +70,7 @@ namespace ProjectBeelzebub
 
 
             print(MasterAudio.PlaySound(item.useSound));
-
+            GetComponentInChildren<StatsMenu>().UpdateUI();
             UpdateInventory();
         }
 
