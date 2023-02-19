@@ -16,7 +16,8 @@ namespace ProjectBeelzebub
 
         [Title("Display")]
         [SerializeField] private Color currentColor;
-        [SerializeField] private string currentPercentage;
+        [SerializeField] private float currentPercentage;
+        [HideInInspector] public float CurrentPercentage() => currentPercentage;
 
         // Variables
         private Light2D _light;
@@ -41,7 +42,7 @@ namespace ProjectBeelzebub
             percentage = Mathf.Clamp01(percentage);
 
             // Display the percentage
-            currentPercentage = (percentage * 100).ToString("0.00");
+            currentPercentage = (percentage * 100);
 
             // Set color
             currentColor = gradient.Evaluate(percentage);

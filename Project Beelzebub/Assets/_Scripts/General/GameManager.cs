@@ -14,6 +14,16 @@ namespace ProjectBeelzebub
 
         [SerializeField] private PlayerStats stats;
 
+        [Title("Beast")]
+        [SerializeField] private GameObject beast;
+        [SerializeField] private Vector2 spawnRing;
+        [SerializeField] private float isNightAt = 80f;
+        [SerializeField] private float beastTimer = 10;
+        private float beastCount;
+
+        // TEMP
+        private Vector3 spawnPosition;
+
         [Title("Rescue")]
         [SerializeField] private float rescueTime = 100f;
 
@@ -69,6 +79,8 @@ namespace ProjectBeelzebub
             }
 
             UpdateFireTimer();
+
+            CheckBeast();
         }
 
         #region Sleep
@@ -89,9 +101,47 @@ namespace ProjectBeelzebub
 
         #endregion
 
-        #region Dialogue
+        #region Beast
+
+        private void CheckBeast()
+        {
+            if (day.CurrentPercentage() >= isNightAt)
+            {
+                beastCount += Time.deltaTime;
+
+                if (beastCount > beastTimer)
+                {
+                    SpawnBeast();
+
+                    beastCount = 0;
+                }
+            }
+        }
+
+        private void SpawnBeast()
+        {
 
 
+            // Find position around player
+            Vector3 playerPos = stats.transform.position;
+            Vector3 randomPos = new(Random.Range(-spawnRing.x, spawnRing.x), Random.Range(-spawnRing.y, spawnRing.y), 0);
+            Vector3 spawnPos = playerPos + randomPos;
+
+            spawnPosition = spawnPos;
+
+            RaycastHit2D hit = Physics2D.BoxCast(spawnPos, new Vector2(1, 1), 0, Vector2.zero);
+            if (hit.collider == null || hit.collider.tag == "Beast")
+            {
+                print("Beast Spawned" + spawnPos);
+                GameObject beastObj = Instantiate(beast, spawnPos, Quaternion.identity, transform);
+            }
+            else
+            {
+                print (hit.collider.name + spawnPos);
+            }
+
+
+        }
 
         #endregion
 
@@ -178,6 +228,15 @@ namespace ProjectBeelzebub
         {
             Gizmos.color = Color.red;
             Gizmos.DrawCube(officerOffset, Vector3.one);
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawCube(spawnPosition, Vector3.one);
+
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(stats.gameObject.transform.position, spawnRing.x);
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(stats.gameObject.transform.position, spawnRing.y);
         }
     }
 }

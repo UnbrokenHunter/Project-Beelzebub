@@ -12,6 +12,7 @@ TagManager:
   - Lava
   - Rock Circle
   - Gate
+  - Beast
   layers:
   - Default
   - TransparentFX
