@@ -48,8 +48,11 @@ namespace ProjectBeelzebub
         [SerializeField] private Vector2 attacksizeD;
         [SerializeField] private float oldSpace;
         [SerializeField] private float newSpace;
+
+        [Title("Looking At")]
         [SerializeField] private FireScript currentFireScript;
         [SerializeField] private RockCircle currentRockCircle;
+        [SerializeField] private Gate currentGate;
 
         public void SwapLeftie()
         {
@@ -115,11 +118,11 @@ namespace ProjectBeelzebub
 
             if (hit.collider != null)
             {
+                attack.SetActive(true);
 
                 // Attackable
                 if (hit.collider.gameObject.tag == "Enemy")
                 {
-                    attack.SetActive(true);
                     attack.GetComponent<HorizontalLayoutGroup>().spacing = oldSpace;
                     attack.GetComponent<RectTransform>().sizeDelta = new Vector2(attackoriginalSizeD.x, attackoriginalSizeD.y);
 
@@ -129,7 +132,6 @@ namespace ProjectBeelzebub
                 // Material
                 if (hit.collider.gameObject.tag == "Material")
                 {
-                    attack.SetActive(true);
                     attack.GetComponent<RectTransform>().sizeDelta = new Vector2(attackoriginalSizeD.x, attackoriginalSizeD.y);
                     attack.GetComponent<HorizontalLayoutGroup>().spacing = oldSpace;
                     attack.GetComponentInChildren<TMP_Text>().text = "Collect:";
@@ -140,7 +142,6 @@ namespace ProjectBeelzebub
 
                     GameManager.Instance.playerLookingAtFire = true;
 
-                    attack.SetActive(true);
                     currentFireScript = hit.collider.gameObject.GetComponent<FireScript>();
                     attack.GetComponent<RectTransform>().sizeDelta = new Vector2(attacksizeD.x, attacksizeD.y);
                     attack.GetComponent<HorizontalLayoutGroup>().spacing = newSpace;
@@ -156,23 +157,31 @@ namespace ProjectBeelzebub
                 if (hit.collider.gameObject.tag == "Rock Circle")
                 {
                     GameManager.Instance.playerLookingAtRocks = true;
-                    attack.SetActive(true);
                     
                     attack.GetComponentInChildren<TMP_Text>().text = "Place Fire:";
 
                     currentRockCircle = hit.collider.gameObject.GetComponent<RockCircle>();
+                    attack.GetComponent<RectTransform>().sizeDelta = new Vector2(attacksizeD.x, attacksizeD.y);
+                    attack.GetComponent<HorizontalLayoutGroup>().spacing = newSpace;
 
                     hit.collider.gameObject.GetComponent<RockCircle>().ShowPopup();
                 }
 
+                if (hit.collider.gameObject.tag == "Gate")
+                {
+
+                    attack.GetComponentInChildren<TMP_Text>().text = "Open Gate:";
+
+                    currentGate = hit.collider.gameObject.GetComponent<Gate>();
+                    currentGate.ShowPopup();
+                }
+
                 if (hit.collider.gameObject.tag == "NPC")
                 {
-                    attack.SetActive(true);
                     attack.GetComponent<HorizontalLayoutGroup>().spacing = oldSpace;
                     attack.GetComponent<RectTransform>().sizeDelta = new Vector2(attackoriginalSizeD.x, attackoriginalSizeD.y);
 
                     attack.GetComponentInChildren<TMP_Text>().text = "Attack:";
-
 
                     GameManager.Instance.playerLookingAtDialogue = true;
 					GameManager.Instance.dialogue = hit.collider.gameObject.GetComponent<Dialogue>();
@@ -183,6 +192,8 @@ namespace ProjectBeelzebub
             else
             {
                 attack.SetActive(false);
+
+                // If it is is not null then we know we are not looking at it anyumore
 
                 // So you can disable things afterwards
                 if(currentFireScript != null)
@@ -195,7 +206,11 @@ namespace ProjectBeelzebub
                 {
                     currentRockCircle.HidePopup();
                     GameManager.Instance.playerLookingAtRocks = false;
+                }
 
+                if(currentGate != null)
+                {
+                    currentGate.HidePopup();
                 }
 
                 if (GameManager.Instance.dialogue != null)

@@ -23,7 +23,10 @@ namespace ProjectBeelzebub
         [SerializeField] private GameObject EndGameMenu;
 
         [Title("Fire")]
+        [SerializeField] public string fireTimer;
+        [SerializeField] private TMP_Text fireTimerUI;
         [SerializeField] public bool isFireRunning = false;
+        [SerializeField] public bool hasFireRun = false;
         [SerializeField] private float fireMultiplier = 5;
         public bool playerLookingAtFire;
 
@@ -62,6 +65,8 @@ namespace ProjectBeelzebub
                 if (!officerSpawned)
                     Rescue();
             }
+
+            UpdateFireTimer();
         }
 
         #region Sleep
@@ -89,6 +94,25 @@ namespace ProjectBeelzebub
         #endregion
 
         #region Fire
+
+        private void UpdateFireTimer()
+        {
+            if(isFireRunning)
+            {
+                fireTimerUI.text = fireTimer;
+                fireTimerUI.gameObject.SetActive(true);
+            }
+            else if (hasFireRun)
+            {
+                fireTimerUI.text = "The fire was put out!";
+                fireTimerUI.gameObject.SetActive(true);
+            }
+            else
+            {
+                fireTimerUI.gameObject.SetActive(false);
+            }
+
+        }
 
         public void CheckFire()
         {

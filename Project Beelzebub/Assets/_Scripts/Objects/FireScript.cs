@@ -12,6 +12,7 @@ namespace ProjectBeelzebub
     {
 
         [Title("Other")]
+        [SerializeField] GameObject lighting;
         [SerializeField] private Animator anim;
         [SerializeField] private InventoryItem fuel;
         [SerializeField] private InventoryItem glasses;
@@ -56,7 +57,8 @@ namespace ProjectBeelzebub
                 PutOut();
             }
 
-            firetext.text = $"{(fireLife - fireTimer).ToString("0.00")} Seconds Left";
+            GameManager.Instance.fireTimer = $"{(fireLife - fireTimer).ToString("0.00")} Seconds Left";
+            firetext.text = GameManager.Instance.fireTimer;
 
         }
 
@@ -82,6 +84,7 @@ namespace ProjectBeelzebub
 
         public void PutOut()
         {
+            lighting.SetActive(false);
             GetComponent<DealDamage>().isSpiky = false;
             fireActive = false;
             GameManager.Instance.CheckFire();
@@ -94,11 +97,13 @@ namespace ProjectBeelzebub
         {
             fireLife = fuelMultiplier * fuel;
 
+            lighting.SetActive(true);
             GetComponent<DealDamage>().isSpiky = true;
             
             fireTimer = 0;
             fireActive = true;
             GameManager.Instance.isFireRunning = true;
+            GameManager.Instance.hasFireRun = true;
 
             MasterAudio.StartPlaylist("Fire", "FirePlaylist");
 

@@ -125,6 +125,16 @@ namespace ProjectBeelzebulb
                     }
                 }
 
+                else if (hit.collider.gameObject.tag == "Gate")
+                {
+                    print("Gate!!!");
+                    Gate g = hit.collider.gameObject.GetComponent<Gate>();
+
+                    if (inv.CheckMaterial(g.GetKeyType()) > 0)
+                        g.OpenGate();
+
+                }
+
 
                 if (hit.collider.gameObject.tag == "NPC")
                 {
