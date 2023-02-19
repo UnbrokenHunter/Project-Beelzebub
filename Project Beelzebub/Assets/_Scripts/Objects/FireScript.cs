@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DarkTonic.MasterAudio;
+using MoreMountains.Feedbacks;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -99,6 +100,7 @@ namespace ProjectBeelzebub
 
             lighting.SetActive(true);
             GetComponent<DealDamage>().isSpiky = true;
+            GetComponent<MMF_Player>().PlayFeedbacks();
             
             fireTimer = 0;
             fireActive = true;
