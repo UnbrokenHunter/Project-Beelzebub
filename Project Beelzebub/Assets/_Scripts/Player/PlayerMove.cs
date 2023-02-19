@@ -26,6 +26,7 @@ namespace ProjectBeelzebulb
         [SerializeField] private LayerMask mask;
 
         [Title("Fire")]
+        [SerializeField] private InventoryItem fire;
         [SerializeField] private InventoryItem fuel;
         [SerializeField] private InventoryItem starter;
 
@@ -100,7 +101,7 @@ namespace ProjectBeelzebulb
                 {
                     print("Fire");
 
-                    if(hit.collider.gameObject.GetComponent<FireScript>().fireActive && inv.CheckMaterial(fuel) > 0)
+                    if (hit.collider.gameObject.GetComponent<FireScript>().fireActive && inv.CheckMaterial(fuel) > 0)
                     {
                         inv.RemoveItem(fuel, 1);
                         hit.collider.gameObject.GetComponent<FireScript>().AddFuel(1);
@@ -113,6 +114,17 @@ namespace ProjectBeelzebulb
                     }
 
                 }
+                else if (hit.collider.gameObject.tag == "Rock Circle")
+                {
+                    print("Rock Circle");
+
+                    if (inv.CheckMaterial(fire) > 0)
+                    {
+                        hit.collider.gameObject.GetComponent<RockCircle>().PlaceFire();
+
+                    }
+                }
+
 
                 if (hit.collider.gameObject.tag == "NPC")
                 {

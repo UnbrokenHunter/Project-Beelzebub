@@ -68,14 +68,6 @@ namespace ProjectBeelzebub
                 RemoveItem(item, 1);
             }
 
-            else if (item.name == "Fire")
-            {
-                GameObject fire = Instantiate(firePrefab, GameManager.Instance.transform);
-            
-                fire.transform.position = transform.position  + fireOffset;
-            }
-
-
 
             print(MasterAudio.PlaySound(item.useSound));
 
@@ -175,7 +167,8 @@ namespace ProjectBeelzebub
             }
 
         }
-       
+
+        [Button]
         public bool AddItem(InventoryItem item)
         {
             

@@ -48,7 +48,8 @@ namespace ProjectBeelzebub
         [SerializeField] private Vector2 attacksizeD;
         [SerializeField] private float oldSpace;
         [SerializeField] private float newSpace;
-        [SerializeField] private FireScript current;
+        [SerializeField] private FireScript currentFireScript;
+        [SerializeField] private RockCircle currentRockCircle;
 
         public void SwapLeftie()
         {
@@ -140,7 +141,7 @@ namespace ProjectBeelzebub
                     GameManager.Instance.playerLookingAtFire = true;
 
                     attack.SetActive(true);
-                    current = hit.collider.gameObject.GetComponent<FireScript>();
+                    currentFireScript = hit.collider.gameObject.GetComponent<FireScript>();
                     attack.GetComponent<RectTransform>().sizeDelta = new Vector2(attacksizeD.x, attacksizeD.y);
                     attack.GetComponent<HorizontalLayoutGroup>().spacing = newSpace;
 
@@ -150,6 +151,18 @@ namespace ProjectBeelzebub
                         attack.GetComponentInChildren<TMP_Text>().text = "Start Fire:";
 
                     hit.collider.gameObject.GetComponent<FireScript>().ShowPopup();
+                }
+
+                if (hit.collider.gameObject.tag == "Rock Circle")
+                {
+                    GameManager.Instance.playerLookingAtRocks = true;
+                    attack.SetActive(true);
+                    
+                    attack.GetComponentInChildren<TMP_Text>().text = "Place Fire:";
+
+                    currentRockCircle = hit.collider.gameObject.GetComponent<RockCircle>();
+
+                    hit.collider.gameObject.GetComponent<RockCircle>().ShowPopup();
                 }
 
                 if (hit.collider.gameObject.tag == "NPC")
@@ -172,13 +185,20 @@ namespace ProjectBeelzebub
                 attack.SetActive(false);
 
                 // So you can disable things afterwards
-                if(current != null)
+                if(currentFireScript != null)
                 {
-                    current.HidePopup();
+                    currentFireScript.HidePopup();
 					GameManager.Instance.playerLookingAtFire = false;
 				}
 
-                if(GameManager.Instance.dialogue != null)
+                if(currentRockCircle != null)
+                {
+                    currentRockCircle.HidePopup();
+                    GameManager.Instance.playerLookingAtRocks = false;
+
+                }
+
+                if (GameManager.Instance.dialogue != null)
                 {
                    GameManager.Instance.dialogue.HideDialogue();
 

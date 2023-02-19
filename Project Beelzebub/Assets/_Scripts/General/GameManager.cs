@@ -27,6 +27,8 @@ namespace ProjectBeelzebub
         [SerializeField] private float fireMultiplier = 5;
         public bool playerLookingAtFire;
 
+        public bool playerLookingAtRocks;
+
         [Title("Dialogue")]
         public bool playerLookingAtDialogue;
         public Dialogue dialogue;

@@ -14,6 +14,7 @@ namespace ProjectBeelzebub
         [Title("Other")]
         [SerializeField] private Animator anim;
         [SerializeField] private InventoryItem fuel;
+        [SerializeField] private InventoryItem glasses;
 
         [Title("Numbers")]
         [SerializeField] private float fireLife;
@@ -22,6 +23,7 @@ namespace ProjectBeelzebub
         [Title("Popup")]
         [SerializeField] private GameObject popup;
         [SerializeField] private Image materialImage;
+        [SerializeField] private Image material2Image;
         [SerializeField] private TMP_Text firetext;
         [SerializeField] private TMP_Text sleeptext;
 
@@ -63,6 +65,7 @@ namespace ProjectBeelzebub
             popup.SetActive(true);
 
             materialImage.sprite = fuel.sprite;
+            material2Image.sprite = glasses.sprite;
             firetext.text = $"{(fireLife - fireTimer).ToString("0.00")} Seconds Left";
         }
 
