@@ -61,6 +61,7 @@ MonoBehaviour:
   dialogue: {fileID: 0}
   text: {fileID: 0}
   image: {fileID: 0}
+  revealSpeed: 0.1
   currentSellected: 0
 --- !u!114 &5598016532148012202
 MonoBehaviour:
