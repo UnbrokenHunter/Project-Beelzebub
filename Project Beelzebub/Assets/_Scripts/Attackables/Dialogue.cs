@@ -19,7 +19,14 @@ namespace ProjectBeelzebub
 
         [SerializeField] private int currentSellected;
 
-		public void ShowDialogue()
+        public void ShowDialogue(string text)
+        {
+            this.texts[currentSellected] = text;
+            ShowDialogue();
+        }
+
+
+        public void ShowDialogue()
         {
             if (dialogue.activeInHierarchy != false) return;
 

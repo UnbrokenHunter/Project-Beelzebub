@@ -216,6 +216,11 @@ namespace ProjectBeelzebub
             // Fire
             if (item.name == "Fire")
             {
+                selectedMenu = 0;
+                CycleMenus();
+
+                GetComponent<Dialogue>().ShowDialogue("I should probably place this somewhere high up.");
+
                 fireCam.Priority = 11;
 
                 StartCoroutine(waitDialogue());
@@ -225,8 +230,9 @@ namespace ProjectBeelzebub
         }
         private IEnumerator waitDialogue()
         {
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(5);
             fireCam.Priority = 9;
+            GetComponent<Dialogue>().HideDialogue();
         }
 
         public void RemoveItem(InventoryItem item, int amount)
