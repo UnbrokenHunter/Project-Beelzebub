@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using DarkTonic.MasterAudio;
-
+using Cinemachine;
 
 namespace ProjectBeelzebub
 {
@@ -26,6 +26,7 @@ namespace ProjectBeelzebub
         [SerializeField] protected GameObject itemPrefab;
 
         [Title("Fire")]
+        [SerializeField] private CinemachineVirtualCamera fireCam;
         [SerializeField] private GameObject firePrefab;
         [SerializeField] private Vector3 fireOffset;
 
@@ -202,10 +203,30 @@ namespace ProjectBeelzebub
 
             UpdateInventory();
 
+            CheckSpecialCrafts(item);
+
             toast.StartToast(item);
 
             return true;
 
+        }
+
+        private void CheckSpecialCrafts(InventoryItem item)
+        {
+            // Fire
+            if (item.name == "Fire")
+            {
+                fireCam.Priority = 11;
+
+                StartCoroutine(waitDialogue());
+
+            }
+
+        }
+        private IEnumerator waitDialogue()
+        {
+            yield return new WaitForSeconds(3);
+            fireCam.Priority = 9;
         }
 
         public void RemoveItem(InventoryItem item, int amount)
