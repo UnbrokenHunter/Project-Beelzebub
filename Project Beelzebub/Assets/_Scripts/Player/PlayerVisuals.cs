@@ -14,6 +14,7 @@ namespace ProjectBeelzebub
 
 
         [Title("Other")]
+        [SerializeField] private ParticleSystem footstep;
         [SerializeField] private Animator anim;
         [SerializeField] private SpriteRenderer rend;
         private Rigidbody2D rb;
@@ -30,7 +31,9 @@ namespace ProjectBeelzebub
         public void PlayFootsteps()
         {
             MasterAudio.PlaySound("Footstep");
-        }
+            footstep.Play();
+
+		}
 
         private void SetAnimations()
         {
