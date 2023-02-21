@@ -34,7 +34,7 @@ namespace ProjectBeelzebub
             }
 
             print("Start");
-
+            MasterAudio.FadeBusToVolume("Music", 0, 5);
 
 			foreach (GameObject obj in objectsToDisableBefore)
 			{
