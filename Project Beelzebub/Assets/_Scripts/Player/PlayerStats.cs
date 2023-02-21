@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DarkTonic.MasterAudio;
 using MoreMountains.Feedbacks;
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,7 @@ namespace ProjectBeelzebub
         #region Stats
 
         [Title("General")]
+        [SerializeField] private TMP_Text youAreText;
         [SerializeField] Vector3 spawnLocation;
         [SerializeField] private PlayerVisuals visuals;
         [SerializeField] public InventoryItem weapon;
@@ -97,7 +99,8 @@ namespace ProjectBeelzebub
             {
                 speedMultiplier = Mathf.Min(0.5f, speedMultiplier);
                 MasterAudio.PlaySound(hungrySound);
-            }
+
+			}
             else
                 speedMultiplier = 1;
 
@@ -111,7 +114,8 @@ namespace ProjectBeelzebub
             {
 				speedMultiplier = Mathf.Min(0.5f, speedMultiplier);
                 MasterAudio.PlaySound(thirstySound);
-            }
+
+			}
             else
                 speedMultiplier = 1;
 
@@ -125,7 +129,8 @@ namespace ProjectBeelzebub
             {
                 sleepMultiplier = Mathf.Min(0.5f, sleepMultiplier);
                 MasterAudio.PlaySound(thirstySound);
-            }
+
+			}
             else
                 speedMultiplier = 1;
 
@@ -133,11 +138,33 @@ namespace ProjectBeelzebub
                 health -= 1;
         }
 
+        private void YouAreUpdater()
+        {
+            if (sleep < 3 && thirst < 3 && hunger < 3)
+                youAreText.text = "You are Hungry, Thirsty, and Tired";
 
-        #endregion
+            else if (sleep < 3 && thirst < 3)
+                youAreText.text = "You are Thirsty and Tired";
+            else if (sleep < 3 && hunger < 3)
+                youAreText.text = "You are Hungry and Tired";
+            else if (thirst < 3 && hunger < 3)
+                youAreText.text = "You are Hungry and Thirsty";
 
-        #region Add/Remove
-        public void AddHunger(float amount)
+            else if (thirst < 3)
+                youAreText.text = "You are Thirsty";
+            else if (hunger < 3)
+                youAreText.text = "You are Hungry";
+            else if (sleep < 3)
+                youAreText.text = "You are Tired";
+
+            else
+                youAreText.text = "";
+		}
+
+		#endregion
+
+		#region Add/Remove
+		public void AddHunger(float amount)
         {
             hunger += amount;
             hunger = Mathf.Min(hunger, maxHunger);
@@ -285,6 +312,8 @@ namespace ProjectBeelzebub
         private void Update()
         {
             PlayFeedBacks();
+
+            YouAreUpdater();
 
             HungerTimer();
 

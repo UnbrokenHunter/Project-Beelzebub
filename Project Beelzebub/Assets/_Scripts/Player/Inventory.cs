@@ -216,7 +216,6 @@ namespace ProjectBeelzebub
             // Fire
             if (item.name == "Fire")
             {
-                selectedMenu = 0;
                 CycleMenus();
 
                 GetComponent<Dialogue>().ShowDialogue("I should probably place this somewhere high up.");

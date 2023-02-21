@@ -29,6 +29,7 @@ namespace ProjectBeelzebub
         private Vector3 spawnPosition;
 
         [Title("Tutorial")]
+        [SerializeField] private CinemachineVirtualCamera spawnCam;
         [SerializeField] private Sprite playerPortrait;
         [SerializeField] private string[] dialogues;
         [SerializeField] private float[] waitTimes;
@@ -94,20 +95,35 @@ namespace ProjectBeelzebub
 
         private void Start()
         {
+            StartCoroutine(SpawnCam());
             StartCoroutine(StartTutorial());
         }
 
         #region Tutorial
 
+        private IEnumerator SpawnCam()
+        {
+            spawnCam.Priority = 11;
+
+            yield return new WaitForSeconds(1f);
+
+            spawnCam.Priority = 9;
+
+		}
+
         private IEnumerator StartTutorial()
         {
+
             for (int i = 0; i < waitTimes.Length; i++)
             {
-                yield return new WaitForSeconds(waitTimes[i]);
                 GetComponent<Dialogue>().ShowDialogue(dialogues[i], playerPortrait);
+				yield return new WaitForSeconds(waitTimes[i]);
             }
 
-        }
+            GetComponent<Dialogue>().HideDialogue();
+
+
+		}
 
         #endregion
 

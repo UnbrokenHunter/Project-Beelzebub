@@ -51,6 +51,7 @@ namespace ProjectBeelzebub
             anim.SetFloat("moveY", lastDir.y);
 
             // Flix x
+
             rend.flipX = lastDir.x < 0;
 
 
@@ -69,5 +70,9 @@ namespace ProjectBeelzebub
       
         public void SetDeath() => anim.SetTrigger("death");
 
+        public void SetAttack()
+        {
+            anim.SetTrigger("attack");
+		}
     }
 }

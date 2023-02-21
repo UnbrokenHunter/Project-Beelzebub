@@ -17,6 +17,12 @@ namespace ProjectBeelzebub
         [SerializeField] private float panicTimer = 20;
         [SerializeField] private float deathDelay = 1;
 
+        [Title("Attacks")]
+        [SerializeField] private bool doesAttack = false;
+        [SerializeField] private float damage = 1;
+        [SerializeField] private float attackCooldown = 1;
+        private float cooldownCount = 0;
+
         [Title("Sounds")]
         [SerializeField] private string hitSound;
         [SerializeField] private string killSound;
@@ -30,23 +36,53 @@ namespace ProjectBeelzebub
         [Title("Drops")]
 		[SerializeField] private List<InventoryItem> drops;
 
-        [SerializeField] MMF_Player feedback;
+        [Title("Juice")]
+        [SerializeField] private Color flickerColor;
+        [SerializeField] private ParticleSystem blood;
+        [SerializeField] private MMF_Player feedback;
 
         private bool isDead = false;
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if(!isDead && doesAttack)
+            {
+                if (collision.collider.gameObject.CompareTag("Player"))
+                {
+                    print(MasterAudio.PlaySound("PigAttack"));
+
+                    visuals.SetAttack();
+
+                    AttackPlayer(collision.collider.gameObject);
+				}
+			}
+		}
+
+        private void AttackPlayer(GameObject player)
+        {
+            if(cooldownCount > attackCooldown)
+            {
+				player.GetComponent<PlayerStats>().RemoveHealth(damage);
+                cooldownCount = 0;
+            }
+		}
+
+        private void Update() => cooldownCount += Time.deltaTime;
+
         private IEnumerator Panic()
         {
 
             AIPath path = GetComponent<AIPath>();
-
+            blood.Play();
 			wander.enabled = false;
 			run.enabled = true;
 
-			path.maxSpeed += speedBoost;
+			path.maxSpeed = speedBoost;
 
             yield return new WaitForSeconds(panicTimer);
 
-            path.maxSpeed -= speedBoost;
-
+            path.maxSpeed = speedBoost;
+            blood.Pause();
 			wander.enabled = true;
             run.enabled = false;
 		}
@@ -60,7 +96,9 @@ namespace ProjectBeelzebub
 
             StartCoroutine(Panic());
 
-            feedback?.PlayFeedbacks();
+			feedback?.PlayFeedbacks();
+
+            StartCoroutine(Flicker());
 
             print($"{gameObject.name} is now at {health}!");
 
@@ -69,6 +107,20 @@ namespace ProjectBeelzebub
 
             else
                 visuals.SetHit();
+        }
+
+        private IEnumerator Flicker()
+        {
+
+            SpriteRenderer r = GetComponentInChildren<SpriteRenderer>();
+            for(int i =0; i < 5; i++)
+            {
+                r.color = flickerColor;
+                yield return new WaitForSeconds(0.05f);
+                r.color = Color.white;
+                yield return new WaitForSeconds(0.05f);
+
+            }
         }
 
         private void KillEntity()

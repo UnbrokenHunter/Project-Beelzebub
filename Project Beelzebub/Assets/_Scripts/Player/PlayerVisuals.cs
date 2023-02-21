@@ -25,12 +25,7 @@ namespace ProjectBeelzebub
             rb = GetComponentInParent<Rigidbody2D>();
         }
 
-        private void Update()
-        {
-            
-            SetAnimations();
-
-        }
+        private void Update() => SetAnimations();
 
         public void PlayFootsteps()
         {
