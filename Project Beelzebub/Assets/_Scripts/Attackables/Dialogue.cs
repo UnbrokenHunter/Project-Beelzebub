@@ -20,6 +20,19 @@ namespace ProjectBeelzebub
 
         [SerializeField] private int currentSellected;
 
+        public void ShowDialogue(string text, Sprite portrait)
+        {
+            if (dialogue.activeInHierarchy != false) return;
+            
+            this.texts[currentSellected] = text;
+            image.sprite = portrait;
+            dialogue.SetActive(true);
+
+            StartCoroutine(RevealString());
+
+        }
+
+
         public void ShowDialogue(string text)
         {
             this.texts[currentSellected] = text;
@@ -27,7 +40,6 @@ namespace ProjectBeelzebub
         }
 
         private string shownString;
-
         private IEnumerator RevealString()
         {
             int i = 0;

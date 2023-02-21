@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 namespace ProjectBeelzebub
@@ -18,6 +19,11 @@ namespace ProjectBeelzebub
         [SerializeField] private GameObject settings;
 
         [SerializeField] private bool leftie = false;
+
+        private bool hasSetMat = false;
+        [SerializeField] private Material outlineMat;
+        [SerializeField] private Material tempMat;
+        [SerializeField] private SpriteRenderer changedSprite;
 
         [Title("Sprites")]
         [Title("Left")]
@@ -119,6 +125,16 @@ namespace ProjectBeelzebub
             if (hit.collider != null)
             {
                 attack.SetActive(true);
+                if (hit.collider.gameObject.GetComponentInChildren<SpriteRenderer>() != null)
+                {
+                    if (hit.collider.gameObject.GetComponentInChildren<SpriteRenderer>().material != outlineMat && !hasSetMat)
+                    {
+                        changedSprite = hit.collider.gameObject.GetComponentInChildren<SpriteRenderer>();
+                        tempMat = changedSprite.material;
+                        changedSprite.material = outlineMat;
+                        hasSetMat = true;
+                    }
+                }
 
                 // Attackable
                 if (hit.collider.gameObject.tag == "Enemy")
@@ -193,6 +209,7 @@ namespace ProjectBeelzebub
             {
                 attack.SetActive(false);
 
+                // The fact that this method was called means that we were looking at something
                 // If it is is not null then we know we are not looking at it anyumore
 
                 // So you can disable things afterwards
@@ -220,6 +237,14 @@ namespace ProjectBeelzebub
 					GameManager.Instance.playerLookingAtDialogue = false;
                     GameManager.Instance.dialogue = null;
 			    }
+
+                if (changedSprite != null)
+                {
+                    changedSprite.material = tempMat;
+                    changedSprite = null;
+
+                    hasSetMat = false;
+                }
 			}
         }
 

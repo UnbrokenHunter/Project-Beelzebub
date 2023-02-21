@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using MoreMountains.Feedbacks;
 using Sirenix.OdinInspector;
 using TMPro;
+using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
@@ -16,6 +18,7 @@ namespace ProjectBeelzebub
 
         [Title("Beast")]
         [SerializeField] private GameObject beast;
+        [SerializeField] private MMF_Player spawnBeastFeedback;
         [SerializeField] private List<Vector2> spawnLocations;
         [SerializeField] private float isNightAt = 80f;
         [SerializeField] private float beastLifespan = 50;
@@ -24,6 +27,11 @@ namespace ProjectBeelzebub
 
         // TEMP
         private Vector3 spawnPosition;
+
+        [Title("Tutorial")]
+        [SerializeField] private Sprite playerPortrait;
+        [SerializeField] private string[] dialogues;
+        [SerializeField] private float[] waitTimes;
 
         [Title("Rescue")]
         [SerializeField] private float rescueTime = 100f;
@@ -84,6 +92,25 @@ namespace ProjectBeelzebub
             CheckBeast();
         }
 
+        private void Start()
+        {
+            StartCoroutine(StartTutorial());
+        }
+
+        #region Tutorial
+
+        private IEnumerator StartTutorial()
+        {
+            for (int i = 0; i < waitTimes.Length; i++)
+            {
+                yield return new WaitForSeconds(waitTimes[i]);
+                GetComponent<Dialogue>().ShowDialogue(dialogues[i], playerPortrait);
+            }
+
+        }
+
+        #endregion
+
         #region Sleep
 
         public void Sleep()
@@ -113,21 +140,34 @@ namespace ProjectBeelzebub
 
                 if (beastCount > beastTimer)
                 {
-                    SpawnBeast();
-
+                    StartCoroutine(SpawnBeast());
                     beastCount = 0;
                 }
             }
         }
 
-        private void SpawnBeast()
+        [Button]
+        private void InstaSpawnBeast() => StartCoroutine(SpawnBeast());
+
+        private IEnumerator SpawnBeast()
         {
+            Vector2 playerPos = stats.transform.position;
+            float minDistance = 1000;
+            foreach (Vector2 beastPos in spawnLocations)
+            {
+                if(Vector2.Distance(playerPos, beastPos) < minDistance)
+                {
+                    minDistance = Vector2.Distance(playerPos, beastPos);
+                    spawnPosition = beastPos;
+                }
+                print(minDistance);
+            }
 
-            Vector3 randomPos = spawnLocations [ Random.Range(0, spawnLocations.Count) ];
+            spawnBeastFeedback?.PlayFeedbacks();
 
-            spawnPosition = randomPos;
+            yield return new WaitForSeconds(0.5f);
 
-            GameObject beastObj = Instantiate(beast, randomPos, Quaternion.identity, transform);
+            GameObject beastObj = Instantiate(beast, spawnPosition, Quaternion.identity, transform);
             StartCoroutine(beastObj.GetComponent<BeastScript>().StartLifespan(beastLifespan));
 
         }
@@ -183,7 +223,7 @@ namespace ProjectBeelzebub
             officer.transform.position = officerOffset;
             officerSpawned = true;
 
-            GetComponent<Dialogue>().ShowDialogue();
+            GetComponent<Dialogue>().ShowDialogue("Rescue has arrived! Come find me!");
 
             vcam.Priority = 11;
 
