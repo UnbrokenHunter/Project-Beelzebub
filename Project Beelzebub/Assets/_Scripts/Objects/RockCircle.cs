@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -35,6 +36,7 @@ namespace ProjectBeelzebub
                 print("Place Fire");
                 fire = Instantiate(firePrefab, spawnLocation + transform.position, Quaternion.identity, transform);
                 hasFire = true;
+
 
                 GetComponent<BoxCollider2D>().enabled = false;
             }

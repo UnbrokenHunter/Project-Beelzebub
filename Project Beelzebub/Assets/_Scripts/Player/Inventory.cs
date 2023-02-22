@@ -71,10 +71,10 @@ namespace ProjectBeelzebub
                 RemoveItem(item, 1);
             }
 
-
             print(MasterAudio.PlaySound(item.useSound));
             GetComponentInChildren<StatsMenu>().UpdateUI();
             UpdateInventory();
+            CheckSpecialCrafts(item);
         }
 
         // On move
@@ -219,9 +219,20 @@ namespace ProjectBeelzebub
             // Fire
             if (item.name == "Fire")
             {
-                CycleMenus();
-                GetComponent<Crafting>().CycleMenus();
+                // Always go to correct Page
+                if(selectedMenu == 0)
+                {
+                    CycleMenus();
+                    GetComponent<Crafting>().CycleMenus();
+                } 
+                else
+                {
+                    CycleMenus();
+                    GetComponent<Crafting>().CycleMenus();
+                    CycleMenus();
+                    GetComponent<Crafting>().CycleMenus();
 
+                }
                 GetComponent<Dialogue>().ShowDialogue("I should probably place this somewhere higher up.");
 
                 fireCam.Priority = 11;

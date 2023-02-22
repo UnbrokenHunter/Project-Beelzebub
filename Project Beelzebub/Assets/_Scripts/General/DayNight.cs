@@ -10,6 +10,7 @@ namespace ProjectBeelzebub
         [Title("Day Night")]
         [SerializeField] private float duration = .5f;
         [SerializeField] private float minimumLight = 0.5f;
+        [SerializeField] private float startOffset = 0f;
 
         [Title("Color")]
         [SerializeField] private Gradient gradient;
@@ -33,7 +34,7 @@ namespace ProjectBeelzebub
         private void Update()
         {
             // Calculate the time elapsed since the start time
-            var timeElapsed = (Time.time + _skippedTime) - _startTime;
+            var timeElapsed = (Time.time + _skippedTime + startOffset) - _startTime;
 
             // Calculate the percentage based on the since of the time elapsed
             var percentage = Mathf.Sin(timeElapsed / duration * Mathf.PI * 2) * 0.5f + minimumLight;

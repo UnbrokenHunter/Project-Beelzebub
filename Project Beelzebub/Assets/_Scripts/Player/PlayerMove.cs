@@ -1,6 +1,8 @@
+using Cinemachine;
 using DarkTonic.MasterAudio;
 using ProjectBeelzebub;
 using Sirenix.OdinInspector;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -29,6 +31,10 @@ namespace ProjectBeelzebulb
         [SerializeField] private InventoryItem fire;
         [SerializeField] private InventoryItem fuel;
         [SerializeField] private InventoryItem starter;
+
+        [Title("Cameras")]
+        [SerializeField] private CinemachineVirtualCamera playerCam;
+        [SerializeField] private CinemachineVirtualCamera glassesCam;
 
 
         private Rigidbody2D rb;
@@ -112,6 +118,13 @@ namespace ProjectBeelzebulb
 
                         hit.collider.gameObject.GetComponent<FireScript>().StartFire(1);
                     }
+                    else if(inv.CheckMaterial(fuel) > 0)
+                    {
+                        glassesCam.Priority = 11;
+                        GetComponent<Dialogue>().ShowDialogue("Now how do I light this thing?");
+
+                        StartCoroutine(glassesWait());
+                    }
 
                 }
                 else if (hit.collider.gameObject.tag == "Rock Circle")
@@ -149,6 +162,13 @@ namespace ProjectBeelzebulb
 
             }
 
+        }
+
+        private IEnumerator glassesWait()
+        {
+            yield return new WaitForSeconds(5);
+            GetComponent<Dialogue>().HideDialogue();
+            glassesCam.Priority = 9;
         }
 
         public Vector2 GetMovement()

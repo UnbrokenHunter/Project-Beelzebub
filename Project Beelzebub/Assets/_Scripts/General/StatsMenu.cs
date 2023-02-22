@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,6 +32,8 @@ namespace ProjectBeelzebub
         [Title("Items")]
         [SerializeField] private GameObject equpt;
         [SerializeField] private Image equptIcon;
+        [SerializeField] private TMP_Text equptName;
+        [SerializeField] private TMP_Text equptDamage;
 
         [SerializeField] private PlayerStats stats;
 
@@ -96,6 +99,8 @@ namespace ProjectBeelzebub
             if(stats.weapon != null)
             {
                 equptIcon.sprite = stats.weapon.sprite;
+                equptName.text = stats.weapon.name;
+                equptDamage.text = "Damage: " + stats.weapon.damage.ToString();
                 equptIcon.enabled = true;
             }
             else
