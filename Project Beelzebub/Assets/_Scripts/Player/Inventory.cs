@@ -20,6 +20,7 @@ namespace ProjectBeelzebub
         [SerializeField] private int selectedItem = 0;
 
         [Title("UI")]
+        [SerializeField] private float randomDropRange = 1;
         [SerializeField] private ToastManager toast;
         [SerializeField] private GameObject dropPrefab;
         [SerializeField] private GameObject dropsContainer;
@@ -158,8 +159,10 @@ namespace ProjectBeelzebub
 
             foreach (InventoryItem item in inventory)
             {
+                Vector3 random = new (Random.Range(-randomDropRange, randomDropRange), Random.Range(-randomDropRange, randomDropRange), 0);
+
                 GameObject g = Instantiate(dropPrefab, Vector3.zero, Quaternion.identity, dropsContainer.transform);
-                g.transform.localPosition = worldPos;
+                g.transform.localPosition = worldPos + random;
                 g.GetComponent<Drop>().item = item;
                 g.GetComponent<SpriteRenderer>().sprite = item.sprite;
 
@@ -167,7 +170,6 @@ namespace ProjectBeelzebub
 
                 RemoveItem(item, item.stackCount);
             }
-
         }
 
         [Button]
@@ -240,6 +242,8 @@ namespace ProjectBeelzebub
         {
             foreach (InventoryItem inv in inventory)
             {
+                if (inv != null) break;
+
                 if (inv.name != item.name) 
                     continue;
                 

@@ -187,12 +187,10 @@ namespace ProjectBeelzebulb
 
         }
 
-        public void OnMove(InputValue value)
-        {
-            movement = value.Get<Vector2>();
-        }
+        public void OnMove(InputValue value) => movement = value.Get<Vector2>();
 
-        public void OnFire(InputValue value) => Attack();
+
+		public void OnFire(InputValue value) => Attack();
     
         public void OnMenu(InputValue value)
         {

@@ -83,6 +83,8 @@ namespace ProjectBeelzebub
         {
 
             fireLife += fuelMultiplier * amt;
+
+            print(MasterAudio.PlaySound("Add Fuel"));
         }
 
         public void PutOut()

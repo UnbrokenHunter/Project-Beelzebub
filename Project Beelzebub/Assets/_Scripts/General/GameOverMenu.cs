@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -33,10 +34,27 @@ namespace ProjectBeelzebub
         [SerializeField] private bool hasTextOffset = true;
         [SerializeField] private float textOffsetAmount = 10;
 
-        private Vector2 movement;
-        private bool canMove = true;
+		[Title("Event Sys")]
+		[SerializeField] private GameObject buttonGameObj;
+		private GameObject currentSelGameObjTemp;
 
-        private void ClickSelected()
+		private Vector2 movement;
+		private bool canMove = true;
+
+		private void OnEnable()
+		{
+			currentSelGameObjTemp = EventSystem.current.currentSelectedGameObject;
+			EventSystem.current.SetSelectedGameObject(buttonGameObj);
+
+		}
+
+		private void OnDisable()
+		{
+			EventSystem.current.SetSelectedGameObject(currentSelGameObjTemp);
+
+		}
+
+		private void ClickSelected()
         {
             print(MasterAudio.PlaySound(clickSound));
             events[selected].Invoke();

@@ -14,11 +14,6 @@ namespace ProjectBeelzebub
 		[Title("Settings")]
 		[SerializeField, Range(0, 2)] public int selectedMenu = 0;
 
-		private void pri()
-		{
-			print(selectedMenu);
-		}
-
 		[Title("Inputs")]
 		[SerializeField] protected UnityEvent fire;
 		[SerializeField] protected UnityEvent move;
@@ -38,16 +33,12 @@ namespace ProjectBeelzebub
         private Vector2 curInput = Vector2.zero;
         private Vector2 lastInput = Vector2.zero;
 
-        private void Update()
-        {
-            timer += Time.deltaTime;
-
-        }
+		private void Update() => timer += Time.deltaTime;
 
 
-        #region Menu
+		#region Menu
 
-        public bool CanOpenInv()
+		public bool CanOpenInv()
 		{
 			if (gameOverMenu.activeInHierarchy)
 				return false;
@@ -67,7 +58,7 @@ namespace ProjectBeelzebub
 			else if (settingsMenu.activeInHierarchy)
 				selectedMenu = 0;
 
-			if(GameManager.Instance.playerLookingAtFire)
+			if(GameManager.Instance.playerLookingAtFire && GameManager.Instance.isFireRunning)
 			{
 				selectedMenu = 0;
 
