@@ -45,6 +45,9 @@ namespace ProjectBeelzebub
         [Title("Settings")]
         [SerializeField] private OpenSettings settingsContainer;
 
+        [SerializeField] private float TalkSpacing;
+        private float oldTalkSpacing;
+
         [Title("Move")]
         [SerializeField] private float movementSpacing;
         [SerializeField] private float navigationSpacing;
@@ -59,6 +62,11 @@ namespace ProjectBeelzebub
         [SerializeField] private FireScript currentFireScript;
         [SerializeField] private RockCircle currentRockCircle;
         [SerializeField] private Gate currentGate;
+
+        private void Start()
+        {
+            oldTalkSpacing = inv.GetComponent<HorizontalLayoutGroup>().spacing;
+        }
 
         public void SwapLeftie()
         {
@@ -255,18 +263,23 @@ namespace ProjectBeelzebub
             if (canOpen)
             {
                 inv.SetActive(true);
-                
-                if(GameManager.Instance.playerLookingAtFire)
+
+                if (GameManager.Instance.playerLookingAtFire)
                 {
                     inv.GetComponentInChildren<TMP_Text>().text = "Sleep:";
+                    inv.GetComponent<HorizontalLayoutGroup>().spacing = oldTalkSpacing;
                 }
 				else if (GameManager.Instance.dialogue != null)
 				{
 					inv.GetComponentInChildren<TMP_Text>().text = "Talk:";
-				}
+                    inv.GetComponent<HorizontalLayoutGroup>().spacing = TalkSpacing;
+
+                }
 				else
                 {
                     inv.GetComponentInChildren<TMP_Text>().text = "Inventory:";
+                    inv.GetComponent<HorizontalLayoutGroup>().spacing = oldTalkSpacing;
+
                 }
 
             }

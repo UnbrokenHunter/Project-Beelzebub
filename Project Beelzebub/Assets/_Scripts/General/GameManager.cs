@@ -41,7 +41,11 @@ namespace ProjectBeelzebub
         [SerializeField] private GameObject officer;
         [SerializeField] private Vector3 officerOffset;
         [SerializeField] private bool officerSpawned = false;
+        [SerializeField] private bool gameOver = false;
         [SerializeField] private GameObject EndGameMenu;
+        [SerializeField] private GameObject Player;
+        [SerializeField] private GameObject UI;
+        [SerializeField] private GameObject dialogueObj;
         [SerializeField] private CinemachineVirtualCamera vcam;
 
         [Title("Fire")]
@@ -67,14 +71,7 @@ namespace ProjectBeelzebub
         private void Awake()
         {
             if (Instance == null)
-            {
                 Instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
         }
 
         private void Update()
@@ -114,13 +111,13 @@ namespace ProjectBeelzebub
         private IEnumerator StartTutorial()
         {
 
-            for (int i = 0; i < waitTimes.Length; i++)
+            for (int i = 0; i < dialogues.Length; i++)
             {
                 GetComponent<Dialogue>().ShowDialogue(dialogues[i], playerPortrait);
 				yield return new WaitForSeconds(waitTimes[i]);
+                GetComponent<Dialogue>().HideDialogue();
             }
 
-            GetComponent<Dialogue>().HideDialogue();
 
 
 		}
@@ -239,8 +236,8 @@ namespace ProjectBeelzebub
             officer.transform.position = officerOffset;
             officerSpawned = true;
 
-            GetComponent<Dialogue>().ShowDialogue("Rescue has arrived! Come find me!");
-
+            GetComponent<Dialogue>().HideDialogue();
+            GetComponent<Dialogue>().ShowDialogue("Rescue has arrived! Come over here!");
             vcam.Priority = 11;
 
             StartCoroutine(waitDialogue());
@@ -249,13 +246,17 @@ namespace ProjectBeelzebub
 
         private IEnumerator waitDialogue()
         {
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(5);
             vcam.Priority = 9;
             GetComponent<Dialogue>().HideDialogue();
         }
 
         public void EndGame()
         {
+            if(gameOver) return; 
+                gameOver = true;
+
+
             fade.SetTrigger("go");
 
             StartCoroutine(waitForEnd());
@@ -263,8 +264,21 @@ namespace ProjectBeelzebub
 
         private IEnumerator waitForEnd()
         {
+            spawnCam.Priority = 11;
+
             yield return new WaitForSeconds(4);
+
+
             EndGameMenu.SetActive(true);
+            dialogueObj.SetActive(false);
+            Player.SetActive(false);
+            UI.SetActive(false);
+
+
+            yield return new WaitForSeconds(15);
+
+            LevelManager.Instance.LoadScene("Title");
+
         }
 
         #endregion

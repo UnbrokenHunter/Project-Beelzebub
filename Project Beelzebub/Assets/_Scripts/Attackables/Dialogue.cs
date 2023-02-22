@@ -17,13 +17,15 @@ namespace ProjectBeelzebub
 		[SerializeField] private TMP_Text text;
 		[SerializeField] private Image image;
         [SerializeField] private float revealSpeed = 0.2f;
+        public bool displayDialogue;
 
         [SerializeField] private int currentSellected;
 
         public void ShowDialogue(string text, Sprite portrait)
         {
             if (dialogue.activeInHierarchy != false) return;
-            
+
+            displayDialogue = true;
             this.texts[currentSellected] = text;
             image.sprite = portrait;
             dialogue.SetActive(true);
@@ -42,10 +44,13 @@ namespace ProjectBeelzebub
         private string shownString;
         private IEnumerator RevealString()
         {
+
             int i = 0;
             while (i <= texts[currentSellected].Length)
             {
-                shownString = texts[currentSellected].Substring(0, i);
+                if (!displayDialogue) break;
+                
+                    shownString = texts[currentSellected].Substring(0, i);
                 text.text = shownString;
 
                 yield return new WaitForSeconds(revealSpeed);
@@ -58,7 +63,7 @@ namespace ProjectBeelzebub
         public void ShowDialogue()
         {
             if (dialogue.activeInHierarchy != false) return;
-
+            displayDialogue = true;
             dialogue.SetActive(true);
 			image.sprite = portrait;
 
@@ -67,6 +72,7 @@ namespace ProjectBeelzebub
 
         public void HideDialogue()
         {
+            displayDialogue = false;
 			dialogue.SetActive(false);
 		}
 
