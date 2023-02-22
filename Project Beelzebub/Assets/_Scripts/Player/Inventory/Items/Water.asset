@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Water
   m_EditorClassIdentifier: 
   name: Water
-  description: Water!
+  description: slurp
   type: 1
   useSound: Drink
   sprite: {fileID: 2103724723, guid: 85da6fc071e6a5e4d9ef469125db4f9d, type: 3}
@@ -24,4 +24,4 @@ MonoBehaviour:
   hunger: 0
   thirst: 4
   stackSize: 3
-  stackCount: 1
+  stackCount: 3

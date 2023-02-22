@@ -65,6 +65,7 @@ namespace ProjectBeelzebub
             else if(item.type == InventoryItem.ItemType.Weapon)
             {
                 playerStats.weapon = item;
+                GetComponentInChildren<StatsMenu>().UpdateUI();
 
                 RemoveItem(item, 1);
             }
@@ -219,7 +220,7 @@ namespace ProjectBeelzebub
                 CycleMenus();
                 GetComponent<Crafting>().CycleMenus();
 
-                GetComponent<Dialogue>().ShowDialogue("I should probably place this somewhere high up.");
+                GetComponent<Dialogue>().ShowDialogue("I should probably place this somewhere higher up.");
 
                 fireCam.Priority = 11;
 
@@ -230,7 +231,7 @@ namespace ProjectBeelzebub
         }
         private IEnumerator waitDialogue()
         {
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(7);
             fireCam.Priority = 9;
             GetComponent<Dialogue>().HideDialogue();
         }

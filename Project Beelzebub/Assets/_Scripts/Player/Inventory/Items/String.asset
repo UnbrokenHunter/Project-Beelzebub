@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: String
   m_EditorClassIdentifier: 
   name: String
-  description: This is String
+  description: Wait, you know how to braid leaves??
   type: 2
   useSound: 
   sprite: {fileID: 7568307, guid: 85da6fc071e6a5e4d9ef469125db4f9d, type: 3}

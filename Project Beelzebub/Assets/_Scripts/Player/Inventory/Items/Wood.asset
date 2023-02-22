@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Wood
   m_EditorClassIdentifier: 
   name: Wood
-  description: This is wood
+  description: Good ol wood
   type: 2
   useSound: 
   sprite: {fileID: -1584671901, guid: 85da6fc071e6a5e4d9ef469125db4f9d, type: 3}
@@ -24,4 +24,4 @@ MonoBehaviour:
   hunger: 0
   thirst: 0
   stackSize: 20
-  stackCount: 1
+  stackCount: 4

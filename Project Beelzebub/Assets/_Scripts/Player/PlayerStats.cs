@@ -97,7 +97,7 @@ namespace ProjectBeelzebub
         {
             if (hunger < 3)
             {
-                speedMultiplier = Mathf.Min(0.5f, speedMultiplier);
+                speedMultiplier = Mathf.Min(0.75f, speedMultiplier);
                 MasterAudio.PlaySound(hungrySound);
 
 			}
@@ -112,7 +112,7 @@ namespace ProjectBeelzebub
 		{
 			if (thirst < 3)
             {
-				speedMultiplier = Mathf.Min(0.5f, speedMultiplier);
+				speedMultiplier = Mathf.Min(0.75f, speedMultiplier);
                 MasterAudio.PlaySound(thirstySound);
 
 			}
@@ -127,7 +127,7 @@ namespace ProjectBeelzebub
         {
             if (sleep < 3)
             {
-                sleepMultiplier = Mathf.Min(0.5f, sleepMultiplier);
+                sleepMultiplier = Mathf.Min(0.75f, sleepMultiplier);
                 MasterAudio.PlaySound(thirstySound);
 
 			}

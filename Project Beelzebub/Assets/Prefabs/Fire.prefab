@@ -26,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1103150064743539363}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.386, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0.9999432, w: -0.010662404}
+  m_LocalPosition: {x: -0.0017700195, y: -0.09591234, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6504298410745277552}
-  m_RootOrder: 0
+  m_Father: {fileID: 3235973679890004491}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!198 &3886884449985554743
 ParticleSystem:
@@ -51,7 +51,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -5301,6 +5301,7 @@ Transform:
   - {fileID: 3235973680092662778}
   - {fileID: 3235973680539241653}
   - {fileID: 6504298410745277552}
+  - {fileID: 1231221643609700258}
   - {fileID: 1418818565488129907}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -5360,6 +5361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lighting: {fileID: 3876837750141273017}
+  particle: {fileID: 3886884449985554743}
   anim: {fileID: 3235973680092662777}
   fuel: {fileID: 11400000, guid: 7aada8626d4823744be03c94cc62b382, type: 2}
   glasses: {fileID: 11400000, guid: dd7dd64298d4bde48bd672e4775b5c7f, type: 2}
@@ -6034,8 +6036,7 @@ Transform:
   m_LocalPosition: {x: -0.01, y: 0.29, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1231221643609700258}
+  m_Children: []
   m_Father: {fileID: 3235973679890004491}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6321,7 +6322,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3235973679890004491}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1288780044909287338
 MonoBehaviour:

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outcomeItem: {fileID: 11400000, guid: 0c0befd10cd0c564fb6765370ac7721c, type: 2}
   material1: {fileID: 11400000, guid: 7aada8626d4823744be03c94cc62b382, type: 2}
-  material1Amount: 3
+  material1Amount: 10
   material2: {fileID: 11400000, guid: 5ea7172df05901d408ca553ba4a3aba3, type: 2}
   material2Amount: 3
-  material3: {fileID: 0}
-  material3Amount: 0
+  material3: {fileID: 11400000, guid: e4d6d038386e4c44080b0f52ed1ffb65, type: 2}
+  material3Amount: 1

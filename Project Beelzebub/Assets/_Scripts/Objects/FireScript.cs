@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.ParticleSystem;
 
 namespace ProjectBeelzebub
 {
@@ -13,8 +14,9 @@ namespace ProjectBeelzebub
     {
 
         [Title("Other")]
-        [SerializeField] GameObject lighting;
-        [SerializeField] private Animator anim;
+		[SerializeField] GameObject lighting;
+		[SerializeField] ParticleSystem particle;
+		[SerializeField] private Animator anim;
         [SerializeField] private InventoryItem fuel;
         [SerializeField] private InventoryItem glasses;
 
@@ -86,7 +88,10 @@ namespace ProjectBeelzebub
         public void PutOut()
         {
             lighting.SetActive(false);
-            GetComponent<DealDamage>().isSpiky = false;
+            particle.Pause();
+
+
+			GetComponent<DealDamage>().isSpiky = false;
             fireActive = false;
             GameManager.Instance.CheckFire();
 
@@ -99,7 +104,10 @@ namespace ProjectBeelzebub
             fireLife = fuelMultiplier * fuel;
 
             lighting.SetActive(true);
-            GetComponent<DealDamage>().isSpiky = true;
+            particle.Play();
+
+
+			GetComponent<DealDamage>().isSpiky = true;
             GetComponent<MMF_Player>().PlayFeedbacks();
             
             fireTimer = 0;
