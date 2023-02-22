@@ -5364,7 +5364,7 @@ MonoBehaviour:
   fuel: {fileID: 11400000, guid: 7aada8626d4823744be03c94cc62b382, type: 2}
   glasses: {fileID: 11400000, guid: dd7dd64298d4bde48bd672e4775b5c7f, type: 2}
   fireLife: 0
-  fuelMultiplier: 10
+  fuelMultiplier: 30
   popup: {fileID: 3235973680539241654}
   materialImage: {fileID: 3235973680405442082}
   material2Image: {fileID: 7867222914587535990}
