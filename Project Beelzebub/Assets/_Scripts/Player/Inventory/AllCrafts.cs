@@ -22,6 +22,12 @@ namespace ProjectBeelzebub
 
         private void Awake() => SetCraft();
 
+        public void RemoveItem(CraftableItem item)
+        {
+            items.Remove(item);
+            SetCraft();
+        }
+
         [Button]
         public void SetCraft()
         {

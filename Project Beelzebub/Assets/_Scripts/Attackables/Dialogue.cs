@@ -16,30 +16,14 @@ namespace ProjectBeelzebub
         [SerializeField] private GameObject dialogue;
 		[SerializeField] private TMP_Text text;
 		[SerializeField] private Image image;
+        [SerializeField] private float nextTextCooldown = 0.5f;
+        private float nextTextTimer = 0;
         [SerializeField] private float revealSpeed = 0.2f;
         public bool displayDialogue;
 
         [SerializeField] private int currentSellected;
 
-        public void ShowDialogue(string text, Sprite portrait)
-        {
-            if (dialogue.activeInHierarchy != false) return;
-
-            displayDialogue = true;
-            this.texts[currentSellected] = text;
-            image.sprite = portrait;
-            dialogue.SetActive(true);
-
-            StartCoroutine(RevealString());
-
-        }
-
-
-        public void ShowDialogue(string text)
-        {
-            this.texts[currentSellected] = text;
-            ShowDialogue();
-        }
+        private void Update() => nextTextTimer += Time.deltaTime;
 
         private string shownString;
         private IEnumerator RevealString()
@@ -57,9 +41,23 @@ namespace ProjectBeelzebub
                 i++;
             }
         }
+        public void ShowDialogue(string text, Sprite portrait)
+        {
+            if (dialogue.activeInHierarchy != false) return;
 
+            displayDialogue = true;
+            this.texts[currentSellected] = text;
+            image.sprite = portrait;
+            dialogue.SetActive(true);
 
+            StartCoroutine(RevealString());
 
+        }
+        public void ShowDialogue(string text)
+        {
+            this.texts[currentSellected] = text;
+            ShowDialogue();
+        }
         public void ShowDialogue()
         {
             if (dialogue.activeInHierarchy != false) return;
@@ -69,20 +67,21 @@ namespace ProjectBeelzebub
 
             StartCoroutine(RevealString());
 		}
-
         public void HideDialogue()
         {
             displayDialogue = false;
 			dialogue.SetActive(false);
 		}
-
 		public void ShowNext()
         {
+            if (nextTextCooldown > nextTextTimer) return;
+            nextTextTimer = 0;
+
 			currentSellected++;
 
-            print("Next Dia");
+            print("Next Dialogue");
 
-            if(currentSellected > texts.Count)
+            if(currentSellected > texts.Count - 1)
                 currentSellected = 0;
             if(texts.Count > currentSellected)
                 StartCoroutine(RevealString());

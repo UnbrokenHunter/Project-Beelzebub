@@ -14,6 +14,11 @@ namespace ProjectBeelzebub
 		[Title("Settings")]
 		[SerializeField, Range(0, 2)] public int selectedMenu = 0;
 
+		private void pri()
+		{
+			print(selectedMenu);
+		}
+
 		[Title("Inputs")]
 		[SerializeField] protected UnityEvent fire;
 		[SerializeField] protected UnityEvent move;
@@ -54,6 +59,8 @@ namespace ProjectBeelzebub
 
         public void CycleMenus()
 		{
+
+			print(selectedMenu);
 
             if (gameOverMenu.activeInHierarchy)
 				selectedMenu = 0;

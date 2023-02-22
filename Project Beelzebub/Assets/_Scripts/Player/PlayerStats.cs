@@ -105,7 +105,7 @@ namespace ProjectBeelzebub
                 speedMultiplier = 1;
 
             if (hunger <= 0)
-                health -= 1;
+                RemoveHealth(1);
         }
 
 		private void CheckThirst()
@@ -120,7 +120,7 @@ namespace ProjectBeelzebub
                 speedMultiplier = 1;
 
             if (thirst <= 0)
-				health -= 1;
+                RemoveHealth(1);
 		}
 
         private void CheckSleep()
@@ -135,7 +135,7 @@ namespace ProjectBeelzebub
                 speedMultiplier = 1;
 
             if (sleep <= 0)
-                health -= 1;
+                RemoveHealth(1);
         }
 
         private void YouAreUpdater()

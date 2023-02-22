@@ -102,7 +102,7 @@ namespace ProjectBeelzebub
         public void UpdateInventory()
         {
 
-            inventory.RemoveAll(inv => inv.stackCount < 0);
+            inventory.RemoveAll(inv => inv.stackCount <= 0);
 
             // Inventory
             foreach (GameObject item in inventoryObjects)
@@ -217,6 +217,7 @@ namespace ProjectBeelzebub
             if (item.name == "Fire")
             {
                 CycleMenus();
+                GetComponent<Crafting>().CycleMenus();
 
                 GetComponent<Dialogue>().ShowDialogue("I should probably place this somewhere high up.");
 

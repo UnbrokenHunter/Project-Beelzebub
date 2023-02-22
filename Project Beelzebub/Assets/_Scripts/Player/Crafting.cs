@@ -24,6 +24,9 @@ namespace ProjectBeelzebub
         [SerializeField]
         private Color selectedColor;
 
+        [SerializeField] 
+        private CraftableItem fire;
+
         private void Start() => allCraft = craftMenu.GetComponentInChildren<AllCrafts>();
 
         private void NextSelected() => selectedItem += selectedItem < allCraft.GetItems().Count - 1 ? 1 : 0;
@@ -122,6 +125,12 @@ namespace ProjectBeelzebub
             if (craft.material3 != null)
             {
                 inv.RemoveItem(craft.material3, craft.material3Amount);
+            }
+
+            if (craft == fire)
+            {
+                GetComponentInChildren<AllCrafts>().RemoveItem(craft);
+                print("Fire Crafted");
             }
 
 		}
