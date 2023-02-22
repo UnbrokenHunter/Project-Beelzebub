@@ -242,7 +242,7 @@ namespace ProjectBeelzebub
         {
             foreach (InventoryItem inv in inventory)
             {
-                if (inv != null) break;
+                if (inv == null) break;
 
                 if (inv.name != item.name) 
                     continue;

@@ -37,6 +37,9 @@ namespace ProjectBeelzebub
         [SerializeField] private MMF_Player sleepy;
         [SerializeField] private MMF_Player attack;
 
+        [Title("Damage")]
+        [SerializeField] private float damageCooldown = 3;
+        private float damageTimer = 0;
 
         [Title("Speed")]
 		[SerializeField, FoldoutGroup("Speed")] public float maxSpeed = 5;
@@ -99,13 +102,9 @@ namespace ProjectBeelzebub
             {
                 speedMultiplier = Mathf.Min(0.75f, speedMultiplier);
                 MasterAudio.PlaySound(hungrySound);
-
 			}
             else
                 speedMultiplier = 1;
-
-            if (hunger <= 0)
-                RemoveHealth(1);
         }
 
 		private void CheckThirst()
@@ -114,28 +113,19 @@ namespace ProjectBeelzebub
             {
 				speedMultiplier = Mathf.Min(0.75f, speedMultiplier);
                 MasterAudio.PlaySound(thirstySound);
-
 			}
             else
                 speedMultiplier = 1;
-
-            if (thirst <= 0)
-                RemoveHealth(1);
 		}
 
         private void CheckSleep()
         {
             if (sleep < 3)
             {
-                sleepMultiplier = Mathf.Min(0.75f, sleepMultiplier);
-                MasterAudio.PlaySound(thirstySound);
-
+                MasterAudio.PlaySound(sleepySound);
 			}
             else
                 speedMultiplier = 1;
-
-            if (sleep <= 0)
-                RemoveHealth(1);
         }
 
         private void YouAreUpdater()
@@ -233,7 +223,12 @@ namespace ProjectBeelzebub
             {
                 
                 if (sleep < 3) sleepy?.PlayFeedbacks();
-                else if (hunger < 3) hungry?.PlayFeedbacks();
+                else if (hunger < 3)
+                {
+
+                    hungry?.PlayFeedbacks();
+
+                }
                 else if (thirst < 3) thirsty?.PlayFeedbacks();
 
                 feedbackCount = 0;
@@ -286,6 +281,18 @@ namespace ProjectBeelzebub
             }
         }
 
+        private void DamageTimer()
+        {
+            damageTimer += Time.deltaTime;
+
+            if(damageTimer > damageCooldown && (thirst <= 0 || hunger <= 0))
+            {
+                damageTimer = 0;
+
+                RemoveHealth(1);
+            }
+        }
+
         #endregion
 
         #region General
@@ -320,7 +327,10 @@ namespace ProjectBeelzebub
 			ThirstTimer();
 
             SleepTimer();
-        }
+
+            DamageTimer();
+
+		}
 
         private void ResetUI()
         {
