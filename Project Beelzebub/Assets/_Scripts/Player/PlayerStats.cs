@@ -64,8 +64,8 @@ namespace ProjectBeelzebub
 		private float statsCount = 0;
 
 		[Title("Sleep")]
-		[SerializeField, FoldoutGroup("Sleep")] private float sleep = 10;
-		[SerializeField, FoldoutGroup("Sleep")] private float maxSleep = 10;
+		[SerializeField, FoldoutGroup("Sleep")] public float sleep = 10;
+		[SerializeField, FoldoutGroup("Sleep")] public float maxSleep = 10;
 		[SerializeField, FoldoutGroup("Sleep")] private float sleepMultiplier = 0.5f;
         [SerializeField, FoldoutGroup("Sleep")] private GameObject sleepObj;
 		[SerializeField, FoldoutGroup("Sleep")] private List<GameObject> sleepBar;

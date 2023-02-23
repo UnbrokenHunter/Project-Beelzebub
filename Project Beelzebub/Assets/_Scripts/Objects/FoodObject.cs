@@ -37,7 +37,11 @@ namespace ProjectBeelzebub
 
 
         private void Awake() => rend = GetComponentInChildren<SpriteRenderer>();
-        private void Start() => inventory = FindObjectOfType<Inventory>();
+        private void Start()
+        {
+            inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
+            InvokeRepeating(nameof(UpdateFood), 0, regrowTime);
+        }
 
         public void AddItem()
         {
@@ -73,11 +77,9 @@ namespace ProjectBeelzebub
         }
 
 
-        private void Update()
+        private void UpdateFood()
         {
-            time += Time.deltaTime;
-
-            if (time > regrowTime && foodCount < maxFood && doesRegrow)
+            if (foodCount < maxFood && doesRegrow)
             {
                 time = 0;
                 foodCount += 1;

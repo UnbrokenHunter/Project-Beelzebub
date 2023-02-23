@@ -44,7 +44,7 @@ namespace ProjectBeelzebub
         {
             if (GameManager.Instance.sleepCooldown - GameManager.Instance.sleepTimer > 0)
             {
-                sleeptext.text = $"{(GameManager.Instance.sleepCooldown - GameManager.Instance.sleepTimer).ToString("0.00")} Seconds Left";
+                sleeptext.text = $"{GameManager.Instance.sleepCooldown - GameManager.Instance.sleepTimer:0.00} Seconds Left";
 
             }
             else
@@ -60,7 +60,7 @@ namespace ProjectBeelzebub
                 PutOut();
             }
 
-            GameManager.Instance.fireTimer = $"{(fireLife - fireTimer).ToString("0.00")} Seconds Left";
+            GameManager.Instance.fireTimer = $"{fireLife - fireTimer:0.00} Seconds Left";
             firetext.text = GameManager.Instance.fireTimer;
 
         }
@@ -71,7 +71,7 @@ namespace ProjectBeelzebub
 
             materialImage.sprite = fuel.sprite;
             material2Image.sprite = glasses.sprite;
-            firetext.text = $"{(fireLife - fireTimer).ToString("0.00")} Seconds Left";
+            firetext.text = $"{fireLife - fireTimer:0.00} Seconds Left";
         }
 
         public void HidePopup()
