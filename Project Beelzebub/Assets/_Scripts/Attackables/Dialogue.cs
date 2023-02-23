@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -17,13 +18,11 @@ namespace ProjectBeelzebub
 		[SerializeField] private TMP_Text text;
 		[SerializeField] private Image image;
         [SerializeField] private float nextTextCooldown = 0.5f;
-        private float nextTextTimer = 0;
+        private bool canGoNext = true;
         [SerializeField] private float revealSpeed = 0.2f;
         public bool displayDialogue;
 
         [SerializeField] private int currentSellected;
-
-        private void Update() => nextTextTimer += Time.deltaTime;
 
         private string shownString;
         private IEnumerator RevealString()
@@ -61,6 +60,7 @@ namespace ProjectBeelzebub
         public void ShowDialogue()
         {
             if (dialogue.activeInHierarchy != false) return;
+
             displayDialogue = true;
             dialogue.SetActive(true);
 			image.sprite = portrait;
@@ -74,8 +74,7 @@ namespace ProjectBeelzebub
 		}
 		public void ShowNext()
         {
-            if (nextTextCooldown > nextTextTimer) return;
-            nextTextTimer = 0;
+            if (!canGoNext) return;
 
 			currentSellected++;
 
@@ -89,7 +88,20 @@ namespace ProjectBeelzebub
             if (events.Count > currentSellected)
                 events[currentSellected].Invoke();
 
+            StartCoroutine(WaitForNext());
         }
+
+        private IEnumerator WaitForNext()
+        {
+            canGoNext = false;
+
+            yield return new WaitForSeconds(nextTextCooldown);
+
+            canGoNext = true;
+
+
+
+		}
 
 	}
 }

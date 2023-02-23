@@ -136,7 +136,7 @@ namespace ProjectBeelzebub
                 fade.SetTrigger("go");
 
                 day.Sleep();
-                stats.sleep = stats.maxSleep;
+                stats.AddSleep();
                 print("Sleep");
             }
         }

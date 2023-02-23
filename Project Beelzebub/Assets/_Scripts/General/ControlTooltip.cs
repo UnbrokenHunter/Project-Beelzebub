@@ -14,9 +14,19 @@ namespace ProjectBeelzebub
     {
 
         [SerializeField] private GameObject move;
-        [SerializeField] private GameObject attack;
+		private HorizontalLayoutGroup moveLayout;
+		private TMP_Text movetext;
+
+		[SerializeField] private GameObject attack;
+        private RectTransform attackRect;
+        private HorizontalLayoutGroup attackLayout;
+        private TMP_Text attacktext;
+
         [SerializeField] private GameObject inv;
-        [SerializeField] private GameObject settings;
+		private HorizontalLayoutGroup invLayout;
+		private TMP_Text invtext;
+
+		[SerializeField] private GameObject settings;
 
         [SerializeField] private bool leftie = false;
 
@@ -66,9 +76,20 @@ namespace ProjectBeelzebub
         private void Start()
         {
             oldTalkSpacing = inv.GetComponent<HorizontalLayoutGroup>().spacing;
-        }
 
-        public void SwapLeftie()
+		    attackRect = attack.GetComponent<RectTransform>();
+		    attackLayout = attack.GetComponent<HorizontalLayoutGroup>();
+		    attacktext = attack.GetComponentInChildren<TMP_Text>();
+
+			invLayout = inv.GetComponent<HorizontalLayoutGroup>();
+			invtext = inv.GetComponentInChildren<TMP_Text>();
+
+			moveLayout = move.GetComponent<HorizontalLayoutGroup>();
+			movetext = move.GetComponentInChildren<TMP_Text>();
+
+		}
+
+		public void SwapLeftie()
         {
             // Set to left
             if(leftie)
@@ -104,10 +125,10 @@ namespace ProjectBeelzebub
         public void CanSettings (bool canOpen)
         {
             if(canOpen)
-            {
                 settings.SetActive(true);
-            }
-            else { settings.SetActive(false); }
+
+            else 
+                settings.SetActive(false);
         }
 
         public void CanMove(bool canMove)
@@ -115,14 +136,14 @@ namespace ProjectBeelzebub
             if(canMove)
             {
                 move.SetActive(true);
-                move.GetComponent<HorizontalLayoutGroup>().spacing = movementSpacing;
-                move.GetComponentInChildren<TMP_Text>().text = "Move:";
+				moveLayout.spacing = movementSpacing;
+				movetext.text = "Move: ";
             }
             else
             {
-                move.GetComponent<HorizontalLayoutGroup>().spacing = navigationSpacing;
                 move.SetActive(true);
-                move.GetComponentInChildren<TMP_Text>().text = "Navigate:";
+				moveLayout.spacing = navigationSpacing;
+				movetext.text = "Navigate: ";
             }
         }
 
@@ -133,86 +154,80 @@ namespace ProjectBeelzebub
             if (hit.collider != null)
             {
                 attack.SetActive(true);
-                if (hit.collider.gameObject.GetComponentInChildren<SpriteRenderer>() != null)
-                {
-                    if (hit.collider.gameObject.GetComponentInChildren<SpriteRenderer>().material != outlineMat && !hasSetMat)
-                    {
-                        changedSprite = hit.collider.gameObject.GetComponentInChildren<SpriteRenderer>();
-                        tempMat = changedSprite.material;
-                        changedSprite.material = outlineMat;
-                        hasSetMat = true;
-                    }
-                }
+
+                ChangeCollider(hit);
 
                 // Attackable
-                if (hit.collider.gameObject.tag == "Enemy")
+                if (hit.collider.gameObject.CompareTag("Enemy"))
                 {
                     attack.GetComponent<HorizontalLayoutGroup>().spacing = oldSpace;
-                    attack.GetComponent<RectTransform>().sizeDelta = new Vector2(attackoriginalSizeD.x, attackoriginalSizeD.y);
+                    attackRect.sizeDelta = attackoriginalSizeD;
 
-                    attack.GetComponentInChildren<TMP_Text>().text = "Attack:";
+					attacktext.text = "Attack:";
                 }
 
                 // Material
-                if (hit.collider.gameObject.tag == "Material")
+                else if (hit.collider.gameObject.CompareTag("Material"))
                 {
-                    attack.GetComponent<RectTransform>().sizeDelta = new Vector2(attackoriginalSizeD.x, attackoriginalSizeD.y);
-                    attack.GetComponent<HorizontalLayoutGroup>().spacing = oldSpace;
-                    attack.GetComponentInChildren<TMP_Text>().text = "Collect:";
+                    attackRect.sizeDelta = attackoriginalSizeD;
+					attackLayout.spacing = oldSpace;
+					attacktext.text = "Collect:";
                 }
 
-                if (hit.collider.gameObject.tag == "Fire")
+                else if (hit.collider.gameObject.CompareTag("Fire"))
                 {
 
                     GameManager.Instance.playerLookingAtFire = true;
 
                     currentFireScript = hit.collider.gameObject.GetComponent<FireScript>();
-                    attack.GetComponent<RectTransform>().sizeDelta = new Vector2(attacksizeD.x, attacksizeD.y);
-                    attack.GetComponent<HorizontalLayoutGroup>().spacing = newSpace;
+                    attackRect.sizeDelta = attacksizeD;
+                    attackLayout.spacing = newSpace;
 
-                    if (hit.collider.gameObject.GetComponent<FireScript>().fireActive)
-                        attack.GetComponentInChildren<TMP_Text>().text = "Add Fuel:";
+                    if (currentFireScript.fireActive)
+						attacktext.text = "Add Fuel:";
+
                     else
-                        attack.GetComponentInChildren<TMP_Text>().text = "Start Fire:";
+						attacktext.text = "Start Fire:";
 
-                    hit.collider.gameObject.GetComponent<FireScript>().ShowPopup();
+					currentFireScript.ShowPopup();
                 }
 
-                if (hit.collider.gameObject.tag == "Rock Circle")
+                else if (hit.collider.gameObject.CompareTag("Rock Circle"))
                 {
                     GameManager.Instance.playerLookingAtRocks = true;
-                    
-                    attack.GetComponentInChildren<TMP_Text>().text = "Place Fire:";
+
+					attacktext.text = "Place Fire:";
 
                     currentRockCircle = hit.collider.gameObject.GetComponent<RockCircle>();
-                    attack.GetComponent<RectTransform>().sizeDelta = new Vector2(attacksizeD.x, attacksizeD.y);
-                    attack.GetComponent<HorizontalLayoutGroup>().spacing = newSpace;
+
+					attackRect.sizeDelta = attacksizeD;
+					attackLayout.spacing = newSpace;
 
                     hit.collider.gameObject.GetComponent<RockCircle>().ShowPopup();
                 }
 
-                if (hit.collider.gameObject.tag == "Gate")
+                else if (hit.collider.gameObject.CompareTag("Gate"))
                 {
 
-                    attack.GetComponentInChildren<TMP_Text>().text = "Open Gate:";
+					attacktext.text = "Open Gate:";
 
                     currentGate = hit.collider.gameObject.GetComponent<Gate>();
                     currentGate.ShowPopup();
                 }
 
-                if (hit.collider.gameObject.tag == "NPC")
+                else if (hit.collider.gameObject.CompareTag("NPC"))
                 {
-                    attack.GetComponent<HorizontalLayoutGroup>().spacing = oldSpace;
-                    attack.GetComponent<RectTransform>().sizeDelta = new Vector2(attackoriginalSizeD.x, attackoriginalSizeD.y);
+					attackLayout.spacing = oldSpace;
+					attackRect.sizeDelta = attackoriginalSizeD;
 
-                    attack.GetComponentInChildren<TMP_Text>().text = "Attack:";
+					attacktext.text = "Attack:";
 
                     GameManager.Instance.playerLookingAtDialogue = true;
-					GameManager.Instance.dialogue = hit.collider.gameObject.GetComponent<Dialogue>();
+                    GameManager.Instance.dialogue = hit.collider.gameObject.GetComponent<Dialogue>();
 
                     GameManager.Instance.dialogue.ShowDialogue();
-				}
-			}
+                }
+            }
             else
             {
                 attack.SetActive(false);
@@ -227,13 +242,13 @@ namespace ProjectBeelzebub
 					GameManager.Instance.playerLookingAtFire = false;
 				}
 
-                if(currentRockCircle != null)
+                else if(currentRockCircle != null)
                 {
                     currentRockCircle.HidePopup();
                     GameManager.Instance.playerLookingAtRocks = false;
                 }
 
-                if(currentGate != null)
+                else if(currentGate != null)
                 {
                     currentGate.HidePopup();
                 }
@@ -256,6 +271,20 @@ namespace ProjectBeelzebub
 			}
         }
 
+        private void ChangeCollider(RaycastHit2D hit)
+        {
+            SpriteRenderer sprite = hit.collider.gameObject.GetComponentInChildren<SpriteRenderer>();
+
+			// If outlinr dosnt work add this back
+			// sprite.material != outlineMat
+			if (sprite != null && !hasSetMat)
+            {
+                tempMat = sprite.material;
+                sprite.material = outlineMat;
+                hasSetMat = true;
+            }
+        }
+
         public void CanInv()
         {
 
@@ -266,24 +295,24 @@ namespace ProjectBeelzebub
 
                 if (GameManager.Instance.playerLookingAtFire)
                 {
-                    inv.GetComponentInChildren<TMP_Text>().text = "Sleep:";
-                    inv.GetComponent<HorizontalLayoutGroup>().spacing = oldTalkSpacing;
+					invtext.text = "Sleep:";
+					invLayout.spacing = oldTalkSpacing;
                 }
 				else if (GameManager.Instance.dialogue != null)
 				{
-					inv.GetComponentInChildren<TMP_Text>().text = "Talk:";
-                    inv.GetComponent<HorizontalLayoutGroup>().spacing = TalkSpacing;
+					invtext.text = "Talk:";
+					invLayout.spacing = TalkSpacing;
 
                 }
 				else
                 {
-                    inv.GetComponentInChildren<TMP_Text>().text = "Inventory:";
-                    inv.GetComponent<HorizontalLayoutGroup>().spacing = oldTalkSpacing;
-
+                    invtext.text = "Inventory:";
+					invLayout.spacing = oldTalkSpacing;
                 }
 
             }
-            else { inv.SetActive(false); }
+            else 
+                inv.SetActive(false); 
         }
 
     }

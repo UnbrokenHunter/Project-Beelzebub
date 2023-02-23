@@ -64,7 +64,7 @@ namespace ProjectBeelzebub
 
         public void Respawn()
         {
-            stats.Reset();
+            stats.OnReset();
             col.enabled = transform;
             menu.SetActive(false);
         }

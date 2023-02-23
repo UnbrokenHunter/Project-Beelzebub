@@ -20,13 +20,13 @@ namespace ProjectBeelzebub
 		{
 			spawn = transform.position;
 			AIDestinationSetter setter = GetComponent<AIDestinationSetter>();
-			InvokeRepeating("PickNew", 0, newLocationTimer);
+			InvokeRepeating(nameof(PickNew), 0, newLocationTimer);
 		}
 
 		private void PickNew()
 		{
 			Vector3 random = new Vector3(Random.Range(-wanderRange, wanderRange), Random.Range(-wanderRange, wanderRange));
-			random = random + spawn;
+			random += spawn;
 			SetDestination(random);
 		}
 

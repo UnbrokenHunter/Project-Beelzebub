@@ -51,8 +51,6 @@ namespace ProjectBeelzebub
         public void CycleMenus()
 		{
 
-			print(selectedMenu);
-
             if (gameOverMenu.activeInHierarchy)
 				selectedMenu = 0;
 			else if (settingsMenu.activeInHierarchy)

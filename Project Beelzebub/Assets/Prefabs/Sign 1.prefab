@@ -54,7 +54,7 @@ MonoBehaviour:
   text: {fileID: 0}
   image: {fileID: 0}
   nextTextCooldown: 0.5
-  revealSpeed: 0.1
+  revealSpeed: 0.05
   displayDialogue: 0
   currentSellected: 0
 --- !u!61 &5457221820660640715

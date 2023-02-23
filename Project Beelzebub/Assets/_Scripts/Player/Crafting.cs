@@ -40,10 +40,10 @@ namespace ProjectBeelzebub
 
             if (selectedMenu != 0) return;
 
-            if (input.x > 0 || input.y > 0)
+            if (input.x > 0 || input.y < 0)
                 NextSelected();
 
-            else if (input.x < 0 || input.y < 0)
+            else if (input.x < 0 || input.y > 0)
                 PreviousSelected();
 
             print($"Selected Crafting Item: { selectedItem } ");

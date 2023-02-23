@@ -36,12 +36,18 @@ namespace ProjectBeelzebulb
         [SerializeField] private CinemachineVirtualCamera mapCam;
         [SerializeField] private CinemachineVirtualCamera glassesCam;
 
+        private Dialogue thisDialogue;
+
 
         private Rigidbody2D rb;
 
         private void Awake() => rb = GetComponent<Rigidbody2D>();
 
-        private void Start() => stats = GetComponent<PlayerStats>();
+        private void Start()
+        {
+            stats = GetComponent<PlayerStats>();
+            thisDialogue = GetComponent<Dialogue>();
+        }
 
         private void FixedUpdate()
         {
@@ -87,7 +93,7 @@ namespace ProjectBeelzebulb
                 // Click previews in ControlTooltips.cs
 
                 // Attackable
-                if (hit.collider.gameObject.tag == "Enemy")
+                if (hit.collider.gameObject.CompareTag("Enemy"))
                 {
                     float weapon = stats.weapon == null ? 1 : stats.weapon.damage;
 
@@ -95,13 +101,13 @@ namespace ProjectBeelzebulb
                 }
 
 				// Material
-				if (hit.collider.gameObject.tag == "Material")
+				if (hit.collider.gameObject.CompareTag("Material"))
 				{
                     hit.collider.gameObject.GetComponent<FoodObject>().AddItem();
 				}
 
                 // Fire
-                if (hit.collider.gameObject.tag == "Fire")
+                if (hit.collider.gameObject.CompareTag("Fire"))
                 {
                     print("Fire");
 
@@ -124,13 +130,13 @@ namespace ProjectBeelzebulb
                     else if(inv.CheckMaterial(fuel) > 0)
                     {
                         glassesCam.Priority = 11;
-                        GetComponent<Dialogue>().ShowDialogue("Now how do I light this thing?");
+						thisDialogue.ShowDialogue("Now how do I light this thing?");
 
                         StartCoroutine(glassesWait());
                     }
 
                 }
-                else if (hit.collider.gameObject.tag == "Rock Circle")
+                else if (hit.collider.gameObject.CompareTag("Rock Circle"))
                 {
                     print("Rock Circle");
 
@@ -141,7 +147,7 @@ namespace ProjectBeelzebulb
                     }
                 }
 
-                else if (hit.collider.gameObject.tag == "Gate")
+                else if (hit.collider.gameObject.CompareTag("Gate"))
                 {
                     print("Gate!!!");
                     Gate g = hit.collider.gameObject.GetComponent<Gate>();
@@ -152,7 +158,7 @@ namespace ProjectBeelzebulb
                 }
 
 
-                if (hit.collider.gameObject.tag == "NPC")
+                if (hit.collider.gameObject.CompareTag("NPC"))
                 {
                     hit.collider.gameObject.TryGetComponent(out Littlun little);
 
@@ -183,7 +189,7 @@ namespace ProjectBeelzebulb
         private IEnumerator glassesWait()
         {
             yield return new WaitForSeconds(5);
-            GetComponent<Dialogue>().HideDialogue();
+			thisDialogue.HideDialogue();
             glassesCam.Priority = 9;
         }
 

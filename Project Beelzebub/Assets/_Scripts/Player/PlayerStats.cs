@@ -1,8 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using DarkTonic.MasterAudio;
 using MoreMountains.Feedbacks;
 using Sirenix.OdinInspector;
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -56,41 +56,36 @@ namespace ProjectBeelzebub
 		[Title("Health")]
         [SerializeField, FoldoutGroup("Health")] public float health = 10;
         [SerializeField, FoldoutGroup("Health")] public float maxHealth = 10;
-        [SerializeField, FoldoutGroup("Health")] private float regenRate = 0.5f;
         [SerializeField, FoldoutGroup("Health")] private GameObject healthObj;
         [SerializeField, FoldoutGroup("Health")] private List<GameObject> healthBar;
         [SerializeField, FoldoutGroup("Health")] private GameObject healthPrefab;
 
+        [SerializeField, Title("Timer")] private float statsTimer = 60;
+		private float statsCount = 0;
+
 		[Title("Sleep")]
-		[SerializeField, FoldoutGroup("Sleep")] public float sleep = 10;
-		[SerializeField, FoldoutGroup("Sleep")] public float maxSleep = 10;
-        [SerializeField, FoldoutGroup("Sleep")] private float sleepTimer = 60;
+		[SerializeField, FoldoutGroup("Sleep")] private float sleep = 10;
+		[SerializeField, FoldoutGroup("Sleep")] private float maxSleep = 10;
 		[SerializeField, FoldoutGroup("Sleep")] private float sleepMultiplier = 0.5f;
         [SerializeField, FoldoutGroup("Sleep")] private GameObject sleepObj;
 		[SerializeField, FoldoutGroup("Sleep")] private List<GameObject> sleepBar;
         [SerializeField, FoldoutGroup("Sleep")] private GameObject sleepPrefab;
-		private float sleepCount = 0;
 
         [Title("Food")]
         [SerializeField, FoldoutGroup("Hunger")] public float hunger = 10;
         [SerializeField, FoldoutGroup("Hunger")] public float maxHunger = 10;
-        [SerializeField, FoldoutGroup("Hunger")] private float hungerTimer = 60;
         [SerializeField, FoldoutGroup("Hunger")] private float hungerMultiplier = 1f;
         [SerializeField, FoldoutGroup("Hunger")] private GameObject hungerObj;
         [SerializeField, FoldoutGroup("Hunger")] private List<GameObject> hungerBar;
         [SerializeField, FoldoutGroup("Hunger")] private GameObject hungerPrefab;
-        private float hungerCount = 0;
 
         [Title("Thirst")]
         [SerializeField, FoldoutGroup("Thirst")] public float thirst = 10;
         [SerializeField, FoldoutGroup("Thirst")] public float maxThirst = 10;
-        [SerializeField, FoldoutGroup("Thirst")] private float thirstTimer = 60;
         [SerializeField, FoldoutGroup("Thirst")] private float thirstMultiplier = 1f;
         [SerializeField, FoldoutGroup("Thirst")] private GameObject thirstObj;
         [SerializeField, FoldoutGroup("Thirst")] private List<GameObject> thirstBar;
         [SerializeField, FoldoutGroup("Thirst")] private GameObject thirstPrefab;
-        private float thirstCount = 0;
-
 
 		#endregion
 
@@ -158,8 +153,9 @@ namespace ProjectBeelzebub
         {
             hunger += amount;
             hunger = Mathf.Min(hunger, maxHunger);
-            
-            UpdateSliders();
+
+			YouAreUpdater();
+			UpdateSliders();
         }
 
 		public void AddThirst(float amount)
@@ -167,10 +163,21 @@ namespace ProjectBeelzebub
 			thirst += amount;
 			thirst = Mathf.Min(thirst, maxThirst);
 
+			YouAreUpdater();
 			UpdateSliders();
 		}
 
-        [Button]
+        public void AddSleep()
+        {
+            sleep = maxSleep;
+			print(MasterAudio.PlaySound(sleepySound));
+
+
+			YouAreUpdater();
+			UpdateSliders();
+		}
+
+		[Button]
         public void RemoveHealth(float amount)
         {
             health -= amount;
@@ -191,12 +198,12 @@ namespace ProjectBeelzebub
             health += amount;
             health = Mathf.Min(health, maxHealth);
 
+			YouAreUpdater();
 			UpdateSliders();
 		}
 
         private void KillPlayer()
         {
-            print("Die");
             col.enabled = false;
 
             visuals.StartDeath();
@@ -239,47 +246,26 @@ namespace ProjectBeelzebub
         #region Timers
 
         // Timers
-        private void SleepTimer()
+        private void StatsTimer()
 		{
-			sleepCount += Time.deltaTime;
+			statsCount += Time.deltaTime;
 
-			if (sleepCount > sleepTimer)
+			if (statsCount > statsTimer)
 			{
-				sleepCount = 0;
-				sleep -= 1 * sleepMultiplier;
+				statsCount = 0;
 
-                CheckSleep();
-                UpdateSliders();
+				sleep -= 1 * sleepMultiplier;
+				hunger -= 1 * hungerMultiplier;
+				thirst -= 1 * thirstMultiplier;
+
+				CheckThirst(); 
+                CheckHunger();
+				CheckSleep();
+
+				YouAreUpdater();
+				UpdateSliders();
 			}
 		}
-
-		private void HungerTimer()
-        {
-            hungerCount += Time.deltaTime;
-
-            if (hungerCount > hungerTimer)
-            {
-                hungerCount = 0;
-                hunger -= 1 * hungerMultiplier;
-
-                CheckHunger();
-                UpdateSliders();
-            }
-        }
-        
-        private void ThirstTimer()
-        {
-            thirstCount += Time.deltaTime;
-
-            if (thirstCount > thirstTimer)
-            {
-                thirstCount = 0;
-                thirst -= 1 * thirstMultiplier;
-
-                CheckThirst();
-                UpdateSliders();
-            }
-        }
 
         private void DamageTimer()
         {
@@ -297,9 +283,7 @@ namespace ProjectBeelzebub
 
         #region General
 
-        // General
-
-        public void Reset()
+        public void OnReset()
         {
             transform.position = spawnLocation;
 
@@ -320,13 +304,7 @@ namespace ProjectBeelzebub
         {
             PlayFeedBacks();
 
-            YouAreUpdater();
-
-            HungerTimer();
-
-			ThirstTimer();
-
-            SleepTimer();
+            StatsTimer();
 
             DamageTimer();
 
@@ -337,7 +315,6 @@ namespace ProjectBeelzebub
             foreach (GameObject g in healthBar)
                 Destroy(g);
 
-
             healthBar.Clear();
 
             // Health
@@ -347,15 +324,12 @@ namespace ProjectBeelzebub
                 healthBar.Add(healthTemp);
             }
 
-
             UpdateSliders();
-
         }
 
         [Button]
         private void UpdateSliders()
         {
-
             for (int i = 0; i < maxHealth; i++)
             {
                 if (i >= health) healthBar[i].GetComponent<Image>().color = darkness;
