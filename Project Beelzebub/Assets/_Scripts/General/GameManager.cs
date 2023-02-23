@@ -165,9 +165,9 @@ namespace ProjectBeelzebub
 
         private IEnumerator SpawnBeast()
         {
-            MasterAudio.FadeBusToVolume("Music", 0, 10);
+            MasterAudio.FadeAllPlaylistsToVolume(0, 10);
 
-            yield return new WaitForSeconds(10);
+            yield return new WaitForSeconds(15);
 
             Vector2 playerPos = stats.transform.position;
             float minDistance = 1000;

@@ -21,7 +21,7 @@ namespace ProjectBeelzebub
         {
             MasterAudio.PlaySound(deathSound);
 
-            MasterAudio.FadeBusToVolume("Music", 1, 10);
+            MasterAudio.FadeAllPlaylistsToVolume(1, 10);
 
 
             GetComponent<MMF_Player>().PlayFeedbacks();
