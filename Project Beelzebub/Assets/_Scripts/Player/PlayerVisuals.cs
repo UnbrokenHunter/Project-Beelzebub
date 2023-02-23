@@ -18,12 +18,20 @@ namespace ProjectBeelzebub
         [SerializeField] private Animator anim;
         [SerializeField] private SpriteRenderer rend;
         private Rigidbody2D rb;
+        private PlayerMove move;
 
         private Vector2 lastDir;
+        private Vector2 _____________;
+
 
         private void Awake()
         {
             rb = GetComponentInParent<Rigidbody2D>();
+        }
+
+        private void Start()
+        {
+            move = GetComponentInParent<PlayerMove>();
         }
 
         private void Update() => SetAnimations();
@@ -38,19 +46,16 @@ namespace ProjectBeelzebub
         private void SetAnimations()
         {
             // Direction
+            Vector2 movement = move.movement;
             Vector2 velo = rb.velocity;
 
-            if (Mathf.Abs(velo.x) < minMovement) velo = new Vector2(0, velo.y);
-            if (Mathf.Abs(velo.y) < minMovement) velo = new Vector2(velo.x, 0);
+            _____________ = velo;
 
-            velo.Normalize();
-
-            if (velo != Vector2.zero) lastDir = velo;   
-
+            // Set last movement
+            if (movement != Vector2.zero) lastDir = movement;
 
             // Set State
-            anim.SetBool("moving", velo.magnitude > 0);
-
+            anim.SetBool("moving", velo.magnitude > minMovement);
 
             // Set Direction
             anim.SetFloat("moveX", lastDir.x);
@@ -60,6 +65,7 @@ namespace ProjectBeelzebub
             // Flix x
             rend.flipX = lastDir.x < 0;
         }
+
 
         public void StartAttack() => anim.SetTrigger("attack");
 
