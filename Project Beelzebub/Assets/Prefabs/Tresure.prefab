@@ -53,12 +53,11 @@ MonoBehaviour:
   doesRegrow: 0
   destroyWhenExausted: 0
   soundOnDestroy: Destroy
-  food: {fileID: 11400000, guid: d2493d93e2e040941a47151298102f23, type: 2}
+  drops: []
   changeSprite: 1
   images:
   - {fileID: -898895646, guid: 793c240937a70fc47aeea8c319fa780d, type: 3}
   - {fileID: -570648741, guid: 793c240937a70fc47aeea8c319fa780d, type: 3}
-  inventory: {fileID: 0}
 --- !u!61 &5544055148075433941
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -157,7 +156,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1105330757
   m_SortingLayer: 1
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: -570648741, guid: 793c240937a70fc47aeea8c319fa780d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
