@@ -58,6 +58,7 @@ namespace ProjectBeelzebub
                 playerStats.AddHealth(item.heal);
                 playerStats.AddHunger(item.hunger);
                 playerStats.AddThirst(item.thirst);
+                GetComponentInChildren<StatsMenu>().UpdateUI();
 
                 RemoveItem(item, 1);
 

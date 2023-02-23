@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Pork
   description: Kill the pig! Cut his throat! Kill the pig! Bash him in!
   type: 1
-  useSound: 
+  useSound: EatingMeat
   sprite: {fileID: 21300000, guid: d24defd20b600504f857185e2016c473, type: 3}
   damage: 0
   durability: 0
