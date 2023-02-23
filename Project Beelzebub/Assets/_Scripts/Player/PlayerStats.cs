@@ -93,7 +93,7 @@ namespace ProjectBeelzebub
 
         private void CheckHunger()
         {
-            if (hunger < 3)
+            if (hunger < 3 && hunger > 0)
             {
                 speedMultiplier = Mathf.Min(0.75f, speedMultiplier);
                 MasterAudio.PlaySound(hungrySound);
@@ -104,7 +104,7 @@ namespace ProjectBeelzebub
 
 		private void CheckThirst()
 		{
-			if (thirst < 3)
+			if (thirst < 3 && thirst > 0)
             {
 				speedMultiplier = Mathf.Min(0.75f, speedMultiplier);
                 MasterAudio.PlaySound(thirstySound);
@@ -115,9 +115,10 @@ namespace ProjectBeelzebub
 
         private void CheckSleep()
         {
-            if (sleep < 3)
+            if (sleep < 3 && sleep > 0 )
             {
                 MasterAudio.PlaySound(sleepySound);
+                GetComponent<Dialogue>().ShowDialogue("If only there was somewhere warm to sleep", 5);
 			}
             else
                 speedMultiplier = 1;
