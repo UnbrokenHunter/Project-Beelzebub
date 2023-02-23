@@ -156,15 +156,17 @@ namespace ProjectBeelzebub
             }
 
             Vector3 worldPos = transform.position;
-            
 
-            foreach (InventoryItem item in inventory)
+
+            for (int i = 0; i < inventory.Count; i++)
             {
+                InventoryItem item = inventory[i];
                 Vector3 random = new (Random.Range(-randomDropRange, randomDropRange), Random.Range(-randomDropRange, randomDropRange), 0);
 
                 GameObject g = Instantiate(dropPrefab, Vector3.zero, Quaternion.identity, dropsContainer.transform);
                 g.transform.localPosition = worldPos + random;
                 g.GetComponent<Drop>().item = item;
+                g.GetComponent<Drop>().amount = item.stackCount;
                 g.GetComponent<SpriteRenderer>().sprite = item.sprite;
 
                 print(g.transform.position);
@@ -252,14 +254,9 @@ namespace ProjectBeelzebub
 
         public void RemoveItem(InventoryItem item, int amount)
         {
-            foreach (InventoryItem inv in inventory)
-            {
-                if (inv == null) break;
+            if(inventory.Contains(item)) {
 
-                if (inv.name != item.name) 
-                    continue;
-                
-                inv.stackCount -= amount;
+                item.stackCount -= amount;
 
                 UpdateInventory();
             }

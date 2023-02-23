@@ -80,6 +80,12 @@ namespace ProjectBeelzebub
             yield return new WaitForSeconds(1f);
 
             anim.SetBool("respawn", false);
+
+            //GetComponentInParent<Dialogue>().ShowDialogue("You items were dropped where you died. Go and pick them up!");
+
+           // yield return new WaitForSeconds(5);
+
+           // GetComponentInParent<Dialogue>().HideDialogue();
         }
 
     }

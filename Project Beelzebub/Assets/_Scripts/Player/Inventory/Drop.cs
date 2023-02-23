@@ -8,6 +8,7 @@ namespace ProjectBeelzebub
     public class Drop : MonoBehaviour
     {
         public InventoryItem item;
+        public int amount;
         private bool triggerable = false;
         private IEnumerator Start()
         {
@@ -20,7 +21,8 @@ namespace ProjectBeelzebub
 
             if(collision.gameObject.tag == "Player")
             {
-                collision.GetComponent<Inventory>().AddItem(item);
+                for(int i = 0;i < amount; i++)
+                    collision.GetComponent<Inventory>().AddItem(item);
 
                 Destroy(gameObject);
             }
