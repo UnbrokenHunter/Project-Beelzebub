@@ -33,7 +33,7 @@ namespace ProjectBeelzebulb
         [SerializeField] private InventoryItem starter;
 
         [Title("Cameras")]
-        [SerializeField] private CinemachineVirtualCamera playerCam;
+        [SerializeField] private CinemachineVirtualCamera mapCam;
         [SerializeField] private CinemachineVirtualCamera glassesCam;
 
 
@@ -67,11 +67,9 @@ namespace ProjectBeelzebulb
         }
         public void Attack()
         {
-            if (GetComponent<Inventory>().IsInventoryOpen())
-                return;
+            if (GetComponent<Inventory>().IsInventoryOpen())  return;
 
-            else if (deathMenu.activeInHierarchy)
-                return;
+            else if (deathMenu.activeInHierarchy) return;
 
             if (attackTimer < stats.attackCooldown) return;
             attackTimer = 0;
@@ -114,9 +112,14 @@ namespace ProjectBeelzebulb
                     }
                     else if (inv.CheckMaterial(fuel) > 0 && inv.CheckMaterial(starter) > 0)
                     {
+                        if(!GameManager.Instance.hasFireRun)
+                        {
+                            StartCoroutine(afterFireWait());
+                        }
                         inv.RemoveItem(fuel, 1);
 
                         hit.collider.gameObject.GetComponent<FireScript>().StartFire(1);
+
                     }
                     else if(inv.CheckMaterial(fuel) > 0)
                     {
@@ -162,6 +165,19 @@ namespace ProjectBeelzebulb
 
             }
 
+        }
+
+        private IEnumerator afterFireWait()
+        {
+            yield return new WaitForSeconds(1);
+            mapCam.Priority = 11;
+            stats.gameObject.GetComponent<Dialogue>().ShowDialogue("Well, while this is running, I guess I should explore");
+
+            yield return new WaitForSeconds(8);
+
+            stats.gameObject.GetComponent<Dialogue>().HideDialogue();
+            yield return new WaitForSeconds(3);
+            mapCam.Priority = 9;
         }
 
         private IEnumerator glassesWait()
