@@ -26,6 +26,7 @@ namespace ProjectBeelzebub
         [Title("Sounds")]
         [SerializeField] private string hitSound;
         [SerializeField] private string killSound;
+        [SerializeField] private string attackSound;
 
         [Title("Scripts")]
         [SerializeField] private Inventory playerInventory;
@@ -62,6 +63,7 @@ namespace ProjectBeelzebub
         {
             if(cooldownCount > attackCooldown)
             {
+                MasterAudio.PlaySound(attackSound);
 				player.GetComponent<PlayerStats>().RemoveHealth(damage);
                 cooldownCount = 0;
             }

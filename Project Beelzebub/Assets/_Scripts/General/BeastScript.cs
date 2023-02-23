@@ -20,6 +20,10 @@ namespace ProjectBeelzebub
         private void DestroyObject()
         {
             MasterAudio.PlaySound(deathSound);
+
+            MasterAudio.FadeBusToVolume("Music", 1, 10);
+
+
             GetComponent<MMF_Player>().PlayFeedbacks();
         }
 

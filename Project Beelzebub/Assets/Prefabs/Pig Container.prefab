@@ -4934,8 +4934,10 @@ MonoBehaviour:
   deathDelay: 1
   doesAttack: 1
   damage: 1
+  attackCooldown: 1
   hitSound: PigHit
   killSound: PigKill
+  attackSound: PigAttack
   playerInventory: {fileID: 0}
   visuals: {fileID: 1362388689}
   run: {fileID: 5553565134525085080}

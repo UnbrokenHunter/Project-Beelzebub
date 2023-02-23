@@ -61,7 +61,9 @@ MonoBehaviour:
   dialogue: {fileID: 0}
   text: {fileID: 0}
   image: {fileID: 0}
+  nextTextCooldown: 0.5
   revealSpeed: 0.1
+  displayDialogue: 0
   currentSellected: 0
 --- !u!114 &5598016532148012202
 MonoBehaviour:
@@ -75,7 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4a7046f0025fd2488098234aee04f27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitSound: 
+  hitSound: Kid Ouch
   ouch: {fileID: 5598016532683361581}
   ouchTime: 1
   rend: {fileID: 5598016532538898649}
@@ -100,7 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dir: {x: 0, y: 0}
   target: {fileID: 0}
-  guessDistance: 5
+  wanderRange: 5
   newLocationTimer: 20
 --- !u!61 &5598016532148012203
 BoxCollider2D:

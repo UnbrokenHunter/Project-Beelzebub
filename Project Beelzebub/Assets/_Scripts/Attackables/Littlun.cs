@@ -1,3 +1,4 @@
+using DarkTonic.MasterAudio;
 using Pathfinding;
 using System.Collections;
 using System.Collections.Generic;
@@ -90,6 +91,7 @@ namespace ProjectBeelzebub
 		public void Attacked()
 		{
 			ouch.SetActive(true);
+			MasterAudio.PlaySound(hitSound);
 			StartCoroutine(timer());
 
 		}

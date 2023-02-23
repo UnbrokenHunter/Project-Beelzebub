@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using DarkTonic.MasterAudio;
 using MoreMountains.Feedbacks;
 using Sirenix.OdinInspector;
 using TMPro;
@@ -160,10 +161,14 @@ namespace ProjectBeelzebub
         }
 
         [Button]
-        private void InstaSpawnBeast() => StartCoroutine(SpawnBeast());
+        public void InstaSpawnBeast() => StartCoroutine(SpawnBeast());
 
         private IEnumerator SpawnBeast()
         {
+            MasterAudio.FadeBusToVolume("Music", 0, 10);
+
+            yield return new WaitForSeconds(10);
+
             Vector2 playerPos = stats.transform.position;
             float minDistance = 1000;
             foreach (Vector2 beastPos in spawnLocations)
