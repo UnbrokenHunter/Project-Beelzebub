@@ -27,7 +27,6 @@ namespace ProjectBeelzebub
         private string shownString;
         private IEnumerator RevealString()
         {
-
             int i = 0;
             while (i <= texts[currentSellected].Length)
             {
@@ -52,11 +51,34 @@ namespace ProjectBeelzebub
             StartCoroutine(RevealString());
 
         }
+
+        public void ShowDialogue(string text, Sprite portrait, float displayTime)
+        {
+            if (dialogue.activeInHierarchy != false) return;
+
+            displayDialogue = true;
+            this.texts[currentSellected] = text;
+            image.sprite = portrait;
+            dialogue.SetActive(true);
+
+            StartCoroutine(RevealString());
+            StartCoroutine(HideIn(displayTime));
+        }
+
+
         public void ShowDialogue(string text)
         {
             this.texts[currentSellected] = text;
             ShowDialogue();
         }
+
+        public void ShowDialogue(string text, float displayTime)
+        {
+            this.texts[currentSellected] = text;
+            ShowDialogue();
+            StartCoroutine(HideIn(displayTime));
+        }
+
         public void ShowDialogue()
         {
             if (dialogue.activeInHierarchy != false) return;
@@ -103,5 +125,10 @@ namespace ProjectBeelzebub
 
 		}
 
+        private IEnumerator HideIn(float time)
+        {
+            yield return new WaitForSeconds(time);
+            HideDialogue();
+        }
 	}
 }

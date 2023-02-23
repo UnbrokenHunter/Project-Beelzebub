@@ -16,17 +16,17 @@ namespace ProjectBeelzebub
 
         public void SetMainVolume (float volume)
         {
-            mixer.SetFloat("Master", Mathf.Log10(volume) * 20);
+            mixer.SetFloat("Master", Mathf.Log10(volume) * 20 + 4);
         }
 
         public void SetMusicVolume(float volume)
         {
-            mixer.SetFloat("Music", Mathf.Log10(volume) * 20);
+            mixer.SetFloat("Music", Mathf.Log10(volume) * 20 + 4);
         }
 
         public void SetSFXVolume(float volume)
         {
-            mixer.SetFloat("Sound Effects", Mathf.Log10(volume) * 20);
+            mixer.SetFloat("Sound Effects", Mathf.Log10(volume) * 20 + 4);
         }
 
 

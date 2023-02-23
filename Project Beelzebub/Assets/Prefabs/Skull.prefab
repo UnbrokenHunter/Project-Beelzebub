@@ -140,6 +140,7 @@ MonoBehaviour:
   drops:
   - item: {fileID: 11400000, guid: 56a773e5cc0fc3449be3f15d2540b543, type: 2}
     dropChance: 100
+  playerSprite: {fileID: 21300000, guid: 26d0a5c019febfa41a0d662d94847dbd, type: 3}
   changeSprite: 0
   images: []
 --- !u!61 &4765844855875062055

@@ -24,17 +24,13 @@ namespace ProjectBeelzebub
         [SerializeField, TableList] private List<DropChance> drops;
 
         [Title("Sprites")]
+        [SerializeField] private Sprite playerSprite;
         [SerializeField] private bool changeSprite;
         [SerializeField] private List<Sprite> images;
 
         [Title("Objects")]
         private SpriteRenderer rend;
         private Inventory inventory;
-
-
-        // Utility
-        private float time = 0;
-
 
         private void Awake() => rend = GetComponentInChildren<SpriteRenderer>();
         private void Start()
@@ -56,11 +52,8 @@ namespace ProjectBeelzebub
 
             }
 
-            // Sound
-            MasterAudio.PlaySound(pickupSound);
-
-            // Reset regrow timer when you collect to prevent insta respawn
-            time = 0;
+            // Update Sprite
+            UpdateSprite();
 
             // Destroy when out of resources
             if(foodCount <= 0 && destroyWhenExausted)
@@ -68,11 +61,17 @@ namespace ProjectBeelzebub
                 MasterAudio.PlaySound(soundOnDestroy);
                 Destroy(gameObject);
             }
+
         }
 
         private void AddItemToInventory(DropChance drop)
         {
             bool addItem = inventory.AddItem(drop.item);
+
+            // Only plays when drop is added
+            if (addItem) MasterAudio.PlaySound(pickupSound);
+            else GameManager.Instance.GetComponent<Dialogue>().ShowDialogue("You cannot carry anymore " + drop.item.name.ToLower(), playerSprite, 4);
+
             foodCount = addItem ? foodCount - 1 : foodCount;
         }
 
@@ -81,13 +80,16 @@ namespace ProjectBeelzebub
         {
             if (foodCount < maxFood && doesRegrow)
             {
-                time = 0;
                 foodCount += 1;
             }
 
+            UpdateSprite();
+        }
+
+        private void UpdateSprite()
+        {
             if(changeSprite && images.Count > foodCount)
                 rend.sprite = images[foodCount];
-
         }
 
         [System.Serializable]
