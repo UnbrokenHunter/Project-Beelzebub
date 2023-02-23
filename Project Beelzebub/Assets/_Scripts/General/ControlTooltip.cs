@@ -155,7 +155,17 @@ namespace ProjectBeelzebub
             {
                 attack.SetActive(true);
 
-                ChangeCollider(hit);
+                // Set Sprite
+                if (hit.collider.gameObject.GetComponentInChildren<SpriteRenderer>() != null)
+                {
+                    if (hit.collider.gameObject.GetComponentInChildren<SpriteRenderer>().material != outlineMat && !hasSetMat)
+                    {
+                        changedSprite = hit.collider.gameObject.GetComponentInChildren<SpriteRenderer>();
+                        tempMat = changedSprite.material;
+                        changedSprite.material = outlineMat;
+                        hasSetMat = true;
+                    }
+                }
 
                 // Attackable
                 if (hit.collider.gameObject.CompareTag("Enemy"))
@@ -269,20 +279,6 @@ namespace ProjectBeelzebub
                     hasSetMat = false;
                 }
 			}
-        }
-
-        private void ChangeCollider(RaycastHit2D hit)
-        {
-            SpriteRenderer sprite = hit.collider.gameObject.GetComponentInChildren<SpriteRenderer>();
-
-			// If outlinr dosnt work add this back
-			// sprite.material != outlineMat
-			if (sprite != null && !hasSetMat)
-            {
-                tempMat = sprite.material;
-                sprite.material = outlineMat;
-                hasSetMat = true;
-            }
         }
 
         public void CanInv()
