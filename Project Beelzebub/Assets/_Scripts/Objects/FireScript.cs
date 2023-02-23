@@ -92,7 +92,7 @@ namespace ProjectBeelzebub
             lighting.SetActive(false);
             particle.Pause();
 
-
+            MasterAudio.PlaySound("FireOut");
 			GetComponent<DealDamage>().isSpiky = false;
             fireActive = false;
             GameManager.Instance.CheckFire();

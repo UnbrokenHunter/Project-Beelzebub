@@ -5321,7 +5321,7 @@ MonoBehaviour:
   isSpiky: 1
   spikeDamage: 1
   spikeDamageCooldown: 1
-  spikeSound: FireDamage
+  spikeSound: Burn
 --- !u!61 &3235973679890004490
 BoxCollider2D:
   m_ObjectHideFlags: 0
