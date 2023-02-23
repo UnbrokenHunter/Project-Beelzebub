@@ -24,6 +24,10 @@ namespace ProjectBeelzebub
 		[SerializeField] private List<GameObject> objectsToEnableBefore;
 		[SerializeField] private List<GameObject> objectsToDisableBefore;
 
+        public void ButtonClick()
+        {
+            MasterAudio.PlaySound("OpenInventory");
+        }
 
         public void StartCutscene()
         {
