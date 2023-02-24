@@ -23,7 +23,8 @@ namespace ProjectBeelzebub
 
 
 
-        [Title("UI")]
+		[Title("UI")]
+		[SerializeField] protected Sprite playerDialogueSprite;
 		[SerializeField] protected GameObject playerMenu;
 		[SerializeField] protected GameObject craftMenu;
 		[SerializeField] protected GameObject inventoryMenu;
@@ -56,14 +57,31 @@ namespace ProjectBeelzebub
 			else if (settingsMenu.activeInHierarchy)
 				selectedMenu = 0;
 
+			// SLEEP
 			if(GameManager.Instance.playerLookingAtFire && GameManager.Instance.isFireRunning)
 			{
 				selectedMenu = 0;
 
 				GameManager.Instance.Sleep();
 			}
+			// NO FIRE
+			else if (GameManager.Instance.playerLookingAtFire && !GameManager.Instance.isFireRunning)
+			{
+                selectedMenu = 0;
 
-			else if (GameManager.Instance.playerLookingAtDialogue)
+                GetComponent<Dialogue>().ShowDialogue("Cannot Sleep when fire is not lit", playerDialogueSprite, 4);
+			}
+			// COOLDOWN
+			if(GameManager.Instance.playerLookingAtFire && GameManager.Instance.sleepTimer < GameManager.Instance.sleepCooldown)
+			{
+                selectedMenu = 0;
+
+                GetComponent<Dialogue>().ShowDialogue("Cannot sleep, It is on cooldown", playerDialogueSprite, 4);
+            }
+
+
+			// NPC
+            else if (GameManager.Instance.playerLookingAtDialogue)
 			{
 				selectedMenu = 0;
 
@@ -101,7 +119,7 @@ namespace ProjectBeelzebub
 				inventoryMenu.SetActive(false);
 				craftMenu.SetActive(true);
 
-				selectedMenu = 0;
+                selectedMenu = 0;
 			}
 
 		}

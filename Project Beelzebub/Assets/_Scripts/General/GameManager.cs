@@ -65,7 +65,7 @@ namespace ProjectBeelzebub
 
         [Title("Sleep")]
         [SerializeField] public float sleepCooldown = 10f;
-        [SerializeField] public float sleepTimer = 0;
+        [SerializeField] public float sleepTimer = 100000;
         [SerializeField] private Animator fade;
         [SerializeField] private DayNight day;
 
@@ -133,6 +133,7 @@ namespace ProjectBeelzebub
             {
                 sleepTimer = 0;
 
+                GameManager.Instance.GetComponent<Dialogue>().HideDialogue();
                 fade.SetTrigger("go");
 
                 day.Sleep();

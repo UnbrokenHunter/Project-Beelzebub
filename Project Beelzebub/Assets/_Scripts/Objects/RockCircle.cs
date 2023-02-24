@@ -36,7 +36,7 @@ namespace ProjectBeelzebub
                 print("Place Fire");
                 fire = Instantiate(firePrefab, spawnLocation + transform.position, Quaternion.identity, transform);
                 hasFire = true;
-
+                HidePopup();
 
                 GetComponent<BoxCollider2D>().enabled = false;
             }

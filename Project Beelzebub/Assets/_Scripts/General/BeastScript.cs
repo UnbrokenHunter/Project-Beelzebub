@@ -19,8 +19,6 @@ namespace ProjectBeelzebub
 
         private void DestroyObject()
         {
-            MasterAudio.PlaySound(deathSound);
-
             MasterAudio.FadeAllPlaylistsToVolume(1, 10);
 
 
@@ -36,7 +34,10 @@ namespace ProjectBeelzebub
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.gameObject.tag == "Player")
+            {
+                MasterAudio.PlaySound(deathSound);
                 DestroyObject();
+            }
         }
     }
 }

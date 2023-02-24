@@ -300,7 +300,7 @@ namespace ProjectBeelzebub
 					invLayout.spacing = TalkSpacing;
 
                 }
-				else
+				else 
                 {
                     invtext.text = "Inventory:";
 					invLayout.spacing = oldTalkSpacing;

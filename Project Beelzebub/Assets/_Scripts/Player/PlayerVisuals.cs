@@ -21,8 +21,6 @@ namespace ProjectBeelzebub
         private PlayerMove move;
 
         private Vector2 lastDir;
-        private Vector2 _____________;
-
 
         private void Awake()
         {
@@ -49,8 +47,6 @@ namespace ProjectBeelzebub
             Vector2 movement = move.movement;
             Vector2 velo = rb.velocity;
 
-            _____________ = velo;
-
             // Set last movement
             if (movement != Vector2.zero) lastDir = movement;
 
@@ -73,6 +69,8 @@ namespace ProjectBeelzebub
 
         public IEnumerator StartRespawn()
         {
+            GetComponentInParent<Inventory>().DropItems();
+
             anim.SetBool("respawn", true);
 
             print("Respawn");
@@ -81,11 +79,11 @@ namespace ProjectBeelzebub
 
             anim.SetBool("respawn", false);
 
-            //GetComponentInParent<Dialogue>().ShowDialogue("You items were dropped where you died. Go and pick them up!");
+            GetComponentInParent<Dialogue>().ShowDialogue("You items were dropped where you died. Go and pick them up!");
 
-           // yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(5);
 
-           // GetComponentInParent<Dialogue>().HideDialogue();
+           GetComponentInParent<Dialogue>().HideDialogue();
         }
 
     }

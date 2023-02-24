@@ -90,7 +90,7 @@ namespace ProjectBeelzebub
         public void PutOut()
         {
             lighting.SetActive(false);
-            particle.Pause();
+            particle.Stop();
 
             MasterAudio.PlaySound("FireOut");
 			GetComponent<DealDamage>().isSpiky = false;

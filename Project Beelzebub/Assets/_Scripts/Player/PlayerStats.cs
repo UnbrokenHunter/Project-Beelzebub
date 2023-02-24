@@ -15,6 +15,7 @@ namespace ProjectBeelzebub
         #region Stats
 
         [Title("General")]
+        [SerializeField] private StatsMenu invStatsMenu;
         [SerializeField] private TMP_Text youAreText;
         [SerializeField] Vector3 spawnLocation;
         [SerializeField] private PlayerVisuals visuals;
@@ -87,9 +88,10 @@ namespace ProjectBeelzebub
         [SerializeField, FoldoutGroup("Thirst")] private List<GameObject> thirstBar;
         [SerializeField, FoldoutGroup("Thirst")] private GameObject thirstPrefab;
 
-		#endregion
 
-		#region Checks
+        #endregion
+
+        #region Checks
 
         private void CheckHunger()
         {
@@ -118,7 +120,7 @@ namespace ProjectBeelzebub
             if (sleep < 3 && sleep > 0 )
             {
                 MasterAudio.PlaySound(sleepySound);
-                GetComponent<Dialogue>().ShowDialogue("If only there was somewhere warm to sleep", 5);
+                GetComponent<Dialogue>().ShowDialogue("If only there was somewhere warm to sleep. I wonder if I could make a fire?", 5);
 			}
             else
                 speedMultiplier = 1;
@@ -183,14 +185,17 @@ namespace ProjectBeelzebub
         {
             health -= amount;
 
-            hurt?.PlayFeedbacks();
 
             UpdateSliders();
+            invStatsMenu.UpdateUI();
 
             if (health <= 0)
                 KillPlayer();
             else
+            {
                 MasterAudio.PlaySound("Hurt");
+                hurt?.PlayFeedbacks();
+            }
             
 		}
 
@@ -199,8 +204,9 @@ namespace ProjectBeelzebub
             health += amount;
             health = Mathf.Min(health, maxHealth);
 
-			YouAreUpdater();
+            YouAreUpdater();
 			UpdateSliders();
+            invStatsMenu.UpdateUI();
 		}
 
         private void KillPlayer()
@@ -210,14 +216,15 @@ namespace ProjectBeelzebub
             visuals.StartDeath();
 
             print(MasterAudio.PlaySound("Player Die"));
+            hurt?.PlayFeedbacks();
 
             StartCoroutine(deathDelay());
         }
 
         private IEnumerator deathDelay()
         {
+            GetComponent<Inventory>().CloseInventory();
             yield return new WaitForSeconds(1);
-            GetComponent<Inventory>().DropItems();
             gameOverMenu.SetActive(true);
         }
 
@@ -272,7 +279,7 @@ namespace ProjectBeelzebub
         {
             damageTimer += Time.deltaTime;
 
-            if(damageTimer > damageCooldown && (thirst <= 0 || hunger <= 0))
+            if(damageTimer > damageCooldown && (thirst <= 0 || hunger <= 0) && health > 0)
             {
                 damageTimer = 0;
 
@@ -299,7 +306,10 @@ namespace ProjectBeelzebub
             GetComponent<Inventory>().UpdateInventory();
         }
 
-        private void Start() => ResetUI();
+        private void Start()
+        {
+            ResetUI();
+        }
 
         private void Update()
         {

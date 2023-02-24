@@ -296,6 +296,17 @@
                 },
                 {
                     "name": "",
+                    "id": "04838909-223c-4625-826c-c46021a9d389",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Inventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "a1ac2ba0-faff-406f-b86f-5138395b7506",
                     "path": "<Keyboard>/q",
                     "interactions": "",
@@ -312,6 +323,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
+                    "action": "Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e37b26e4-b1c7-42a9-81b5-d4a3de6b6f74",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
                     "action": "Menu",
                     "isComposite": false,
                     "isPartOfComposite": false

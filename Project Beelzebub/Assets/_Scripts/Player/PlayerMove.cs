@@ -147,7 +147,7 @@ namespace ProjectBeelzebulb
                     }
                 }
 
-                else if (hit.collider.gameObject.CompareTag("Gate"))
+                if (hit.collider.gameObject.CompareTag("Gate"))
                 {
                     print("Gate!!!");
                     Gate g = hit.collider.gameObject.GetComponent<Gate>();

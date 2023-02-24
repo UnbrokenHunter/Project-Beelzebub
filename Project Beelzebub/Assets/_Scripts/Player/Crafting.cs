@@ -27,11 +27,14 @@ namespace ProjectBeelzebub
         [SerializeField] 
         private CraftableItem fireCraftable;
 
-        private void Start() => allCraft = craftMenu.GetComponentInChildren<AllCrafts>();
+        private void Start()
+        {
+            allCraft = craftMenu.GetComponentInChildren<AllCrafts>();
+        }
 
         private void NextSelected() => selectedItem += selectedItem < allCraft.GetItems().Count - 1 ? 1 : 0;
 
-        private void PreviousSelected() => selectedItem -= selectedItem > 0 ? 1 : 0;
+        public void PreviousSelected() => selectedItem -= selectedItem > 0 ? 1 : 0;
 
         #region Inputs
 

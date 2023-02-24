@@ -22,7 +22,7 @@ namespace ProjectBeelzebub
         [SerializeField] private int elementCount;
         [SerializeField] private int selected;
 
-        [SerializeField] private string clickSound = "Click";
+        [SerializeField] private string clickSound = "OnInventory";
 
         [SerializeField] private List<GameObject> buttons;
         [SerializeField] private List<UnityEvent> events;

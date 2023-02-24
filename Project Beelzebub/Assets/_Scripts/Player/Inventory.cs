@@ -28,6 +28,7 @@ namespace ProjectBeelzebub
 
         [Title("Fire")]
         [SerializeField] private CinemachineVirtualCamera fireCam;
+        [SerializeField] private CinemachineVirtualCamera playerCam;
         [SerializeField] private GameObject firePrefab;
         [SerializeField] private Vector3 fireOffset;
 
@@ -40,12 +41,16 @@ namespace ProjectBeelzebub
 
         private void PreviousSelected() => selectedItem -= selectedItem > 0 ? 1 : 0;
 
-		#endregion
+        private void Start()
+        {
+            playerCam.m_Lens.OrthographicSize = 6;
+        }
+        #endregion
 
-		#region Inputs
+        #region Inputs
 
-		// On Fire
-		public void UseItem()
+        // On Fire
+        public void UseItem()
         {
             if (selectedMenu != 2) return;
 
@@ -147,7 +152,7 @@ namespace ProjectBeelzebub
 
         public void DropItems()
         {
-
+            print("Drop All Items");
             for(int i = 0; i < dropsContainer.transform.childCount; i++)
             {
                 Transform g = dropsContainer.transform.GetChild(i);
@@ -169,7 +174,7 @@ namespace ProjectBeelzebub
                 g.GetComponent<Drop>().amount = item.stackCount;
                 g.GetComponent<SpriteRenderer>().sprite = item.sprite;
 
-                print(g.transform.position);
+                print(item.name);
 
                 RemoveItem(item, item.stackCount);
             }
@@ -188,7 +193,7 @@ namespace ProjectBeelzebub
                 if (item.stackSize > item.stackCount)
                 {
                     item.stackCount++;
-                    print($"Item Added to Stack: {item.name} Stack Size: {item.stackCount}");
+                    //print($"Item Added to Stack: {item.name} Stack Size: {item.stackCount}");
                 }
                 else return false;
             }
@@ -201,7 +206,7 @@ namespace ProjectBeelzebub
                 if (inventory.Count < inventorySize)
                 {
                     inventory.Add(item);
-                    print($"Item Added: {item.name}");
+                    //print($"Item Added: {item.name}");
                 }
 
                 else return false;
@@ -217,25 +222,32 @@ namespace ProjectBeelzebub
 
         }
 
+
+        public void CloseInventory()
+        {
+            // Always go to correct Page
+            if (selectedMenu == 1) return;
+            else if (selectedMenu == 0)
+            {
+                CycleMenus();
+                GetComponent<Crafting>().CycleMenus();
+            }
+            else
+            {
+                CycleMenus();
+                GetComponent<Crafting>().CycleMenus();
+                CycleMenus();
+                GetComponent<Crafting>().CycleMenus();
+
+            }
+
+        }
         private void CheckSpecialCrafts(InventoryItem item)
         {
             // Fire
             if (item.name == "Fire")
             {
-                // Always go to correct Page
-                if(selectedMenu == 0)
-                {
-                    CycleMenus();
-                    GetComponent<Crafting>().CycleMenus();
-                } 
-                else
-                {
-                    CycleMenus();
-                    GetComponent<Crafting>().CycleMenus();
-                    CycleMenus();
-                    GetComponent<Crafting>().CycleMenus();
-
-                }
+                CloseInventory();
                 GetComponent<Dialogue>().ShowDialogue("I should probably place this somewhere higher up.");
 
                 fireCam.Priority = 11;
@@ -249,6 +261,7 @@ namespace ProjectBeelzebub
         {
             yield return new WaitForSeconds(7);
             fireCam.Priority = 9;
+            playerCam.m_Lens.OrthographicSize += 1.5f;
             GetComponent<Dialogue>().HideDialogue();
         }
 
