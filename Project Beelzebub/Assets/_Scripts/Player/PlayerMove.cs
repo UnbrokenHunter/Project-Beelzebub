@@ -136,6 +136,7 @@ namespace ProjectBeelzebulb
                     }
 
                 }
+                
                 else if (hit.collider.gameObject.CompareTag("Rock Circle"))
                 {
                     print("Rock Circle");

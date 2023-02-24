@@ -158,9 +158,7 @@ namespace ProjectBeelzebub
 
 		#region Player Stats
 
-		protected PlayerStats playerStats;
-
-		private void Start() => playerStats = GetComponent<PlayerStats>();
+		public PlayerStats playerStats;
 
 		#endregion
 

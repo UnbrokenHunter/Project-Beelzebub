@@ -54,9 +54,9 @@ namespace ProjectBeelzebub
         {
             if (selectedMenu != 2) return;
 
-
             InventoryItem item = inventory[selectedItem];
-
+            print(item.heal);
+            
             // Food
             if(item.type == InventoryItem.ItemType.Food)
             {
@@ -222,7 +222,6 @@ namespace ProjectBeelzebub
 
         }
 
-
         public void CloseInventory()
         {
             // Always go to correct Page
@@ -242,6 +241,7 @@ namespace ProjectBeelzebub
             }
 
         }
+       
         private void CheckSpecialCrafts(InventoryItem item)
         {
             // Fire
@@ -257,6 +257,7 @@ namespace ProjectBeelzebub
             }
 
         }
+       
         private IEnumerator waitDialogue()
         {
             yield return new WaitForSeconds(7);

@@ -24,4 +24,4 @@ MonoBehaviour:
   hunger: 0
   thirst: 4
   stackSize: 10
-  stackCount: 3
+  stackCount: 1
