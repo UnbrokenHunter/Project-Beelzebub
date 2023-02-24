@@ -32,6 +32,8 @@ namespace ProjectBeelzebub
         [SerializeField] private GameObject firePrefab;
         [SerializeField] private Vector3 fireOffset;
 
+        [Title("Drop")]
+        private Vector3 dropPosition;
 
         #region Short Methods
 
@@ -150,8 +152,14 @@ namespace ProjectBeelzebub
 
         #region Public Methods
 
+        public void DropPosition()
+        {
+            dropPosition = transform.position;
+        }
+
         public void DropItems()
         {
+            
             print("Drop All Items");
             for(int i = 0; i < dropsContainer.transform.childCount; i++)
             {
@@ -160,8 +168,7 @@ namespace ProjectBeelzebub
                 Destroy(g.gameObject);
             }
 
-            Vector3 worldPos = transform.position;
-
+            dropsContainer.transform.position = dropPosition;
 
             for (int i = 0; i < inventory.Count; i++)
             {
@@ -169,7 +176,7 @@ namespace ProjectBeelzebub
                 Vector3 random = new (Random.Range(-randomDropRange, randomDropRange), Random.Range(-randomDropRange, randomDropRange), 0);
 
                 GameObject g = Instantiate(dropPrefab, Vector3.zero, Quaternion.identity, dropsContainer.transform);
-                g.transform.localPosition = worldPos + random;
+                g.transform.localPosition = random;
                 g.GetComponent<Drop>().item = item;
                 g.GetComponent<Drop>().amount = item.stackCount;
                 g.GetComponent<SpriteRenderer>().sprite = item.sprite;

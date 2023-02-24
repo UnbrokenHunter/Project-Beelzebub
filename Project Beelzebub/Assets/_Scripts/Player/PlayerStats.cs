@@ -212,7 +212,7 @@ namespace ProjectBeelzebub
         private void KillPlayer()
         {
             col.enabled = false;
-
+            GetComponent<Inventory>().DropPosition();
             visuals.StartDeath();
 
             print(MasterAudio.PlaySound("Player Die"));
